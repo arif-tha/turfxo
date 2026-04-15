@@ -1,22 +1,21 @@
 // AuthContext.js
 import { createContext, useContext, useState, useEffect } from "react";
-import API from "../api/axios"; // ✅ axios instance with interceptor
+import API from "../api/axios";
 
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true); // for initial load
+  const [loading, setLoading] = useState(true);
 
   // 🔹 LOAD USER ON REFRESH
   useEffect(() => {
     const token = localStorage.getItem("token");
 
     if (token) {
-      // ✅ /auth/me call with token attached automatically via Axios interceptor
-      API.get("/auth/me")
+      API.get("/api/auth/me") // ✅ FIXED
         .then((res) => {
-          setUser(res.data.user); // user object includes role
+          setUser(res.data.user);
         })
         .catch(() => {
           localStorage.removeItem("token");
@@ -31,15 +30,12 @@ export function AuthProvider({ children }) {
   // 🔐 LOGIN
   const login = async (formData) => {
     try {
-      const res = await API.post("/auth/login", formData);
+      const res = await API.post("/api/auth/login", formData); // ✅ FIXED
 
       if (res.data.success) {
         const { token, user } = res.data;
-
-        // ✅ Save token
         localStorage.setItem("token", token);
         setUser(user);
-
         return { success: true, user, token };
       } else {
         return { success: false, message: res.data.message };
@@ -55,13 +51,12 @@ export function AuthProvider({ children }) {
   // 🔐 REGISTER
   const register = async (formData) => {
     try {
-      const res = await API.post("/auth/register", formData);
+      const res = await API.post("/api/auth/register", formData); // ✅ FIXED
 
       if (res.data.success) {
         const { token, user } = res.data;
         localStorage.setItem("token", token);
         setUser(user);
-
         return { success: true, user, token };
       } else {
         return { success: false, message: res.data.message };
@@ -87,7 +82,6 @@ export function AuthProvider({ children }) {
   );
 }
 
-// 🔹 Custom hook
 export function useAuth() {
   return useContext(AuthContext);
 }
