@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "turfxo-backend-2.onrender.com",
+  baseURL: "https://turfxo-backend-2.onrender.com/api", // ✅ https + /api dono add kiye
 });
 
 // ✅ Attach token automatically
