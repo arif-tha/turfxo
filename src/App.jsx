@@ -7,8 +7,6 @@ import AdminRoute from "./components/AdminRoute";
 import TurfZoneIntro from "./components/TurfZoneIntro";
 import BookingReceipt from "./pages/BookingReceipt";
 
-// Routes ke andar add karo:
-
 // Pages
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -37,29 +35,15 @@ function Layout() {
         <Routes>
 
           <Route path="/" element={<Home />} />
-
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/booking/receipt" element={<BookingReceipt />} />
 
-          <Route
-            path="/turfs"
-            element={
-              <PrivateRoute>
-                <Turfs />
-              </PrivateRoute>
-            }
-          />
+          {/* ✅ Bina login browse kar sako */}
+          <Route path="/turfs" element={<Turfs />} />
+          <Route path="/slots/:turfId" element={<Slots />} />
 
-          <Route
-            path="/slots/:turfId"
-            element={
-              <PrivateRoute>
-                <Slots />
-              </PrivateRoute>
-            }
-          />
-
+          {/* 🔐 Sirf profile private hai */}
           <Route
             path="/profile"
             element={
@@ -78,7 +62,6 @@ function Layout() {
               </AdminRoute>
             }
           />
-
           <Route
             path="/admin/add-turf"
             element={
@@ -87,7 +70,6 @@ function Layout() {
               </AdminRoute>
             }
           />
-
           <Route
             path="/admin/create-slots"
             element={
@@ -96,7 +78,6 @@ function Layout() {
               </AdminRoute>
             }
           />
-
           <Route
             path="/admin/bookings"
             element={
@@ -105,7 +86,6 @@ function Layout() {
               </AdminRoute>
             }
           />
-
           <Route
             path="/admin/users"
             element={
@@ -138,8 +118,7 @@ function App() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowIntro(false);
-    }, 2500); // ⏱ 2.5 sec intro
-
+    }, 2500);
     return () => clearTimeout(timer);
   }, []);
 
