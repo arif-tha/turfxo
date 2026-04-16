@@ -11,7 +11,7 @@ function Turfs() {
   useEffect(() => {
     const fetchTurfs = async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/turfs");
+        const res = await fetch("https://turfxo-backend-2.onrender.com/api/turfs");
         const data = await res.json();
         if (!data.success) throw new Error(data.message);
         setTurfs(data.data || []);

@@ -19,7 +19,7 @@ function AdminDashboard() {
   const fetchStats = async () => {
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:5000/api/admin/dashboard", {
+      const res = await fetch("https://turfxo-backend-2.onrender.com/api/admin/dashboard", {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();

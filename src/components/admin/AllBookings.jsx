@@ -15,7 +15,7 @@ function AllBookings() {
 
   const fetchBookings = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/bookings", {
+      const res = await fetch("https://turfxo-backend-2.onrender.com/api/bookings", {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
@@ -32,7 +32,7 @@ function AllBookings() {
   const handleCancel = async () => {
     if (!cancelId) return;
     try {
-      const res = await fetch(`http://localhost:5000/api/bookings/cancel/${cancelId}`, {
+      const res = await fetch(`https://turfxo-backend-2.onrender.com/api/bookings/cancel/${cancelId}`, {
         method: "PUT",
         headers: { Authorization: `Bearer ${token}` },
       });

@@ -14,7 +14,7 @@ function AdminUsers() {
 
   const fetchUsers = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/admin/users", {
+      const res = await fetch("https://turfxo-backend-2.onrender.com/api/admin/users", {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
@@ -30,7 +30,7 @@ function AdminUsers() {
     setBookingsLoading(true);
     try {
       const res = await fetch(
-        `http://localhost:5000/api/admin/users/${userId}/bookings`,
+        `https://turfxo-backend-2.onrender.com/api/admin/users/${userId}/bookings`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       const data = await res.json();

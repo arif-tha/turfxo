@@ -12,7 +12,7 @@ function Profile() {
 
   const fetchBookings = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/bookings/my", {
+      const res = await fetch("https://turfxo-backend-2.onrender.com/api/bookings/my", {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
@@ -32,7 +32,7 @@ function Profile() {
     if (!window.confirm("Cancel this booking?")) return;
     setCancellingId(id);
     try {
-      const res = await fetch(`http://localhost:5000/api/bookings/cancel/${id}`, {
+      const res = await fetch(`https://turfxo-backend-2.onrender.com/api/bookings/cancel/${id}`, {
         method: "PUT",
         headers: { Authorization: `Bearer ${token}` },
       });

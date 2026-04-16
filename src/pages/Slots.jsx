@@ -22,7 +22,7 @@ function Slots() {
 
   const fetchTurf = async () => {
     try {
-      const res = await fetch(`http://localhost:5000/api/turfs/${turfId}`);
+      const res = await fetch(`https://turfxo-backend-2.onrender.com/api/turfs/${turfId}`);
       const data = await res.json();
       if (data.success) setTurf(data.data);
     } catch {}
@@ -33,7 +33,7 @@ function Slots() {
       setLoading(true);
       setError("");
       const res = await fetch(
-        `http://localhost:5000/api/slots?turfId=${turfId}&date=${date}`
+        `https://turfxo-backend-2.onrender.com/api/slots?turfId=${turfId}&date=${date}`
       );
       const data = await res.json();
       if (data.success) setSlots(data.data || []);
@@ -78,7 +78,7 @@ function Slots() {
 
     try {
       // Step 1 — Create order on backend
-      const orderRes = await fetch("http://localhost:5000/api/payments/create-order", {
+      const orderRes = await fetch("https://turfxo-backend-2.onrender.com/api/payments/create-order", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -141,7 +141,7 @@ function Slots() {
       });
 
       // Step 3 — Verify payment on backend
-      const verifyRes = await fetch("http://localhost:5000/api/payments/verify", {
+      const verifyRes = await fetch("https://turfxo-backend-2.onrender.com/api/payments/verify", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -179,7 +179,7 @@ function Slots() {
     } catch (err) {
       if (err.message === "PAYMENT_CANCELLED") {
         // ✅ Fixed: send bookingId properly (from orderData)
-        await fetch("http://localhost:5000/api/payments/failed", {
+        await fetch("https://turfxo-backend-2.onrender.com/api/payments/failed", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

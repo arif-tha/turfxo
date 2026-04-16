@@ -19,7 +19,7 @@ function CreateSlots() {
   useEffect(() => {
     const fetchTurfs = async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/turfs");
+        const res = await fetch("https://turfxo-backend-2.onrender.com/api/turfs");
         const data = await res.json();
         setTurfs(data.data || []);
       } catch {
@@ -77,7 +77,7 @@ function CreateSlots() {
     setSaving(true);
     try {
       const res = await fetch(
-        `http://localhost:5000/api/turfs/${form.turf}`,
+        `https://turfxo-backend-2.onrender.com/api/turfs/${form.turf}`,
         {
           method: "PUT",
           headers: {
