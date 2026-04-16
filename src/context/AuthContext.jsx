@@ -1,4 +1,3 @@
-// AuthContext.js
 import { createContext, useContext, useState, useEffect } from "react";
 import API from "../api/axios";
 
@@ -13,7 +12,7 @@ export function AuthProvider({ children }) {
     const token = localStorage.getItem("token");
 
     if (token) {
-      API.get("/api/auth/me") // ✅ FIXED
+      API.get("/auth/me")  // ✅ /api remove kiya — baseURL mein already hai
         .then((res) => {
           setUser(res.data.user);
         })
@@ -30,7 +29,7 @@ export function AuthProvider({ children }) {
   // 🔐 LOGIN
   const login = async (formData) => {
     try {
-      const res = await API.post("/api/auth/login", formData); // ✅ FIXED
+      const res = await API.post("/auth/login", formData); // ✅ /api remove kiya
 
       if (res.data.success) {
         const { token, user } = res.data;
@@ -51,7 +50,7 @@ export function AuthProvider({ children }) {
   // 🔐 REGISTER
   const register = async (formData) => {
     try {
-      const res = await API.post("/api/auth/register", formData); // ✅ FIXED
+      const res = await API.post("/auth/register", formData); // ✅ /api remove kiya
 
       if (res.data.success) {
         const { token, user } = res.data;
