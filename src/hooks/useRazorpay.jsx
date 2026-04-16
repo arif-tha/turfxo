@@ -20,6 +20,13 @@ export const useRazorpay = () => {
       }
       const rzp = new window.Razorpay({
         ...options,
+        // ✅ Sirf yeh — test mode mein config block kaam nahi karta
+        method: {
+          upi: true,
+          card: true,
+          netbanking: true,
+          wallet: true,
+        },
         handler: resolve,
         modal: {
           ondismiss: () => reject(new Error("PAYMENT_CANCELLED")),
