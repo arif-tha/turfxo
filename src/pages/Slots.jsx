@@ -479,6 +479,9 @@ function Slots() {
                       {isProcessing ? "Processing..." : (
                         <>
                           {slot.startTime} — {slot.endTime}
+                          {slot.isNextDay && (
+                            <span className="block text-xs mt-0.5 text-blue-500">(next day)</span>
+                          )}
                           {isSelected && <span className="block text-xs mt-0.5 text-green-200">✓ Selected</span>}
                           {slot.isBooked && <span className="block text-xs mt-0.5 text-red-400">Booked</span>}
                           {slot.isPast && <span className="block text-xs mt-0.5 text-gray-300">Expired</span>}
