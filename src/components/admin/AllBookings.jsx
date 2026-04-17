@@ -7,7 +7,7 @@ function AllBookings() {
   const [loading, setLoading] = useState(true);
   const [cancelId, setCancelId] = useState(null);
   const [filterStatus, setFilterStatus] = useState("all");
-  const [filterPayment, setFilterPayment] = useState("all"); // ✅ NEW
+  const [filterPayment, setFilterPayment] = useState("all");
   const [filterDate, setFilterDate] = useState("");
   const [search, setSearch] = useState("");
 
@@ -37,11 +37,8 @@ function AllBookings() {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
-      if (data.success) {
-        fetchBookings();
-      } else {
-        alert(data.message);
-      }
+      if (data.success) fetchBookings();
+      else alert(data.message);
     } catch {
       alert("Error cancelling booking");
     } finally {
@@ -49,26 +46,26 @@ function AllBookings() {
     }
   };
 
-  // ✅ FILTERS — paymentStatus bhi add kiya
   const filtered = bookings.filter((b) => {
     const matchStatus = filterStatus === "all" || b.status === filterStatus;
-    const matchPayment = filterPayment === "all" || b.paymentStatus === filterPayment; // ✅ NEW
+    const matchPayment = filterPayment === "all" || b.paymentStatus === filterPayment;
     const matchDate = !filterDate || b.date === filterDate;
     const matchSearch =
       !search ||
       b.user?.name?.toLowerCase().includes(search.toLowerCase()) ||
-      b.turf?.name?.toLowerCase().includes(search.toLowerCase());
+      b.turf?.name?.toLowerCase().includes(search.toLowerCase()) ||
+      b.playerName?.toLowerCase().includes(search.toLowerCase()) || // ✅ player name search
+      b.playerPhone?.includes(search); // ✅ phone search
     return matchStatus && matchPayment && matchDate && matchSearch;
   });
 
-  // ✅ STATS — payment stats bhi add kiye
   const stats = {
     total: bookings.length,
     booked: bookings.filter((b) => b.status === "booked").length,
     cancelled: bookings.filter((b) => b.status === "cancelled").length,
-    paid: bookings.filter((b) => b.paymentStatus === "paid").length,       // ✅ NEW
-    pending: bookings.filter((b) => b.paymentStatus === "pending").length, // ✅ NEW
-    failed: bookings.filter((b) => b.paymentStatus === "failed").length,   // ✅ NEW
+    paid: bookings.filter((b) => b.paymentStatus === "paid").length,
+    pending: bookings.filter((b) => b.paymentStatus === "pending").length,
+    failed: bookings.filter((b) => b.paymentStatus === "failed").length,
   };
 
   if (loading)
@@ -87,20 +84,14 @@ function AllBookings() {
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-white rounded-2xl p-6 w-80 shadow-xl">
             <h3 className="text-lg font-black text-gray-900 mb-2">Cancel Booking?</h3>
-            <p className="text-gray-500 text-sm mb-6">
-              This action cannot be undone. The slot will be freed.
-            </p>
+            <p className="text-gray-500 text-sm mb-6">This action cannot be undone. The slot will be freed.</p>
             <div className="flex gap-3">
-              <button
-                onClick={() => setCancelId(null)}
-                className="flex-1 py-2 border border-gray-200 rounded-lg text-gray-500 text-sm hover:bg-gray-50 transition"
-              >
+              <button onClick={() => setCancelId(null)}
+                className="flex-1 py-2 border border-gray-200 rounded-lg text-gray-500 text-sm hover:bg-gray-50 transition">
                 Keep it
               </button>
-              <button
-                onClick={handleCancel}
-                className="flex-1 py-2 bg-red-500 text-white rounded-lg text-sm font-bold hover:bg-red-600 transition"
-              >
+              <button onClick={handleCancel}
+                className="flex-1 py-2 bg-red-500 text-white rounded-lg text-sm font-bold hover:bg-red-600 transition">
                 Yes, Cancel
               </button>
             </div>
@@ -116,15 +107,13 @@ function AllBookings() {
             <h1 className="text-2xl font-black text-gray-900">📦 All Bookings</h1>
             <p className="text-gray-400 text-sm mt-1">Manage and monitor all bookings</p>
           </div>
-          <button
-            onClick={() => navigate("/admin")}
-            className="text-sm text-gray-400 hover:text-gray-600 transition"
-          >
+          <button onClick={() => navigate("/admin")}
+            className="text-sm text-gray-400 hover:text-gray-600 transition">
             ← Back to Dashboard
           </button>
         </div>
 
-        {/* ✅ STAT CARDS — 6 cards (3 booking + 3 payment) */}
+        {/* STAT CARDS */}
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 mb-6">
           {[
             { label: "Total Bookings", value: stats.total,     color: "border-blue-400" },
@@ -134,64 +123,44 @@ function AllBookings() {
             { label: "Pending",        value: stats.pending,   color: "border-yellow-400" },
             { label: "Failed",         value: stats.failed,    color: "border-rose-400" },
           ].map((s) => (
-            <div
-              key={s.label}
-              className={`bg-white border border-gray-100 border-t-2 ${s.color} rounded-xl p-4`}
-            >
+            <div key={s.label} className={`bg-white border border-gray-100 border-t-2 ${s.color} rounded-xl p-4`}>
               <p className="text-xs text-gray-400 mb-1">{s.label}</p>
               <p className="text-2xl font-black text-gray-900">{s.value}</p>
             </div>
           ))}
         </div>
 
-        {/* ✅ FILTERS — paymentStatus filter bhi add kiya */}
+        {/* FILTERS */}
         <div className="bg-white border border-gray-100 rounded-2xl p-4 mb-5 flex flex-wrap gap-3">
           <input
             type="text"
-            placeholder="Search user or turf..."
+            placeholder="Search user, turf, player name, phone..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="border-2 border-gray-200 rounded-xl px-4 py-2 text-sm text-gray-700 focus:outline-none focus:border-green-500 transition flex-1 min-w-40"
           />
           <input
-            type="date"
-            value={filterDate}
+            type="date" value={filterDate}
             onChange={(e) => setFilterDate(e.target.value)}
             className="border-2 border-gray-200 rounded-xl px-4 py-2 text-sm text-gray-700 focus:outline-none focus:border-green-500 transition"
           />
-          <select
-            value={filterStatus}
-            onChange={(e) => setFilterStatus(e.target.value)}
-            className="border-2 border-gray-200 rounded-xl px-4 py-2 text-sm text-gray-700 focus:outline-none focus:border-green-500 transition"
-          >
+          <select value={filterStatus} onChange={(e) => setFilterStatus(e.target.value)}
+            className="border-2 border-gray-200 rounded-xl px-4 py-2 text-sm text-gray-700 focus:outline-none focus:border-green-500 transition">
             <option value="all">All Status</option>
             <option value="booked">Booked</option>
             <option value="cancelled">Cancelled</option>
             <option value="completed">Completed</option>
           </select>
-
-          {/* ✅ NEW — Payment filter */}
-          <select
-            value={filterPayment}
-            onChange={(e) => setFilterPayment(e.target.value)}
-            className="border-2 border-gray-200 rounded-xl px-4 py-2 text-sm text-gray-700 focus:outline-none focus:border-green-500 transition"
-          >
+          <select value={filterPayment} onChange={(e) => setFilterPayment(e.target.value)}
+            className="border-2 border-gray-200 rounded-xl px-4 py-2 text-sm text-gray-700 focus:outline-none focus:border-green-500 transition">
             <option value="all">All Payments</option>
             <option value="paid">Paid</option>
             <option value="pending">Pending</option>
             <option value="failed">Failed</option>
           </select>
-
           {(filterStatus !== "all" || filterPayment !== "all" || filterDate || search) && (
-            <button
-              onClick={() => {
-                setFilterStatus("all");
-                setFilterPayment("all"); // ✅ NEW
-                setFilterDate("");
-                setSearch("");
-              }}
-              className="text-sm text-red-400 hover:text-red-600 transition px-2"
-            >
+            <button onClick={() => { setFilterStatus("all"); setFilterPayment("all"); setFilterDate(""); setSearch(""); }}
+              className="text-sm text-red-400 hover:text-red-600 transition px-2">
               Clear filters
             </button>
           )}
@@ -209,12 +178,8 @@ function AllBookings() {
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b border-gray-100 bg-gray-50">
-                    {/* ✅ Payment + Payment ID columns add kiye */}
-                    {["User", "Turf", "Date", "Time", "Price", "Booking Status", "Payment", "Payment ID", "Action"].map((h) => (
-                      <th
-                        key={h}
-                        className="text-left py-3 px-4 text-xs font-bold text-gray-400 uppercase tracking-wider whitespace-nowrap"
-                      >
+                    {["User", "Player Details", "Turf", "Date", "Time", "Players", "Price", "Booking", "Payment", "Payment ID", "Action"].map((h) => (
+                      <th key={h} className="text-left py-3 px-4 text-xs font-bold text-gray-400 uppercase tracking-wider whitespace-nowrap">
                         {h}
                       </th>
                     ))}
@@ -224,10 +189,22 @@ function AllBookings() {
                   {filtered.map((b) => (
                     <tr key={b._id} className="border-b border-gray-50 hover:bg-gray-50 transition">
 
-                      {/* User */}
+                      {/* User (account) */}
                       <td className="py-3 px-4">
                         <p className="font-semibold text-gray-800">{b.user?.name || "—"}</p>
                         <p className="text-xs text-gray-400">{b.user?.email}</p>
+                      </td>
+
+                      {/* ✅ Player Details — from form */}
+                      <td className="py-3 px-4">
+                        {b.playerName ? (
+                          <>
+                            <p className="font-semibold text-gray-800">{b.playerName}</p>
+                            <p className="text-xs text-gray-400">{b.playerPhone || "—"}</p>
+                          </>
+                        ) : (
+                          <span className="text-gray-300 text-xs">Not provided</span>
+                        )}
                       </td>
 
                       {/* Turf */}
@@ -236,13 +213,16 @@ function AllBookings() {
                       </td>
 
                       {/* Date */}
-                      <td className="py-3 px-4 text-gray-600 whitespace-nowrap">
-                        {b.date || "—"}
-                      </td>
+                      <td className="py-3 px-4 text-gray-600 whitespace-nowrap">{b.date || "—"}</td>
 
                       {/* Time */}
                       <td className="py-3 px-4 text-gray-600 whitespace-nowrap">
                         {b.startTime} — {b.endTime}
+                      </td>
+
+                      {/* ✅ Players count */}
+                      <td className="py-3 px-4 text-center text-gray-700 font-semibold">
+                        {b.players || "—"}
                       </td>
 
                       {/* Price */}
@@ -263,7 +243,7 @@ function AllBookings() {
                         </span>
                       </td>
 
-                      {/* ✅ NEW — Payment Status */}
+                      {/* Payment Status */}
                       <td className="py-3 px-4">
                         <span className={`px-2.5 py-1 rounded-full text-xs font-bold whitespace-nowrap ${
                           b.paymentStatus === "paid"
@@ -276,7 +256,7 @@ function AllBookings() {
                         </span>
                       </td>
 
-                      {/* ✅ NEW — Payment ID */}
+                      {/* Payment ID */}
                       <td className="py-3 px-4">
                         {b.paymentId ? (
                           <span className="font-mono text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">
@@ -290,10 +270,8 @@ function AllBookings() {
                       {/* Action */}
                       <td className="py-3 px-4">
                         {b.status === "booked" && (
-                          <button
-                            onClick={() => setCancelId(b._id)}
-                            className="text-xs text-red-400 hover:text-red-600 font-semibold border border-red-200 hover:border-red-400 px-3 py-1.5 rounded-lg transition whitespace-nowrap"
-                          >
+                          <button onClick={() => setCancelId(b._id)}
+                            className="text-xs text-red-400 hover:text-red-600 font-semibold border border-red-200 hover:border-red-400 px-3 py-1.5 rounded-lg transition whitespace-nowrap">
                             Cancel
                           </button>
                         )}
@@ -308,7 +286,6 @@ function AllBookings() {
             {/* FOOTER */}
             <div className="px-4 py-3 border-t border-gray-100 text-xs text-gray-400 flex items-center justify-between">
               <span>Showing {filtered.length} of {bookings.length} bookings</span>
-              {/* ✅ Revenue summary */}
               <span className="font-semibold text-gray-500">
                 💰 Total Revenue: ₹{bookings
                   .filter((b) => b.paymentStatus === "paid")

@@ -1,8 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useRazorpay } from "../hooks/useRazorpay";
 
-// Step constants
 const STEP_NONE = 0;
 const STEP_CONFIRM = 1;
 const STEP_DETAILS = 2;
@@ -16,22 +15,27 @@ function Slots() {
   const [turf, setTurf] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [bookingSlot, setBookingSlot] = useState(null);
-  const [confirmSlot, setConfirmSlot] = useState(null);
   const [paymentLoading, setPaymentLoading] = useState(false);
   const [step, setStep] = useState(STEP_NONE);
+  const [selectionError, setSelectionError] = useState("");
 
-  // User detail form
+  // ✅ Multi-slot selection
+  const [selectedSlots, setSelectedSlots] = useState([]);
+
   const [userDetails, setUserDetails] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    players: "1",
+    name: "", email: "", phone: "", players: "1",
   });
   const [detailError, setDetailError] = useState("");
 
   const todayStr = new Date().toISOString().split("T")[0];
   const [selectedDate, setSelectedDate] = useState(todayStr);
+
+  // ✅ Live clock — refresh slots every minute
+  const [, setTick] = useState(0);
+  useEffect(() => {
+    const interval = setInterval(() => setTick((t) => t + 1), 60000);
+    return () => clearInterval(interval);
+  }, []);
 
   const fetchTurf = async () => {
     try {
@@ -41,10 +45,11 @@ function Slots() {
     } catch {}
   };
 
-  const fetchSlots = async (date) => {
+  const fetchSlots = useCallback(async (date) => {
     try {
       setLoading(true);
       setError("");
+      setSelectedSlots([]); // reset selection on date change
       const res = await fetch(
         `https://turfxo-backend-2.onrender.com/api/slots?turfId=${turfId}&date=${date}`
       );
@@ -56,34 +61,76 @@ function Slots() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [turfId]);
 
   useEffect(() => { fetchTurf(); }, [turfId]);
   useEffect(() => { if (selectedDate) fetchSlots(selectedDate); }, [selectedDate, turfId]);
 
+  // ✅ Auto-refresh slots every minute (live expiry)
+  useEffect(() => {
+    const interval = setInterval(() => fetchSlots(selectedDate), 60000);
+    return () => clearInterval(interval);
+  }, [selectedDate, fetchSlots]);
+
   const calcDuration = (start, end) => {
     const [sh, sm] = start.split(":").map(Number);
-    const [eh, em] = end.split(":").map(Number);
-    return ((eh * 60 + em) - (sh * 60 + sm)) / 60;
+    let [eh, em] = end.split(":").map(Number);
+    let startM = sh * 60 + sm;
+    let endM = eh * 60 + em;
+    if (endM <= startM) endM += 24 * 60; // overnight
+    return (endM - startM) / 60;
   };
 
-  const duration = confirmSlot ? calcDuration(confirmSlot.startTime, confirmSlot.endTime) : 0;
-  const totalAmount = turf ? Math.round(turf.pricePerHour * duration) : 0;
+  // ✅ Total duration & amount for selected slots
+  const totalDuration = selectedSlots.reduce((sum, slot) =>
+    sum + calcDuration(slot.startTime, slot.endTime), 0);
+  const totalAmount = turf ? Math.round(turf.pricePerHour * totalDuration) : 0;
 
-  // Step 1 — Slot click → show confirm modal
+  // ✅ Slot click — toggle selection, must be consecutive
   const handleSlotClick = (slot) => {
+    if (slot.isBooked || slot.isPast) return;
+
+    setSelectionError("");
+    const isSelected = selectedSlots.some((s) => s.startTime === slot.startTime);
+
+    if (isSelected) {
+      // Deselect — remove from end only
+      const idx = selectedSlots.findIndex((s) => s.startTime === slot.startTime);
+      if (idx === selectedSlots.length - 1) {
+        setSelectedSlots(selectedSlots.slice(0, -1));
+      } else {
+        setSelectionError("Sirf last selected slot ko deselect kar sakte ho.");
+      }
+      return;
+    }
+
+    // Select — must be consecutive to last selected
+    if (selectedSlots.length > 0) {
+      const lastSlot = selectedSlots[selectedSlots.length - 1];
+      if (lastSlot.endTime !== slot.startTime) {
+        setSelectionError("Sirf consecutive slots select kar sakte ho.");
+        return;
+      }
+    }
+
+    setSelectedSlots([...selectedSlots, slot]);
+  };
+
+  // ✅ Proceed to confirm — min 2 slots check
+  const handleProceed = () => {
     const token = localStorage.getItem("token");
     if (!token) { navigate("/login"); return; }
-    setConfirmSlot(slot);
+
+    if (selectedSlots.length < 2) {
+      setSelectionError("Kam se kam 2 slots select karo.");
+      return;
+    }
+    setSelectionError("");
     setStep(STEP_CONFIRM);
   };
 
-  // Step 2 — Confirm → show detail form
-  const handleConfirm = () => {
-    setStep(STEP_DETAILS);
-  };
+  const handleConfirm = () => setStep(STEP_DETAILS);
 
-  // Step 3 — Validate details → Pay Now
   const handlePayNow = async () => {
     const { name, email, phone } = userDetails;
     if (!name.trim() || !email.trim() || !phone.trim()) {
@@ -105,23 +152,23 @@ function Slots() {
 
     setStep(STEP_NONE);
     setPaymentLoading(true);
-    setBookingSlot(confirmSlot.startTime);
 
+    const firstSlot = selectedSlots[0];
+    const lastSlot = selectedSlots[selectedSlots.length - 1];
     let orderData = null;
 
     try {
-      // Step 1 — Create order
       const orderRes = await fetch("https://turfxo-backend-2.onrender.com/api/payments/create-order", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
         body: JSON.stringify({
           turfId,
           date: selectedDate,
-          startTime: confirmSlot.startTime,
-          endTime: confirmSlot.endTime,
+          startTime: firstSlot.startTime,
+          endTime: lastSlot.endTime,
+          playerName: userDetails.name,
+          playerPhone: userDetails.phone,
+          players: Number(userDetails.players),
         }),
       });
 
@@ -131,51 +178,21 @@ function Slots() {
         return;
       }
 
-      // Step 2 — Open Razorpay (UPI first)
       const paymentResponse = await openCheckout({
         key: orderData.keyId,
         amount: orderData.amount,
         currency: orderData.currency,
         order_id: orderData.orderId,
         name: "TurfXO",
-        description: `${turf?.name} — ${selectedDate} ${confirmSlot.startTime}`,
-        prefill: {
-          name: userDetails.name,
-          email: userDetails.email,
-          contact: userDetails.phone,
-        },
+        description: `${turf?.name} — ${selectedDate} ${firstSlot.startTime}-${lastSlot.endTime}`,
+        prefill: { name: userDetails.name, email: userDetails.email, contact: userDetails.phone },
         theme: { color: "#15803d" },
-        config: {
-          display: {
-            blocks: {
-              upi: {
-                name: "Pay via UPI",
-                instruments: [
-                  { method: "upi", flows: ["qr", "intent", "collect", "web"] },
-                ],
-              },
-              other: {
-                name: "Other Methods",
-                instruments: [
-                  { method: "card" },
-                  { method: "netbanking" },
-                  { method: "wallet" },
-                ],
-              },
-            },
-            sequence: ["block.upi", "block.other"],
-            preferences: { show_default_blocks: false },
-          },
-        },
+        method: { upi: true, card: true, netbanking: true, wallet: true },
       });
 
-      // Step 3 — Verify payment
       const verifyRes = await fetch("https://turfxo-backend-2.onrender.com/api/payments/verify", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
         body: JSON.stringify({
           orderId: paymentResponse.razorpay_order_id,
           paymentId: paymentResponse.razorpay_payment_id,
@@ -194,9 +211,9 @@ function Slots() {
             turfName: turf?.name,
             amount: totalAmount,
             date: selectedDate,
-            startTime: confirmSlot.startTime,
-            endTime: confirmSlot.endTime,
-            duration,
+            startTime: firstSlot.startTime,
+            endTime: lastSlot.endTime,
+            duration: totalDuration,
             pricePerHour: turf?.pricePerHour,
             playerName: userDetails.name,
             playerPhone: userDetails.phone,
@@ -205,19 +222,12 @@ function Slots() {
       } else {
         alert("Payment verification failed. Contact support.");
       }
-
     } catch (err) {
       if (err.message === "PAYMENT_CANCELLED") {
         await fetch("https://turfxo-backend-2.onrender.com/api/payments/failed", {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            bookingId: orderData?.bookingId || null,
-            reason: "Cancelled by user",
-          }),
+          headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+          body: JSON.stringify({ bookingId: orderData?.bookingId || null, reason: "Cancelled by user" }),
         });
         alert("Payment cancelled. Slot released.");
       } else {
@@ -225,17 +235,14 @@ function Slots() {
       }
     } finally {
       setPaymentLoading(false);
-      setBookingSlot(null);
-      setConfirmSlot(null);
+      setSelectedSlots([]);
       setUserDetails({ name: "", email: "", phone: "", players: "1" });
     }
   };
 
   const closeModal = () => {
     setStep(STEP_NONE);
-    setConfirmSlot(null);
     setDetailError("");
-    setUserDetails({ name: "", email: "", phone: "", players: "1" });
   };
 
   if (error)
@@ -255,25 +262,25 @@ function Slots() {
   return (
     <div className="min-h-screen bg-white">
 
-      {/* ── MODAL OVERLAY ── */}
-      {step !== STEP_NONE && confirmSlot && (
+      {/* ── MODAL ── */}
+      {step !== STEP_NONE && (
         <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 px-4">
           <div className="bg-white rounded-2xl w-full max-w-sm shadow-2xl overflow-hidden">
 
-            {/* ── STEP 1: CONFIRM MODAL ── */}
+            {/* STEP 1 — CONFIRM */}
             {step === STEP_CONFIRM && (
               <>
                 <div className="bg-green-700 px-6 py-4">
                   <h3 className="text-white font-black text-lg">Booking Summary</h3>
-                  <p className="text-green-200 text-xs mt-0.5">Review your slot before proceeding</p>
+                  <p className="text-green-200 text-xs mt-0.5">{selectedSlots.length} slots selected</p>
                 </div>
-
                 <div className="px-6 py-5 space-y-3">
                   {[
                     ["Turf", turf?.name],
                     ["Date", selectedDate],
-                    ["Time", `${confirmSlot.startTime} — ${confirmSlot.endTime}`],
-                    ["Duration", `${duration} hr${duration !== 1 ? "s" : ""}`],
+                    ["Time", `${selectedSlots[0]?.startTime} — ${selectedSlots[selectedSlots.length - 1]?.endTime}`],
+                    ["Slots", `${selectedSlots.length} slot${selectedSlots.length > 1 ? "s" : ""}`],
+                    ["Duration", `${totalDuration} hr${totalDuration !== 1 ? "s" : ""}`],
                     ["Rate", `₹${turf?.pricePerHour}/hr`],
                   ].map(([label, value]) => (
                     <div key={label} className="flex justify-between text-sm">
@@ -281,7 +288,6 @@ function Slots() {
                       <span className="font-semibold text-gray-900">{value}</span>
                     </div>
                   ))}
-
                   <div className="border-t border-dashed border-gray-200 pt-3">
                     <div className="flex justify-between items-center">
                       <span className="text-gray-900 font-black text-base">Total</span>
@@ -289,7 +295,6 @@ function Slots() {
                     </div>
                   </div>
                 </div>
-
                 <div className="px-6 pb-6 flex gap-3">
                   <button onClick={closeModal}
                     className="flex-1 py-2.5 border border-gray-200 rounded-xl text-gray-500 text-sm hover:bg-gray-50 transition font-semibold">
@@ -303,74 +308,43 @@ function Slots() {
               </>
             )}
 
-            {/* ── STEP 2: DETAIL FORM ── */}
+            {/* STEP 2 — DETAILS FORM */}
             {step === STEP_DETAILS && (
               <>
                 <div className="bg-green-700 px-6 py-4">
                   <h3 className="text-white font-black text-lg">Player Details</h3>
                   <p className="text-green-200 text-xs mt-0.5">Fill details to complete booking</p>
                 </div>
-
                 <div className="px-6 py-5 space-y-4">
-
-                  {/* Booking mini summary */}
                   <div className="bg-green-50 rounded-xl px-4 py-3 text-xs text-green-800 font-semibold flex justify-between">
-                    <span>📅 {selectedDate} &nbsp; 🕐 {confirmSlot.startTime} — {confirmSlot.endTime}</span>
+                    <span>📅 {selectedDate} &nbsp; 🕐 {selectedSlots[0]?.startTime} — {selectedSlots[selectedSlots.length - 1]?.endTime}</span>
                     <span>₹{totalAmount}</span>
                   </div>
 
-                  {detailError && (
-                    <p className="text-red-500 text-xs font-semibold">{detailError}</p>
-                  )}
+                  {detailError && <p className="text-red-500 text-xs font-semibold">{detailError}</p>}
 
-                  {/* Name */}
-                  <div>
-                    <label className="text-gray-500 text-xs uppercase tracking-wider block mb-1">
-                      Full Name <span className="text-red-400">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      placeholder="John Doe"
-                      value={userDetails.name}
-                      onChange={(e) => setUserDetails({ ...userDetails, name: e.target.value })}
-                      className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-gray-800 focus:outline-none focus:border-green-500 transition"
-                    />
-                  </div>
+                  {[
+                    { label: "Full Name", key: "name", type: "text", placeholder: "John Doe" },
+                    { label: "Email", key: "email", type: "email", placeholder: "you@example.com" },
+                    { label: "Phone Number", key: "phone", type: "tel", placeholder: "10-digit mobile number", maxLength: 10 },
+                  ].map(({ label, key, type, placeholder, maxLength }) => (
+                    <div key={key}>
+                      <label className="text-gray-500 text-xs uppercase tracking-wider block mb-1">
+                        {label} <span className="text-red-400">*</span>
+                      </label>
+                      <input
+                        type={type}
+                        placeholder={placeholder}
+                        maxLength={maxLength}
+                        value={userDetails[key]}
+                        onChange={(e) => setUserDetails({ ...userDetails, [key]: key === "phone" ? e.target.value.replace(/\D/, "") : e.target.value })}
+                        className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-gray-800 focus:outline-none focus:border-green-500 transition"
+                      />
+                    </div>
+                  ))}
 
-                  {/* Email */}
                   <div>
-                    <label className="text-gray-500 text-xs uppercase tracking-wider block mb-1">
-                      Email <span className="text-red-400">*</span>
-                    </label>
-                    <input
-                      type="email"
-                      placeholder="you@example.com"
-                      value={userDetails.email}
-                      onChange={(e) => setUserDetails({ ...userDetails, email: e.target.value })}
-                      className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-gray-800 focus:outline-none focus:border-green-500 transition"
-                    />
-                  </div>
-
-                  {/* Phone */}
-                  <div>
-                    <label className="text-gray-500 text-xs uppercase tracking-wider block mb-1">
-                      Phone Number <span className="text-red-400">*</span>
-                    </label>
-                    <input
-                      type="tel"
-                      placeholder="10-digit mobile number"
-                      maxLength={10}
-                      value={userDetails.phone}
-                      onChange={(e) => setUserDetails({ ...userDetails, phone: e.target.value.replace(/\D/, "") })}
-                      className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-gray-800 focus:outline-none focus:border-green-500 transition"
-                    />
-                  </div>
-
-                  {/* Number of players */}
-                  <div>
-                    <label className="text-gray-500 text-xs uppercase tracking-wider block mb-1">
-                      Number of Players
-                    </label>
+                    <label className="text-gray-500 text-xs uppercase tracking-wider block mb-1">Number of Players</label>
                     <select
                       value={userDetails.players}
                       onChange={(e) => setUserDetails({ ...userDetails, players: e.target.value })}
@@ -381,29 +355,22 @@ function Slots() {
                     </select>
                   </div>
 
-                  {/* UPI badge */}
-                  <div className="bg-blue-50 rounded-xl px-4 py-2.5 flex items-center gap-2">
-                    <span className="text-blue-700 text-xs font-semibold">
-                      💳 UPI · Card · Netbanking · Wallet accepted
-                    </span>
+                  <div className="bg-blue-50 rounded-xl px-4 py-2.5">
+                    <span className="text-blue-700 text-xs font-semibold">💳 UPI · Card · Netbanking · Wallet accepted</span>
                   </div>
                 </div>
-
                 <div className="px-6 pb-6 flex gap-3">
                   <button onClick={() => setStep(STEP_CONFIRM)}
                     className="flex-1 py-2.5 border border-gray-200 rounded-xl text-gray-500 text-sm hover:bg-gray-50 transition font-semibold">
                     ← Back
                   </button>
-                  <button
-                    onClick={handlePayNow}
-                    disabled={paymentLoading}
+                  <button onClick={handlePayNow} disabled={paymentLoading}
                     className="flex-1 py-2.5 bg-green-700 text-white rounded-xl text-sm font-black hover:bg-green-800 transition disabled:opacity-60">
                     {paymentLoading ? "Processing..." : `Pay ₹${totalAmount}`}
                   </button>
                 </div>
               </>
             )}
-
           </div>
         </div>
       )}
@@ -414,8 +381,7 @@ function Slots() {
           <div className="rounded-2xl overflow-hidden h-64 md:h-80">
             <img
               src={turf?.images?.[0] || "https://images.unsplash.com/photo-1551958219-acbc608c6377?w=1200&q=80"}
-              alt="turf"
-              className="w-full h-full object-cover"
+              alt="turf" className="w-full h-full object-cover"
             />
           </div>
         </div>
@@ -425,27 +391,58 @@ function Slots() {
           <div className="flex flex-col sm:flex-row sm:items-center gap-3 text-sm text-gray-500">
             <span>📍 {turf?.location?.address} {turf?.location?.city}</span>
             <span className="hidden sm:block text-gray-300">|</span>
-            <span>🕐 {turf?.openTime || "06:00"} — {turf?.closeTime || "22:00"}</span>
+            <span>🕐 {turf?.openTime || "06:00"} — {turf?.closeTime || "03:00"}</span>
             <span className="hidden sm:block text-gray-300">|</span>
             <span className="text-green-700 font-semibold">💰 ₹{turf?.pricePerHour}/hr</span>
           </div>
         </div>
 
         <div className="max-w-5xl mx-auto px-6 py-8">
+
+          {/* DATE PICKER */}
           <div className="mb-8">
             <h2 className="text-xl font-black text-gray-900 mb-3">Select Date</h2>
             <input
-              type="date"
-              value={selectedDate}
-              min={todayStr}
+              type="date" value={selectedDate} min={todayStr}
               onChange={(e) => setSelectedDate(e.target.value)}
               className="border-2 border-green-200 rounded-xl px-4 py-2.5 text-gray-700 font-semibold focus:outline-none focus:border-green-600 transition"
             />
           </div>
 
-          <h2 className="text-2xl font-black text-gray-900 mb-6">
-            Available Slots — {selectedDate}
-          </h2>
+          {/* SELECTION INFO */}
+          <div className="mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <h2 className="text-2xl font-black text-gray-900">
+              Available Slots — {selectedDate}
+            </h2>
+
+            {/* ✅ Selection summary + proceed button */}
+            {selectedSlots.length > 0 && (
+              <div className="flex items-center gap-3">
+                <div className="bg-green-50 border border-green-200 rounded-xl px-4 py-2 text-sm">
+                  <span className="text-green-700 font-bold">{selectedSlots.length} slot{selectedSlots.length > 1 ? "s" : ""} </span>
+                  <span className="text-green-600">{selectedSlots[0].startTime} — {selectedSlots[selectedSlots.length - 1].endTime}</span>
+                  <span className="text-green-700 font-black ml-2">₹{totalAmount}</span>
+                </div>
+                <button onClick={handleProceed}
+                  className="bg-green-700 text-white px-5 py-2 rounded-xl text-sm font-black hover:bg-green-800 transition">
+                  Book Now →
+                </button>
+              </div>
+            )}
+          </div>
+
+          {/* MIN 2 SLOTS HINT */}
+          <div className="mb-4 flex items-center gap-2 text-xs text-gray-400">
+            <span>ℹ️</span>
+            <span>Minimum 2 consecutive slots select karo. Click karo select karne ke liye, dubara click karo deselect karne ke liye (sirf last slot).</span>
+          </div>
+
+          {/* SELECTION ERROR */}
+          {selectionError && (
+            <div className="mb-4 px-4 py-2 bg-red-50 border border-red-200 rounded-xl text-red-500 text-sm font-semibold">
+              ⚠️ {selectionError}
+            </div>
+          )}
 
           {loading ? (
             <div className="flex flex-col items-center py-16 gap-4">
@@ -462,24 +459,27 @@ function Slots() {
             <>
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
                 {slots.map((slot, i) => {
-                  const isBooking = bookingSlot === slot.startTime;
+                  const isSelected = selectedSlots.some((s) => s.startTime === slot.startTime);
+                  const isProcessing = paymentLoading && isSelected;
+
                   return (
                     <button
                       key={i}
-                      disabled={slot.isBooked || slot.isPast || isBooking}
+                      disabled={slot.isBooked || slot.isPast || isProcessing}
                       onClick={() => handleSlotClick(slot)}
-                      className={`py-3 px-4 rounded-xl text-sm font-semibold transition-all duration-200 border ${
+                      className={`py-3 px-4 rounded-xl text-sm font-semibold transition-all duration-200 border-2 ${
                         slot.isPast
                           ? "bg-gray-50 border-gray-200 text-gray-300 cursor-not-allowed"
                           : slot.isBooked
                           ? "bg-red-50 border-red-200 text-red-400 cursor-not-allowed line-through"
-                          : isBooking
-                          ? "bg-green-100 border-green-300 text-green-700 cursor-wait"
-                          : "bg-green-50 border-green-200 text-green-800 hover:bg-green-700 hover:text-white hover:border-green-700 cursor-pointer"
+                          : isSelected
+                          ? "bg-green-700 border-green-700 text-white shadow-lg scale-105"
+                          : "bg-green-50 border-green-200 text-green-800 hover:bg-green-100 hover:border-green-400 cursor-pointer"
                       }`}>
-                      {isBooking ? "Processing..." : (
+                      {isProcessing ? "Processing..." : (
                         <>
                           {slot.startTime} — {slot.endTime}
+                          {isSelected && <span className="block text-xs mt-0.5 text-green-200">✓ Selected</span>}
                           {slot.isBooked && <span className="block text-xs mt-0.5 text-red-400">Booked</span>}
                           {slot.isPast && <span className="block text-xs mt-0.5 text-gray-300">Expired</span>}
                         </>
@@ -489,25 +489,29 @@ function Slots() {
                 })}
               </div>
 
+              {/* LEGEND */}
               <div className="flex flex-wrap items-center gap-6 mt-8 pt-6 border-t border-gray-100">
                 <div className="flex items-center gap-2">
-                  <div className="w-4 h-4 rounded bg-green-50 border border-green-200" />
+                  <div className="w-4 h-4 rounded bg-green-50 border-2 border-green-200" />
                   <span className="text-gray-500 text-xs">Available</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <div className="w-4 h-4 rounded bg-red-50 border border-red-200" />
+                  <div className="w-4 h-4 rounded bg-green-700 border-2 border-green-700" />
+                  <span className="text-gray-500 text-xs">Selected</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-4 h-4 rounded bg-red-50 border-2 border-red-200" />
                   <span className="text-gray-500 text-xs">Booked</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <div className="w-4 h-4 rounded bg-gray-50 border border-gray-200" />
+                  <div className="w-4 h-4 rounded bg-gray-50 border-2 border-gray-200" />
                   <span className="text-gray-500 text-xs">Expired</span>
                 </div>
               </div>
             </>
           )}
 
-          <button
-            onClick={() => navigate("/turfs")}
+          <button onClick={() => navigate("/turfs")}
             className="mt-8 text-gray-400 text-sm hover:text-gray-600 flex items-center gap-1 transition">
             ← Back to Turfs
           </button>
