@@ -18,8 +18,6 @@ function Slots() {
   const [paymentLoading, setPaymentLoading] = useState(false);
   const [step, setStep] = useState(STEP_NONE);
   const [selectionError, setSelectionError] = useState("");
-
-  // ✅ Multi-slot selection
   const [selectedSlots, setSelectedSlots] = useState([]);
 
   const [userDetails, setUserDetails] = useState({
@@ -30,12 +28,11 @@ function Slots() {
   const todayStr = new Date().toISOString().split("T")[0];
   const [selectedDate, setSelectedDate] = useState(todayStr);
 
-  // ✅ Live clock — refresh slots every minute
-  const [, setTick] = useState(0);
+  // Auto-refresh every minute for live expiry
   useEffect(() => {
-    const interval = setInterval(() => setTick((t) => t + 1), 60000);
+    const interval = setInterval(() => fetchSlots(selectedDate), 60000);
     return () => clearInterval(interval);
-  }, []);
+  }, [selectedDate, turfId]);
 
   const fetchTurf = async () => {
     try {
@@ -49,7 +46,7 @@ function Slots() {
     try {
       setLoading(true);
       setError("");
-      setSelectedSlots([]); // reset selection on date change
+      setSelectedSlots([]);
       const res = await fetch(
         `https://turfxo-backend-2.onrender.com/api/slots?turfId=${turfId}&date=${date}`
       );
@@ -66,45 +63,36 @@ function Slots() {
   useEffect(() => { fetchTurf(); }, [turfId]);
   useEffect(() => { if (selectedDate) fetchSlots(selectedDate); }, [selectedDate, turfId]);
 
-  // ✅ Auto-refresh slots every minute (live expiry)
-  useEffect(() => {
-    const interval = setInterval(() => fetchSlots(selectedDate), 60000);
-    return () => clearInterval(interval);
-  }, [selectedDate, fetchSlots]);
-
   const calcDuration = (start, end) => {
     const [sh, sm] = start.split(":").map(Number);
     let [eh, em] = end.split(":").map(Number);
     let startM = sh * 60 + sm;
     let endM = eh * 60 + em;
-    if (endM <= startM) endM += 24 * 60; // overnight
+    if (endM <= startM) endM += 24 * 60;
     return (endM - startM) / 60;
   };
 
-  // ✅ Total duration & amount for selected slots
-  const totalDuration = selectedSlots.reduce((sum, slot) =>
-    sum + calcDuration(slot.startTime, slot.endTime), 0);
+  const totalDuration = selectedSlots.reduce(
+    (sum, slot) => sum + calcDuration(slot.startTime, slot.endTime), 0
+  );
   const totalAmount = turf ? Math.round(turf.pricePerHour * totalDuration) : 0;
 
-  // ✅ Slot click — toggle selection, must be consecutive
   const handleSlotClick = (slot) => {
     if (slot.isBooked || slot.isPast) return;
-
     setSelectionError("");
+
     const isSelected = selectedSlots.some((s) => s.startTime === slot.startTime);
 
     if (isSelected) {
-      // Deselect — remove from end only
       const idx = selectedSlots.findIndex((s) => s.startTime === slot.startTime);
       if (idx === selectedSlots.length - 1) {
         setSelectedSlots(selectedSlots.slice(0, -1));
       } else {
-        setSelectionError("Sirf last selected slot ko deselect kar sakte ho.");
+        setSelectionError("Sirf last selected slot deselect kar sakte ho.");
       }
       return;
     }
 
-    // Select — must be consecutive to last selected
     if (selectedSlots.length > 0) {
       const lastSlot = selectedSlots[selectedSlots.length - 1];
       if (lastSlot.endTime !== slot.startTime) {
@@ -116,11 +104,9 @@ function Slots() {
     setSelectedSlots([...selectedSlots, slot]);
   };
 
-  // ✅ Proceed to confirm — min 2 slots check
   const handleProceed = () => {
     const token = localStorage.getItem("token");
     if (!token) { navigate("/login"); return; }
-
     if (selectedSlots.length < 2) {
       setSelectionError("Kam se kam 2 slots select karo.");
       return;
@@ -173,10 +159,7 @@ function Slots() {
       });
 
       orderData = await orderRes.json();
-      if (!orderData.success) {
-        alert(orderData.message || "Order create failed");
-        return;
-      }
+      if (!orderData.success) { alert(orderData.message || "Order create failed"); return; }
 
       const paymentResponse = await openCheckout({
         key: orderData.keyId,
@@ -240,10 +223,7 @@ function Slots() {
     }
   };
 
-  const closeModal = () => {
-    setStep(STEP_NONE);
-    setDetailError("");
-  };
+  const closeModal = () => { setStep(STEP_NONE); setDetailError(""); };
 
   if (error)
     return (
@@ -308,7 +288,7 @@ function Slots() {
               </>
             )}
 
-            {/* STEP 2 — DETAILS FORM */}
+            {/* STEP 2 — DETAILS */}
             {step === STEP_DETAILS && (
               <>
                 <div className="bg-green-700 px-6 py-4">
@@ -317,12 +297,10 @@ function Slots() {
                 </div>
                 <div className="px-6 py-5 space-y-4">
                   <div className="bg-green-50 rounded-xl px-4 py-3 text-xs text-green-800 font-semibold flex justify-between">
-                    <span>📅 {selectedDate} &nbsp; 🕐 {selectedSlots[0]?.startTime} — {selectedSlots[selectedSlots.length - 1]?.endTime}</span>
+                    <span>📅 {selectedDate} &nbsp;🕐 {selectedSlots[0]?.startTime} — {selectedSlots[selectedSlots.length - 1]?.endTime}</span>
                     <span>₹{totalAmount}</span>
                   </div>
-
                   {detailError && <p className="text-red-500 text-xs font-semibold">{detailError}</p>}
-
                   {[
                     { label: "Full Name", key: "name", type: "text", placeholder: "John Doe" },
                     { label: "Email", key: "email", type: "email", placeholder: "you@example.com" },
@@ -332,21 +310,19 @@ function Slots() {
                       <label className="text-gray-500 text-xs uppercase tracking-wider block mb-1">
                         {label} <span className="text-red-400">*</span>
                       </label>
-                      <input
-                        type={type}
-                        placeholder={placeholder}
-                        maxLength={maxLength}
+                      <input type={type} placeholder={placeholder} maxLength={maxLength}
                         value={userDetails[key]}
-                        onChange={(e) => setUserDetails({ ...userDetails, [key]: key === "phone" ? e.target.value.replace(/\D/, "") : e.target.value })}
+                        onChange={(e) => setUserDetails({
+                          ...userDetails,
+                          [key]: key === "phone" ? e.target.value.replace(/\D/, "") : e.target.value
+                        })}
                         className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-gray-800 focus:outline-none focus:border-green-500 transition"
                       />
                     </div>
                   ))}
-
                   <div>
                     <label className="text-gray-500 text-xs uppercase tracking-wider block mb-1">Number of Players</label>
-                    <select
-                      value={userDetails.players}
+                    <select value={userDetails.players}
                       onChange={(e) => setUserDetails({ ...userDetails, players: e.target.value })}
                       className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-gray-800 focus:outline-none focus:border-green-500 transition">
                       {[1,2,3,4,5,6,7,8,9,10,11,12].map(n => (
@@ -354,7 +330,6 @@ function Slots() {
                       ))}
                     </select>
                   </div>
-
                   <div className="bg-blue-50 rounded-xl px-4 py-2.5">
                     <span className="text-blue-700 text-xs font-semibold">💳 UPI · Card · Netbanking · Wallet accepted</span>
                   </div>
@@ -376,7 +351,8 @@ function Slots() {
       )}
 
       {/* ── MAIN PAGE ── */}
-      <div className="pt-20">
+      {/* ✅ pb-28 — bottom mein space sticky bar ke liye */}
+      <div className="pt-20 pb-28">
         <div className="max-w-5xl mx-auto px-6 pt-6">
           <div className="rounded-2xl overflow-hidden h-64 md:h-80">
             <img
@@ -402,39 +378,20 @@ function Slots() {
           {/* DATE PICKER */}
           <div className="mb-8">
             <h2 className="text-xl font-black text-gray-900 mb-3">Select Date</h2>
-            <input
-              type="date" value={selectedDate} min={todayStr}
+            <input type="date" value={selectedDate} min={todayStr}
               onChange={(e) => setSelectedDate(e.target.value)}
               className="border-2 border-green-200 rounded-xl px-4 py-2.5 text-gray-700 font-semibold focus:outline-none focus:border-green-600 transition"
             />
           </div>
 
-          {/* SELECTION INFO */}
-          <div className="mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-            <h2 className="text-2xl font-black text-gray-900">
-              Available Slots — {selectedDate}
-            </h2>
+          <h2 className="text-2xl font-black text-gray-900 mb-3">
+            Available Slots — {selectedDate}
+          </h2>
 
-            {/* ✅ Selection summary + proceed button */}
-            {selectedSlots.length > 0 && (
-              <div className="flex items-center gap-3">
-                <div className="bg-green-50 border border-green-200 rounded-xl px-4 py-2 text-sm">
-                  <span className="text-green-700 font-bold">{selectedSlots.length} slot{selectedSlots.length > 1 ? "s" : ""} </span>
-                  <span className="text-green-600">{selectedSlots[0].startTime} — {selectedSlots[selectedSlots.length - 1].endTime}</span>
-                  <span className="text-green-700 font-black ml-2">₹{totalAmount}</span>
-                </div>
-                <button onClick={handleProceed}
-                  className="bg-green-700 text-white px-5 py-2 rounded-xl text-sm font-black hover:bg-green-800 transition">
-                  Book Now →
-                </button>
-              </div>
-            )}
-          </div>
-
-          {/* MIN 2 SLOTS HINT */}
-          <div className="mb-4 flex items-center gap-2 text-xs text-gray-400">
+          {/* HINT */}
+          <div className="mb-4 flex items-start gap-2 text-xs text-gray-400">
             <span>ℹ️</span>
-            <span>Minimum 2 consecutive slots select karo. Click karo select karne ke liye, dubara click karo deselect karne ke liye (sirf last slot).</span>
+            <span>Minimum 2 consecutive slots select karo. Last slot ko dubara click karo deselect karne ke liye.</span>
           </div>
 
           {/* SELECTION ERROR */}
@@ -460,12 +417,9 @@ function Slots() {
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
                 {slots.map((slot, i) => {
                   const isSelected = selectedSlots.some((s) => s.startTime === slot.startTime);
-                  const isProcessing = paymentLoading && isSelected;
-
                   return (
-                    <button
-                      key={i}
-                      disabled={slot.isBooked || slot.isPast || isProcessing}
+                    <button key={i}
+                      disabled={slot.isBooked || slot.isPast || paymentLoading}
                       onClick={() => handleSlotClick(slot)}
                       className={`py-3 px-4 rounded-xl text-sm font-semibold transition-all duration-200 border-2 ${
                         slot.isPast
@@ -476,17 +430,10 @@ function Slots() {
                           ? "bg-green-700 border-green-700 text-white shadow-lg scale-105"
                           : "bg-green-50 border-green-200 text-green-800 hover:bg-green-100 hover:border-green-400 cursor-pointer"
                       }`}>
-                      {isProcessing ? "Processing..." : (
-                        <>
-                          {slot.startTime} — {slot.endTime}
-                          {slot.isNextDay && (
-                            <span className="block text-xs mt-0.5 text-blue-500">(next day)</span>
-                          )}
-                          {isSelected && <span className="block text-xs mt-0.5 text-green-200">✓ Selected</span>}
-                          {slot.isBooked && <span className="block text-xs mt-0.5 text-red-400">Booked</span>}
-                          {slot.isPast && <span className="block text-xs mt-0.5 text-gray-300">Expired</span>}
-                        </>
-                      )}
+                      {slot.startTime} — {slot.endTime}
+                      {isSelected && <span className="block text-xs mt-0.5 text-green-200">✓ Selected</span>}
+                      {slot.isBooked && <span className="block text-xs mt-0.5 text-red-400">Booked</span>}
+                      {slot.isPast && <span className="block text-xs mt-0.5 text-gray-300">Expired</span>}
                     </button>
                   );
                 })}
@@ -494,22 +441,17 @@ function Slots() {
 
               {/* LEGEND */}
               <div className="flex flex-wrap items-center gap-6 mt-8 pt-6 border-t border-gray-100">
-                <div className="flex items-center gap-2">
-                  <div className="w-4 h-4 rounded bg-green-50 border-2 border-green-200" />
-                  <span className="text-gray-500 text-xs">Available</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-4 h-4 rounded bg-green-700 border-2 border-green-700" />
-                  <span className="text-gray-500 text-xs">Selected</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-4 h-4 rounded bg-red-50 border-2 border-red-200" />
-                  <span className="text-gray-500 text-xs">Booked</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-4 h-4 rounded bg-gray-50 border-2 border-gray-200" />
-                  <span className="text-gray-500 text-xs">Expired</span>
-                </div>
+                {[
+                  { color: "bg-green-50 border-green-200", label: "Available" },
+                  { color: "bg-green-700 border-green-700", label: "Selected" },
+                  { color: "bg-red-50 border-red-200", label: "Booked" },
+                  { color: "bg-gray-50 border-gray-200", label: "Expired" },
+                ].map(({ color, label }) => (
+                  <div key={label} className="flex items-center gap-2">
+                    <div className={`w-4 h-4 rounded border-2 ${color}`} />
+                    <span className="text-gray-500 text-xs">{label}</span>
+                  </div>
+                ))}
               </div>
             </>
           )}
@@ -520,6 +462,38 @@ function Slots() {
           </button>
         </div>
       </div>
+
+      {/* ✅ STICKY BOTTOM BAR — tab dikhega jab slots selected hon */}
+      {selectedSlots.length > 0 && (
+        <div className="fixed bottom-0 left-0 right-0 z-40 bg-white border-t border-gray-200 shadow-2xl px-4 py-4">
+          <div className="max-w-5xl mx-auto flex items-center justify-between gap-4">
+
+            {/* Left — Selection info */}
+            <div>
+              <p className="text-gray-900 font-black text-base">
+                {selectedSlots.length} Slot{selectedSlots.length > 1 ? "s" : ""} Selected
+              </p>
+              <p className="text-gray-500 text-xs mt-0.5">
+                🕐 {selectedSlots[0].startTime} — {selectedSlots[selectedSlots.length - 1].endTime}
+                &nbsp;·&nbsp;
+                {totalDuration} hr{totalDuration !== 1 ? "s" : ""}
+              </p>
+            </div>
+
+            {/* Right — Amount + Book Now */}
+            <div className="flex items-center gap-4">
+              <div className="text-right">
+                <p className="text-green-700 font-black text-xl">₹{totalAmount}</p>
+                <p className="text-gray-400 text-xs">Total Amount</p>
+              </div>
+              <button onClick={handleProceed} disabled={paymentLoading}
+                className="bg-green-700 text-white px-8 py-3 rounded-xl font-black text-sm hover:bg-green-800 transition disabled:opacity-60 whitespace-nowrap">
+                {paymentLoading ? "Processing..." : "Book Now →"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
