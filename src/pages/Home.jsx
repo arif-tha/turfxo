@@ -68,6 +68,24 @@ function Home() {
     { name: "Amit Roy", role: "Cricket Enthusiast", text: "World class facilities at unbeatable prices. TurfArena has completely changed how we plan matches.", avatar: "A" },
   ];
 
+  const games = [
+    { id: 1, name: "Football", icon: "⚽", color: "#ff6b6b" },
+    { id: 2, name: "Cricket", icon: "🏏", color: "#4ecdc4" },
+    { id: 3, name: "Badminton", icon: "🏸", color: "#95e1d3" },
+    { id: 4, name: "Volleyball", icon: "🏐", color: "#f38181" },
+    { id: 5, name: "Basketball", icon: "🏀", color: "#aa96da" },
+    { id: 6, name: "Tennis", icon: "🎾", color: "#fcbad3" },
+  ];
+
+  const gallery = [
+    { id: 1, image: "https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=600&h=400&fit=crop", title: "Professional Football Courts" },
+    { id: 2, image: "https://images.unsplash.com/photo-1624526267942-ab67cb7db225?w=600&h=400&fit=crop", title: "Premium Cricket Pitches" },
+    { id: 3, image: "https://images.unsplash.com/photo-1555318519-f1b45b78cbef?w=600&h=400&fit=crop", title: "Badminton Courts" },
+    { id: 4, image: "https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?w=600&h=400&fit=crop", title: "Modern Changing Rooms" },
+    { id: 5, image: "https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=600&h=400&fit=crop", title: "Floodlit Night View" },
+    { id: 6, image: "https://images.unsplash.com/photo-1542461835-70d3f3b3c6b1?w=600&h=400&fit=crop", title: "Tournament Ready Grounds" },
+  ];
+
   return (
     <div className="w-full min-h-screen overflow-x-hidden"
       style={{ fontFamily: "'Segoe UI', system-ui, sans-serif", background: "#060a06" }}>
@@ -350,6 +368,226 @@ function Home() {
       </div>
 
       {/* ══════════════════════════════════
+          SELECT GAMES SECTION
+      ══════════════════════════════════ */}
+      <div style={{ background: "#0a0f0a", padding: "100px 24px" }}>
+        <div className="max-w-6xl mx-auto">
+          <div className="mb-16 text-center">
+            <div className="flex items-center justify-center gap-3 mb-4">
+              <div className="w-8 h-px" style={{ background: "#facc15" }} />
+              <span className="text-xs font-bold tracking-[0.3em] uppercase" style={{ color: "#facc15" }}>Choose Your Sport</span>
+              <div className="w-8 h-px" style={{ background: "#facc15" }} />
+            </div>
+            <h2 className="font-black uppercase" style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)", color: "white" }}>
+              SELECT <span style={{ color: "#facc15" }}>YOUR GAME</span>
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+            {games.map((game) => (
+              <div key={game.id}
+                className="group cursor-pointer transition-all duration-300 text-center"
+                onClick={() => navigate("/turfs")}
+                style={{
+                  background: "#0d140d",
+                  border: "2px solid #1a2e1a",
+                  padding: "28px 16px",
+                  borderRadius: "12px",
+                }}
+                onMouseEnter={e => {
+                  e.currentTarget.style.borderColor = game.color;
+                  e.currentTarget.style.background = `${game.color}20`;
+                  e.currentTarget.style.transform = "translateY(-8px)";
+                }}
+                onMouseLeave={e => {
+                  e.currentTarget.style.borderColor = "#1a2e1a";
+                  e.currentTarget.style.background = "#0d140d";
+                  e.currentTarget.style.transform = "translateY(0)";
+                }}>
+                <div className="text-4xl mb-3">{game.icon}</div>
+                <h3 className="font-bold text-white text-sm">{game.name}</h3>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* ══════════════════════════════════
+          EXPLORE OUR GAMES SECTION
+      ══════════════════════════════════ */}
+      <div style={{ background: "#060a06", padding: "100px 24px" }}>
+        <div className="max-w-6xl mx-auto">
+          <div className="mb-16">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-8 h-px" style={{ background: "#facc15" }} />
+              <span className="text-xs font-bold tracking-[0.3em] uppercase" style={{ color: "#facc15" }}>Available Sports</span>
+            </div>
+            <h2 className="font-black uppercase" style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)", color: "white" }}>
+              EXPLORE OUR <span style={{ color: "#facc15" }}>GAMES</span>
+            </h2>
+            <p className="text-white/40 mt-3 max-w-2xl">
+              From football to tennis, we offer premium facilities for all your favorite sports. Each turf is equipped with world-class amenities and professional maintenance.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {games.map((game) => (
+              <div key={game.id}
+                onClick={() => navigate("/turfs")}
+                className="group cursor-pointer transition-all duration-300"
+                style={{
+                  background: "#0d140d",
+                  border: "1px solid #1a2e1a",
+                  borderRadius: "12px",
+                  overflow: "hidden",
+                }}
+                onMouseEnter={e => {
+                  e.currentTarget.style.borderColor = game.color;
+                  e.currentTarget.style.boxShadow = `0 0 20px ${game.color}40`;
+                }}
+                onMouseLeave={e => {
+                  e.currentTarget.style.borderColor = "#1a2e1a";
+                  e.currentTarget.style.boxShadow = "none";
+                }}>
+                
+                <div className="h-40 flex items-center justify-center text-6xl"
+                  style={{ background: `linear-gradient(135deg, ${game.color}30, ${game.color}10)` }}>
+                  {game.icon}
+                </div>
+                
+                <div style={{ padding: "24px" }}>
+                  <h3 className="font-bold text-white text-lg mb-2">{game.name}</h3>
+                  <p className="text-xs leading-relaxed mb-4" style={{ color: "rgba(255,255,255,0.4)" }}>
+                    Book premium {game.name.toLowerCase()} courts with instant confirmation and flexible timings.
+                  </p>
+                  <button onClick={() => navigate("/turfs")}
+                    className="font-semibold text-sm transition-colors duration-200"
+                    style={{ color: game.color, background: "none", border: "none", cursor: "pointer" }}
+                    onMouseEnter={e => e.currentTarget.style.color = "#facc15"}
+                    onMouseLeave={e => e.currentTarget.style.color = game.color}>
+                    Book Now →
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* ══════════════════════════════════
+          GALLERY SECTION
+      ══════════════════════════════════ */}
+      <div style={{ background: "#0a0f0a", padding: "100px 24px" }}>
+        <div className="max-w-6xl mx-auto">
+          <div className="mb-16">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-8 h-px" style={{ background: "#facc15" }} />
+              <span className="text-xs font-bold tracking-[0.3em] uppercase" style={{ color: "#facc15" }}>Visual Tour</span>
+            </div>
+            <h2 className="font-black uppercase" style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)", color: "white" }}>
+              OUR <span style={{ color: "#facc15" }}>GALLERY</span>
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {gallery.map((item, i) => (
+              <div key={item.id}
+                className="group relative overflow-hidden transition-all duration-300"
+                style={{
+                  borderRadius: "12px",
+                  aspectRatio: "1/0.75",
+                }}
+                onMouseEnter={e => e.currentTarget.querySelector("img").style.transform = "scale(1.1)"}
+                onMouseLeave={e => e.currentTarget.querySelector("img").style.transform = "scale(1)"}>
+                <img src={item.image} alt={item.title}
+                  className="w-full h-full object-cover transition-transform duration-500"
+                  style={{ borderRadius: "12px" }} />
+                
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-300 flex items-end justify-start"
+                  style={{ borderRadius: "12px", padding: "24px" }}>
+                  <h3 className="font-bold text-white text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    {item.title}
+                  </h3>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* ══════════════════════════════════
+          CONTACT INFORMATION SECTION
+      ══════════════════════════════════ */}
+      <div style={{ background: "#060a06", padding: "100px 24px" }}>
+        <div className="max-w-6xl mx-auto">
+          <div className="mb-16 text-center">
+            <div className="flex items-center justify-center gap-3 mb-4">
+              <div className="w-8 h-px" style={{ background: "#facc15" }} />
+              <span className="text-xs font-bold tracking-[0.3em] uppercase" style={{ color: "#facc15" }}>Get In Touch</span>
+              <div className="w-8 h-px" style={{ background: "#facc15" }} />
+            </div>
+            <h2 className="font-black uppercase" style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)", color: "white" }}>
+              CONTACT <span style={{ color: "#facc15" }}>INFORMATION</span>
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {[
+              {
+                icon: "📍",
+                title: "Address",
+                details: ["Kolkata, West Bengal", "India"],
+                link: "",
+              },
+              {
+                icon: "📞",
+                title: "Phone",
+                details: ["+91 98765 43210", "Call us anytime"],
+                link: "tel:+919876543210",
+              },
+              {
+                icon: "✉️",
+                title: "Email",
+                details: ["info@turfarena.com", "support@turfarena.com"],
+                link: "mailto:info@turfarena.com",
+              },
+            ].map((contact, i) => (
+              <a key={i} href={contact.link} className="group text-decoration-none"
+                style={{
+                  background: "#0d140d",
+                  border: "1px solid #1a2e1a",
+                  padding: "36px 28px",
+                  borderRadius: "12px",
+                  textDecoration: "none",
+                  display: "block",
+                  transition: "all 0.3s ease",
+                }}
+                onMouseEnter={e => {
+                  e.currentTarget.style.borderColor = "#facc15";
+                  e.currentTarget.style.boxShadow = "0 0 20px #facc1540";
+                  e.currentTarget.style.transform = "translateY(-4px)";
+                }}
+                onMouseLeave={e => {
+                  e.currentTarget.style.borderColor = "#1a2e1a";
+                  e.currentTarget.style.boxShadow = "none";
+                  e.currentTarget.style.transform = "translateY(0)";
+                }}>
+                <div className="text-3xl mb-4">{contact.icon}</div>
+                <h3 className="font-bold text-white text-lg mb-3">{contact.title}</h3>
+                <div className="space-y-1">
+                  {contact.details.map((detail, j) => (
+                    <p key={j} className="text-sm" style={{ color: "rgba(255,255,255,0.4)" }}>
+                      {detail}
+                    </p>
+                  ))}
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* ══════════════════════════════════
           CTA SECTION
       ══════════════════════════════════ */}
       <div className="relative overflow-hidden" style={{ background: "#0f1f0f", padding: "120px 24px" }}>
@@ -399,12 +637,12 @@ function Home() {
       ══════════════════════════════════ */}
       <div style={{ background: "#030703", padding: "48px 24px 32px" }}>
         <div className="max-w-6xl mx-auto">
-          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8 pb-8"
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 pb-8"
             style={{ borderBottom: "1px solid #1a2e1a" }}>
 
             {/* Brand */}
             <div>
-              <div className="flex items-center gap-2 mb-2">
+              <div className="flex items-center gap-2 mb-3">
                 <div className="w-7 h-7 flex items-center justify-center font-black text-sm"
                   style={{ background: "#facc15", color: "#000" }}>T</div>
                 <span className="font-black text-white text-xl">TurfArena</span>
@@ -412,30 +650,88 @@ function Home() {
               <p className="text-xs tracking-widest uppercase" style={{ color: "rgba(255,255,255,0.2)" }}>
                 Train · Play · Repeat
               </p>
+              <p className="text-xs mt-3" style={{ color: "rgba(255,255,255,0.3)" }}>
+                Kolkata's premier turf booking platform for all sports lovers.
+              </p>
             </div>
 
-            {/* Links */}
-            <div className="flex flex-wrap gap-6">
-              {[
-                { label: "Home", path: "/" },
-                { label: "Turfs", path: "/turfs" },
-                { label: "Register", path: "/register" },
-                { label: "Login", path: "/login" },
-              ].map((l) => (
-                <button key={l.path} onClick={() => navigate(l.path)}
-                  className="text-sm font-medium transition-colors duration-200"
-                  style={{ color: "rgba(255,255,255,0.3)", background: "none", border: "none", cursor: "pointer" }}
-                  onMouseEnter={e => e.currentTarget.style.color = "#facc15"}
-                  onMouseLeave={e => e.currentTarget.style.color = "rgba(255,255,255,0.3)"}>
-                  {l.label}
-                </button>
-              ))}
+            {/* Quick Links */}
+            <div>
+              <h4 className="font-bold text-white mb-4 text-sm">Quick Links</h4>
+              <div className="space-y-2">
+                {[
+                  { label: "Home", path: "/" },
+                  { label: "Turfs", path: "/turfs" },
+                  { label: "Book Your Games", path: "/turfs" },
+                  { label: "Register", path: "/register" },
+                ].map((l) => (
+                  <button key={l.path} onClick={() => navigate(l.path)}
+                    className="text-xs transition-colors duration-200 block"
+                    style={{ color: "rgba(255,255,255,0.3)", background: "none", border: "none", cursor: "pointer", textAlign: "left" }}
+                    onMouseEnter={e => e.currentTarget.style.color = "#facc15"}
+                    onMouseLeave={e => e.currentTarget.style.color = "rgba(255,255,255,0.3)"}>
+                    {l.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Support */}
+            <div>
+              <h4 className="font-bold text-white mb-4 text-sm">Support</h4>
+              <div className="space-y-2">
+                {[
+                  { label: "Contact Us", path: "#" },
+                  { label: "FAQ", path: "#" },
+                  { label: "Support", path: "#" },
+                  { label: "Feedback", path: "#" },
+                ].map((l) => (
+                  <button key={l.label} onClick={() => navigate(l.path)}
+                    className="text-xs transition-colors duration-200 block"
+                    style={{ color: "rgba(255,255,255,0.3)", background: "none", border: "none", cursor: "pointer", textAlign: "left" }}
+                    onMouseEnter={e => e.currentTarget.style.color = "#facc15"}
+                    onMouseLeave={e => e.currentTarget.style.color = "rgba(255,255,255,0.3)"}>
+                    {l.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Legal */}
+            <div>
+              <h4 className="font-bold text-white mb-4 text-sm">Legal</h4>
+              <div className="space-y-2">
+                {[
+                  { label: "Privacy Policy", path: "#" },
+                  { label: "Terms of Service", path: "#" },
+                  { label: "Cookie Policy", path: "#" },
+                  { label: "Cancellation Policy", path: "#" },
+                ].map((l) => (
+                  <button key={l.label} onClick={() => navigate(l.path)}
+                    className="text-xs transition-colors duration-200 block"
+                    style={{ color: "rgba(255,255,255,0.3)", background: "none", border: "none", cursor: "pointer", textAlign: "left" }}
+                    onMouseEnter={e => e.currentTarget.style.color = "#facc15"}
+                    onMouseLeave={e => e.currentTarget.style.color = "rgba(255,255,255,0.3)"}>
+                    {l.label}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
 
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-6">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6">
             <p className="text-xs" style={{ color: "rgba(255,255,255,0.2)" }}>© 2025 TurfArena. All rights reserved.</p>
-            <p className="text-xs" style={{ color: "rgba(255,255,255,0.15)" }}>Kolkata, West Bengal, India</p>
+            <div className="flex gap-4">
+              {["Facebook", "Instagram", "Twitter"].map((social) => (
+                <button key={social}
+                  className="text-xs font-semibold transition-colors duration-200"
+                  style={{ color: "rgba(255,255,255,0.2)", background: "none", border: "none", cursor: "pointer" }}
+                  onMouseEnter={e => e.currentTarget.style.color = "#facc15"}
+                  onMouseLeave={e => e.currentTarget.style.color = "rgba(255,255,255,0.2)"}>
+                  {social}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
       </div>
