@@ -5,6 +5,7 @@ function Turfs() {
   const [turfs, setTurfs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [expandedMap, setExpandedMap] = useState(null); // ✅ Konsa map open hai
 
   const navigate = useNavigate();
 
@@ -24,6 +25,14 @@ function Turfs() {
     fetchTurfs();
   }, []);
 
+  // ✅ Google Maps embed URL — address se generate
+  const getMapUrl = (turf) => {
+    const query = encodeURIComponent(
+      `${turf.name} ${turf.location?.address || ""} ${turf.location?.city || "Kolkata"}`
+    );
+    return `https://maps.google.com/maps?q=${query}&output=embed&z=15`;
+  };
+
   if (loading)
     return (
       <div className="min-h-screen flex flex-col items-center justify-center gap-4" style={{ backgroundColor: "#0a0a0a" }}>
@@ -38,7 +47,8 @@ function Turfs() {
         <div className="text-center">
           <p className="text-6xl mb-4">⚠️</p>
           <p className="text-white font-bold text-xl mb-6">{error}</p>
-          <button onClick={() => window.location.reload()} className="bg-yellow-400 text-black px-8 py-3 font-black uppercase tracking-wider hover:bg-yellow-300 transition">
+          <button onClick={() => window.location.reload()}
+            className="bg-yellow-400 text-black px-8 py-3 font-black uppercase tracking-wider hover:bg-yellow-300 transition">
             Retry
           </button>
         </div>
@@ -74,18 +84,16 @@ function Turfs() {
 
         <div className="flex flex-col gap-1">
           {turfs.map((turf, index) => (
-            <div
-              key={turf._id}
-              className="group relative overflow-hidden"
-              style={{ borderBottom: "1px solid #1a1a1a" }}
-            >
+            <div key={turf._id} className="group relative overflow-hidden"
+              style={{ borderBottom: "1px solid #1a1a1a" }}>
+
               {/* MAIN CARD */}
               <div className="flex flex-col md:flex-row gap-0 hover:bg-white/3 transition-all duration-500">
 
                 {/* LEFT — IMAGE */}
                 <div className="relative md:w-96 h-64 md:h-72 overflow-hidden flex-shrink-0">
                   <img
-                    src={turf.image || "https://images.unsplash.com/photo-1551958219-acbc608c6377?w=800&q=80"}
+                    src={turf.images?.[0] || "https://images.unsplash.com/photo-1551958219-acbc608c6377?w=800&q=80"}
                     alt={turf.name}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                   />
@@ -97,11 +105,9 @@ function Turfs() {
                   </div>
 
                   {/* PRICE */}
-                  {turf.price && (
-                    <div className="absolute bottom-4 left-4 bg-yellow-400 text-black font-black px-4 py-1 text-sm uppercase tracking-wider">
-                      ₹{turf.price}/slot
-                    </div>
-                  )}
+                  <div className="absolute bottom-4 left-4 bg-yellow-400 text-black font-black px-4 py-1 text-sm uppercase tracking-wider">
+                    ₹{turf.pricePerHour}/hr
+                  </div>
                 </div>
 
                 {/* RIGHT — DETAILS */}
@@ -112,7 +118,6 @@ function Turfs() {
                       {turf.name}
                     </h2>
 
-                    {/* DIVIDER */}
                     <div className="w-12 h-0.5 bg-yellow-400 mb-6" />
 
                     {/* INFO */}
@@ -127,7 +132,7 @@ function Turfs() {
                       <div className="flex items-center gap-3">
                         <span className="w-8 h-8 bg-yellow-400/10 rounded flex items-center justify-center text-sm">🕐</span>
                         <span className="text-gray-400 text-sm">
-                          {turf.openTime || "12:00 AM"} — {turf.closeTime || "11:59 PM"}
+                          {turf.openTime || "06:00"} — {turf.closeTime || "03:00"}
                         </span>
                       </div>
                       <div className="flex items-center gap-3">
@@ -137,32 +142,80 @@ function Turfs() {
                     </div>
 
                     {/* TAGS */}
-                    <div className="flex flex-wrap gap-2 mb-8">
+                    <div className="flex flex-wrap gap-2 mb-6">
                       {["⚽ Football", "💡 Floodlit", "🅿️ Parking", "🚿 Changing Room"].map((tag) => (
-                        <span
-                          key={tag}
-                          className="text-xs text-gray-500 border border-gray-800 px-3 py-1 uppercase tracking-wider"
-                        >
+                        <span key={tag} className="text-xs text-gray-500 border border-gray-800 px-3 py-1 uppercase tracking-wider">
                           {tag}
                         </span>
                       ))}
                     </div>
                   </div>
 
-                  {/* BOOK BUTTON */}
-                  <div className="flex items-center gap-6">
+                  {/* BUTTONS */}
+                  <div className="flex items-center gap-4 flex-wrap">
                     <button
                       onClick={() => navigate(`/slots/${turf._id}`)}
-                      className="bg-yellow-400 text-black font-black px-10 py-4 uppercase tracking-widest text-sm hover:bg-yellow-300 transition-all duration-200 hover:scale-105"
-                    >
+                      className="bg-yellow-400 text-black font-black px-10 py-4 uppercase tracking-widest text-sm hover:bg-yellow-300 transition-all duration-200 hover:scale-105">
                       Book Now →
                     </button>
+
+                    {/* ✅ View Map button */}
+                    <button
+                      onClick={() => setExpandedMap(expandedMap === turf._id ? null : turf._id)}
+                      className="flex items-center gap-2 text-sm font-bold uppercase tracking-wider px-5 py-4 border transition-all duration-200"
+                      style={{
+                        borderColor: expandedMap === turf._id ? "#facc15" : "#2a2a2a",
+                        color: expandedMap === turf._id ? "#facc15" : "#666",
+                      }}>
+                      🗺️ {expandedMap === turf._id ? "Hide Map" : "View Map"}
+                    </button>
+
                     <span className="text-gray-700 text-xs uppercase tracking-widest">
                       Instant Confirmation
                     </span>
                   </div>
                 </div>
               </div>
+
+              {/* ✅ GOOGLE MAP EMBED — toggle hota hai */}
+              {expandedMap === turf._id && (
+                <div className="w-full overflow-hidden transition-all duration-500"
+                  style={{ borderTop: "1px solid #1a1a1a" }}>
+
+                  {/* Map header */}
+                  <div className="flex items-center justify-between px-8 py-3"
+                    style={{ backgroundColor: "#111" }}>
+                    <div className="flex items-center gap-2">
+                      <span className="text-yellow-400 text-sm">📍</span>
+                      <span className="text-gray-400 text-sm">
+                        {turf.name} — {turf.location?.address}, {turf.location?.city}
+                      </span>
+                    </div>
+                    <a
+                      href={`https://www.google.com/maps/search/${encodeURIComponent(`${turf.name} ${turf.location?.address} ${turf.location?.city}`)}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-xs text-yellow-400 hover:text-yellow-300 font-bold uppercase tracking-wider transition">
+                      Open in Google Maps ↗
+                    </a>
+                  </div>
+
+                  {/* Embedded Map */}
+                  <div className="w-full h-72 md:h-96">
+                    <iframe
+                      title={`Map - ${turf.name}`}
+                      src={getMapUrl(turf)}
+                      width="100%"
+                      height="100%"
+                      style={{ border: 0, filter: "invert(90%) hue-rotate(180deg)" }} // ✅ Dark mode map
+                      allowFullScreen=""
+                      loading="lazy"
+                      referrerPolicy="no-referrer-when-downgrade"
+                    />
+                  </div>
+                </div>
+              )}
+
             </div>
           ))}
         </div>
