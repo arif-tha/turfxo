@@ -26,7 +26,7 @@ function MyBookings() {
   useEffect(() => { fetchBookings(); }, []);
 
   const handleCancel = async (id) => {
-    if (!window.confirm("Cancel this booking?")) return;
+    if (!window.confirm("Cancel this booking? Full refund will be initiated automatically (5-7 business days).")) return;
     setCancellingId(id);
     try {
       const res = await fetch(`https://turfxo-backend-2.onrender.com/api/bookings/cancel/${id}`, {
@@ -34,13 +34,35 @@ function MyBookings() {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
-      if (data.success) fetchBookings();
-      else alert(data.message);
+      if (data.success) {
+        fetchBookings();
+        alert("✅ Booking cancelled! Refund will be credited in 5-7 business days.");
+      } else {
+        alert(data.message);
+      }
     } catch {
       alert("Error cancelling booking");
     } finally {
       setCancellingId(null);
     }
+  };
+
+  const calcDuration = (startTime, endTime) => {
+    if (!startTime || !endTime) return 0;
+    const [sh, sm] = startTime.split(":").map(Number);
+    let [eh, em] = endTime.split(":").map(Number);
+    let start = sh * 60 + sm, end = eh * 60 + em;
+    if (end <= start) end += 24 * 60;
+    return (end - start) / 60;
+  };
+
+  const formatDate = (dateStr) => {
+    if (!dateStr) return "—";
+    try {
+      return new Date(dateStr).toLocaleDateString("en-IN", {
+        day: "numeric", month: "short", year: "numeric"
+      });
+    } catch { return dateStr; }
   };
 
   const filtered = bookings.filter((b) => {
@@ -51,7 +73,7 @@ function MyBookings() {
   const bookedCount = bookings.filter(b => b.status === "booked").length;
   const cancelledCount = bookings.filter(b => b.status === "cancelled").length;
   const totalSpent = bookings
-    .filter(b => b.paymentStatus === "paid")
+    .filter(b => b.paymentStatus === "paid" || b.paymentStatus === "refunded")
     .reduce((sum, b) => sum + (b.totalPrice || 0), 0);
 
   return (
@@ -141,28 +163,50 @@ function MyBookings() {
                   borderColor: b.status === "booked" ? "#1a2a1a" : "#2a1a1a",
                 }}>
 
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
 
                   {/* LEFT */}
-                  <div className="flex items-start gap-4">
-                    {/* Status dot */}
+                  <div className="flex items-start gap-4 flex-1">
                     <div className="w-3 h-3 rounded-full mt-1.5 flex-shrink-0"
                       style={{ backgroundColor: b.status === "booked" ? "#22c55e" : "#ef4444" }} />
 
-                    <div>
+                    <div className="flex-1">
                       <h3 className="text-white font-bold text-base">⚽ {b.turf?.name || "Turf"}</h3>
+
                       <div className="flex flex-wrap gap-x-4 gap-y-1 mt-1.5">
-                        <span className="text-gray-500 text-xs">📅 {b.date || "—"}</span>
-                        <span className="text-gray-500 text-xs">🕐 {b.startTime} — {b.endTime}</span>
-                        <span className="text-gray-500 text-xs">⏱ {(() => {
-                          const [sh, sm] = (b.startTime || "0:0").split(":").map(Number);
-                          let [eh, em] = (b.endTime || "0:0").split(":").map(Number);
-                          let start = sh * 60 + sm, end = eh * 60 + em;
-                          if (end <= start) end += 24 * 60;
-                          return (end - start) / 60;
-                        })()} hr</span>
-                        {b.players && <span className="text-gray-500 text-xs">👥 {b.players} player{b.players > 1 ? "s" : ""}</span>}
+                        {/* Slot date */}
+                        <span className="text-gray-400 text-xs">📅 {b.date || "—"}</span>
+                        {/* Slot time */}
+                        <span className="text-gray-400 text-xs">🕐 {b.startTime} — {b.endTime}</span>
+                        {/* Duration */}
+                        <span className="text-gray-400 text-xs">⏱ {calcDuration(b.startTime, b.endTime)} hr</span>
+                        {/* Players */}
+                        {b.players > 0 && (
+                          <span className="text-gray-400 text-xs">👥 {b.players} player{b.players > 1 ? "s" : ""}</span>
+                        )}
+                        {/* ✅ Booked on */}
+                        <span className="text-gray-600 text-xs">🗓 Booked on: {formatDate(b.createdAt)}</span>
                       </div>
+
+                      {/* ✅ Refund status */}
+                      {b.status === "cancelled" && b.refundStatus === "initiated" && (
+                        <div className="mt-2.5 inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold"
+                          style={{ backgroundColor: "#14532d", color: "#4ade80" }}>
+                          💸 Refund Initiated — 5-7 business days
+                        </div>
+                      )}
+                      {b.status === "cancelled" && b.refundStatus === "failed" && (
+                        <div className="mt-2.5 inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold"
+                          style={{ backgroundColor: "#2a1a1a", color: "#f87171" }}>
+                          ⚠️ Refund Failed — Contact support
+                        </div>
+                      )}
+                      {b.status === "cancelled" && b.refundStatus === "not_applicable" && (
+                        <div className="mt-2.5 inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold"
+                          style={{ backgroundColor: "#1a1a1a", color: "#666" }}>
+                          No refund applicable
+                        </div>
+                      )}
                     </div>
                   </div>
 
@@ -174,8 +218,12 @@ function MyBookings() {
                     {/* Payment badge */}
                     <span className="text-xs font-black px-2.5 py-1 rounded-full uppercase"
                       style={{
-                        backgroundColor: b.paymentStatus === "paid" ? "#14532d" : "#2a1a1a",
-                        color: b.paymentStatus === "paid" ? "#4ade80" : "#facc15",
+                        backgroundColor:
+                          b.paymentStatus === "paid" ? "#14532d" :
+                          b.paymentStatus === "refunded" ? "#1a2a3a" : "#2a1a1a",
+                        color:
+                          b.paymentStatus === "paid" ? "#4ade80" :
+                          b.paymentStatus === "refunded" ? "#60a5fa" : "#facc15",
                       }}>
                       {b.paymentStatus || "pending"}
                     </span>
@@ -189,7 +237,7 @@ function MyBookings() {
                       {b.status === "booked" ? "Active" : b.status}
                     </span>
 
-                    {/* Cancel */}
+                    {/* Cancel button */}
                     {b.status === "booked" && (
                       <button onClick={() => handleCancel(b._id)} disabled={cancellingId === b._id}
                         className="text-xs font-bold uppercase px-4 py-1.5 rounded-full border transition-all hover:bg-red-500 hover:text-white hover:border-red-500 disabled:opacity-50"
@@ -212,7 +260,6 @@ function MyBookings() {
           </div>
         )}
 
-        {/* Back to profile */}
         <button onClick={() => navigate("/profile")}
           className="mt-8 text-gray-600 text-sm hover:text-gray-400 transition">
           ← Back to Profile
