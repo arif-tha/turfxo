@@ -14,6 +14,7 @@ import Turfs from "./pages/Turfs";
 import Slots from "./pages/Slots";
 import Home from "./pages/Home";
 import Profile from "./pages/Profile";
+import MyBookings from "./pages/MyBookings";
 
 // Admin Pages
 import AdminDashboard from "./components/admin/AdminDashboard";
@@ -46,6 +47,16 @@ function Layout() {
           {/* 🔐 Sirf profile private hai */}
           <Route
             path="/profile"
+            element={
+              <PrivateRoute>
+                <Profile />
+              </PrivateRoute>
+            }
+          />
+
+          {/* ✅ Yeh naya add karo */}
+          <Route
+            path="/my-bookings"
             element={
               <PrivateRoute>
                 <Profile />
