@@ -119,9 +119,9 @@ function Home() {
 
           {/* Tag */}
           <div className="flex items-center gap-3 mb-6">
-            <div className="w-8 h-px" style={{ background: "#0066cc" }} />
+            <div className="w-8 h-px" style={{ background: "#10b981" }} />
             <span className="text-xs font-semibold tracking-[0.2em] uppercase"
-              style={{ color: "#0066cc" }}>
+              style={{ color: "#10b981" }}>
               {slides[currentSlide].tag}
             </span>
           </div>
@@ -132,7 +132,7 @@ function Home() {
             {slides[currentSlide].title}
           </h1>
           <h1 className="font-bold uppercase leading-none mb-8"
-            style={{ fontSize: "clamp(2.5rem, 8vw, 5.5rem)", color: "#0066cc", letterSpacing: "-0.01em" }}>
+            style={{ fontSize: "clamp(2.5rem, 8vw, 5.5rem)", color: "#10b981", letterSpacing: "-0.01em" }}>
             {slides[currentSlide].highlight}
           </h1>
 
@@ -145,9 +145,9 @@ function Home() {
           <div className="flex flex-wrap gap-4">
             <button onClick={() => navigate("/turfs")}
               className="group flex items-center gap-3 font-semibold uppercase tracking-wide transition-all duration-300"
-              style={{ background: "#0066cc", color: "#fff", padding: "14px 32px", fontSize: "14px", borderRadius: "6px" }}
-              onMouseEnter={e => e.currentTarget.style.background = "#0052a3"}
-              onMouseLeave={e => e.currentTarget.style.background = "#0066cc"}>
+              style={{ background: "#10b981", color: "#fff", padding: "14px 32px", fontSize: "14px", borderRadius: "6px" }}
+              onMouseEnter={e => e.currentTarget.style.background = "#059669"}
+              onMouseLeave={e => e.currentTarget.style.background = "#10b981"}>
               Book Your Game
               <span className="transition-transform duration-200 group-hover:translate-x-1">→</span>
             </button>
@@ -168,7 +168,7 @@ function Home() {
               style={{
                 width: i === currentSlide ? "3px" : "2px",
                 height: i === currentSlide ? "32px" : "16px",
-                background: i === currentSlide ? "#0066cc" : "rgba(255,255,255,0.4)",
+                background: i === currentSlide ? "#10b981" : "rgba(255,255,255,0.4)",
                 border: "none", cursor: "pointer",
                 transition: "all 0.3s ease"
               }} />
@@ -182,7 +182,7 @@ function Home() {
               style={{
                 width: i === currentSlide ? "24px" : "8px",
                 height: "3px",
-                background: i === currentSlide ? "#0066cc" : "rgba(255,255,255,0.4)",
+                background: i === currentSlide ? "#10b981" : "rgba(255,255,255,0.4)",
                 border: "none", cursor: "pointer",
                 transition: "all 0.3s ease", borderRadius: "2px"
               }} />
@@ -193,14 +193,14 @@ function Home() {
         <button onClick={() => setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length)}
           className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center transition-all duration-200"
           style={{ background: "rgba(255,255,255,0.15)", border: "1px solid rgba(255,255,255,0.3)", color: "white", fontSize: "20px", borderRadius: "6px" }}
-          onMouseEnter={e => e.currentTarget.style.background = "rgba(0,102,204,0.25)"}
+          onMouseEnter={e => e.currentTarget.style.background = "rgba(16,185,129,0.25)"}
           onMouseLeave={e => e.currentTarget.style.background = "rgba(255,255,255,0.15)"}>
           ‹
         </button>
         <button onClick={() => setCurrentSlide((prev) => (prev + 1) % slides.length)}
           className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center transition-all duration-200"
           style={{ background: "rgba(255,255,255,0.15)", border: "1px solid rgba(255,255,255,0.3)", color: "white", fontSize: "20px", borderRadius: "6px" }}
-          onMouseEnter={e => e.currentTarget.style.background = "rgba(0,102,204,0.25)"}
+          onMouseEnter={e => e.currentTarget.style.background = "rgba(16,185,129,0.25)"}
           onMouseLeave={e => e.currentTarget.style.background = "rgba(255,255,255,0.15)"}>
           ›
         </button>
@@ -233,12 +233,12 @@ function Home() {
           {/* Section header */}
           <div className="mb-16">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-8 h-px" style={{ background: "#0066cc" }} />
-              <span className="text-xs font-semibold tracking-[0.2em] uppercase" style={{ color: "#0066cc" }}>Simple Process</span>
+              <div className="w-8 h-px" style={{ background: "#10b981" }} />
+              <span className="text-xs font-semibold tracking-[0.2em] uppercase" style={{ color: "#10b981" }}>Simple Process</span>
             </div>
             <h2 className="font-bold uppercase leading-none" style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)", color: "#1e293b" }}>
               HOW IT <br />
-              <span style={{ color: "#0066cc" }}>WORKS</span>
+              <span style={{ color: "#10b981" }}>WORKS</span>
             </h2>
           </div>
 
@@ -247,12 +247,12 @@ function Home() {
               <div key={i}
                 className="group relative transition-all duration-300"
                 style={{
-                  background: s.featured ? "#0066cc" : "#f8fafc",
+                  background: s.featured ? "#10b981" : "#f8fafc",
                   border: s.featured ? "none" : "1px solid #e2e8f0",
                   padding: "36px 32px",
                   borderRadius: "8px"
                 }}
-                onMouseEnter={e => { if (!s.featured) e.currentTarget.style.borderColor = "#0066cc"; }}
+                onMouseEnter={e => { if (!s.featured) e.currentTarget.style.borderColor = "#10b981"; }}
                 onMouseLeave={e => { if (!s.featured) e.currentTarget.style.borderColor = "#e2e8f0"; }}>
 
                 {/* Step number */}
@@ -271,14 +271,14 @@ function Home() {
                   className="font-semibold uppercase tracking-wider text-sm transition-all duration-200"
                   style={{
                     background: s.featured ? "#fff" : "transparent",
-                    color: s.featured ? "#0066cc" : "#0066cc",
-                    border: s.featured ? "none" : "1px solid #0066cc",
+                    color: s.featured ? "#10b981" : "#10b981",
+                    border: s.featured ? "none" : "1px solid #10b981",
                     padding: "12px 24px",
                     width: "100%",
                     borderRadius: "6px"
                   }}
-                  onMouseEnter={e => { if (!s.featured) { e.currentTarget.style.background = "#0066cc"; e.currentTarget.style.color = "#fff"; }}}
-                  onMouseLeave={e => { if (!s.featured) { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "#0066cc"; }}}>
+                  onMouseEnter={e => { if (!s.featured) { e.currentTarget.style.background = "#10b981"; e.currentTarget.style.color = "#fff"; }}}
+                  onMouseLeave={e => { if (!s.featured) { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "#10b981"; }}}>
                   {s.btn} →
                 </button>
               </div>
@@ -295,11 +295,11 @@ function Home() {
 
           <div className="mb-16">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-8 h-px" style={{ background: "#0066cc" }} />
-              <span className="text-xs font-semibold tracking-[0.2em] uppercase" style={{ color: "#0066cc" }}>World Class</span>
+              <div className="w-8 h-px" style={{ background: "#10b981" }} />
+              <span className="text-xs font-semibold tracking-[0.2em] uppercase" style={{ color: "#10b981" }}>World Class</span>
             </div>
             <h2 className="font-bold uppercase" style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)", color: "#1e293b" }}>
-              OUR <span style={{ color: "#0066cc" }}>FACILITIES</span>
+              OUR <span style={{ color: "#10b981" }}>FACILITIES</span>
             </h2>
           </div>
 
@@ -308,7 +308,7 @@ function Home() {
               <div key={i}
                 className="flex items-start gap-4 group transition-all duration-300"
                 style={{ background: "#ffffff", border: "1px solid #e2e8f0", padding: "24px", borderRadius: "8px" }}
-                onMouseEnter={e => { e.currentTarget.style.borderColor = "#0066cc"; e.currentTarget.style.boxShadow = "0 4px 12px rgba(0,102,204,0.1)"; }}
+                onMouseEnter={e => { e.currentTarget.style.borderColor = "#10b981"; e.currentTarget.style.boxShadow = "0 4px 12px rgba(16,185,129,0.1)"; }}
                 onMouseLeave={e => { e.currentTarget.style.borderColor = "#e2e8f0"; e.currentTarget.style.boxShadow = "none"; }}>
                 <div className="w-12 h-12 flex items-center justify-center text-2xl flex-shrink-0"
                   style={{ background: "#f0f4f8", border: "1px solid #cbd5e1", borderRadius: "8px" }}>
@@ -332,11 +332,11 @@ function Home() {
 
           <div className="mb-16">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-8 h-px" style={{ background: "#0066cc" }} />
-              <span className="text-xs font-semibold tracking-[0.2em] uppercase" style={{ color: "#0066cc" }}>Player Stories</span>
+              <div className="w-8 h-px" style={{ background: "#10b981" }} />
+              <span className="text-xs font-semibold tracking-[0.2em] uppercase" style={{ color: "#10b981" }}>Player Stories</span>
             </div>
             <h2 className="font-bold uppercase" style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)", color: "#1e293b" }}>
-              WHAT PLAYERS <span style={{ color: "#0066cc" }}>SAY</span>
+              WHAT PLAYERS <span style={{ color: "#10b981" }}>SAY</span>
             </h2>
           </div>
 
@@ -347,7 +347,7 @@ function Home() {
                 {/* Stars */}
                 <div className="flex gap-1 mb-4">
                   {[...Array(5)].map((_, j) => (
-                    <span key={j} style={{ color: "#0066cc", fontSize: "14px" }}>★</span>
+                    <span key={j} style={{ color: "#10b981", fontSize: "14px" }}>★</span>
                   ))}
                 </div>
                 <p className="text-sm leading-relaxed mb-6" style={{ color: "#64748b" }}>
@@ -355,7 +355,7 @@ function Home() {
                 </p>
                 <div className="flex items-center gap-3">
                   <div className="w-9 h-9 flex items-center justify-center font-semibold text-sm flex-shrink-0"
-                    style={{ background: "#0066cc", color: "#fff", borderRadius: "50%" }}>
+                    style={{ background: "#10b981", color: "#fff", borderRadius: "50%" }}>
                     {t.avatar}
                   </div>
                   <div>
@@ -376,12 +376,12 @@ function Home() {
         <div className="max-w-6xl mx-auto">
           <div className="mb-16 text-center">
             <div className="flex items-center justify-center gap-3 mb-4">
-              <div className="w-8 h-px" style={{ background: "#0066cc" }} />
-              <span className="text-xs font-semibold tracking-[0.2em] uppercase" style={{ color: "#0066cc" }}>Choose Your Sport</span>
-              <div className="w-8 h-px" style={{ background: "#0066cc" }} />
+              <div className="w-8 h-px" style={{ background: "#10b981" }} />
+              <span className="text-xs font-semibold tracking-[0.2em] uppercase" style={{ color: "#10b981" }}>Choose Your Sport</span>
+              <div className="w-8 h-px" style={{ background: "#10b981" }} />
             </div>
             <h2 className="font-bold uppercase" style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)", color: "#1e293b" }}>
-              SELECT <span style={{ color: "#0066cc" }}>YOUR GAME</span>
+              SELECT <span style={{ color: "#10b981" }}>YOUR GAME</span>
             </h2>
           </div>
 
@@ -397,7 +397,7 @@ function Home() {
                   borderRadius: "8px",
                 }}
                 onMouseEnter={e => {
-                  e.currentTarget.style.borderColor = "#0066cc";
+                  e.currentTarget.style.borderColor = "#10b981";
                   e.currentTarget.style.background = "#f0f4f8";
                   e.currentTarget.style.transform = "translateY(-4px)";
                 }}
@@ -421,11 +421,11 @@ function Home() {
         <div className="max-w-6xl mx-auto">
           <div className="mb-16">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-8 h-px" style={{ background: "#0066cc" }} />
-              <span className="text-xs font-semibold tracking-[0.2em] uppercase" style={{ color: "#0066cc" }}>Available Sports</span>
+              <div className="w-8 h-px" style={{ background: "#10b981" }} />
+              <span className="text-xs font-semibold tracking-[0.2em] uppercase" style={{ color: "#10b981" }}>Available Sports</span>
             </div>
             <h2 className="font-bold uppercase" style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)", color: "#1e293b" }}>
-              EXPLORE OUR <span style={{ color: "#0066cc" }}>GAMES</span>
+              EXPLORE OUR <span style={{ color: "#10b981" }}>GAMES</span>
             </h2>
             <p className="text-slate-600 mt-3 max-w-2xl">
               From football to tennis, we offer premium facilities for all your favorite sports. Each turf is equipped with world-class amenities and professional maintenance.
@@ -444,8 +444,8 @@ function Home() {
                   overflow: "hidden",
                 }}
                 onMouseEnter={e => {
-                  e.currentTarget.style.borderColor = "#0066cc";
-                  e.currentTarget.style.boxShadow = `0 4px 12px rgba(0,102,204,0.15)`;
+                  e.currentTarget.style.borderColor = "#10b981";
+                  e.currentTarget.style.boxShadow = `0 4px 12px rgba(16,185,129,0.15)`;
                 }}
                 onMouseLeave={e => {
                   e.currentTarget.style.borderColor = "#e2e8f0";
@@ -453,7 +453,7 @@ function Home() {
                 }}>
                 
                 <div className="h-40 flex items-center justify-center text-6xl"
-                  style={{ background: `linear-gradient(135deg, rgba(0,102,204,0.08), rgba(0,102,204,0.02))` }}>
+                  style={{ background: `linear-gradient(135deg, rgba(16,185,129,0.08), rgba(16,185,129,0.02))` }}>
                   {game.icon}
                 </div>
                 
@@ -464,9 +464,9 @@ function Home() {
                   </p>
                   <button onClick={() => navigate("/turfs")}
                     className="font-semibold text-sm transition-colors duration-200"
-                    style={{ color: "#0066cc", background: "none", border: "none", cursor: "pointer" }}
-                    onMouseEnter={e => e.currentTarget.style.color = "#004a99"}
-                    onMouseLeave={e => e.currentTarget.style.color = "#0066cc"}>
+                    style={{ color: "#10b981", background: "none", border: "none", cursor: "pointer" }}
+                    onMouseEnter={e => e.currentTarget.style.color = "#059669"}
+                    onMouseLeave={e => e.currentTarget.style.color = "#10b981"}>
                     Book Now →
                   </button>
                 </div>
@@ -483,11 +483,11 @@ function Home() {
         <div className="max-w-6xl mx-auto">
           <div className="mb-16">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-8 h-px" style={{ background: "#0066cc" }} />
-              <span className="text-xs font-semibold tracking-[0.2em] uppercase" style={{ color: "#0066cc" }}>Visual Tour</span>
+              <div className="w-8 h-px" style={{ background: "#10b981" }} />
+              <span className="text-xs font-semibold tracking-[0.2em] uppercase" style={{ color: "#10b981" }}>Visual Tour</span>
             </div>
             <h2 className="font-bold uppercase" style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)", color: "#1e293b" }}>
-              OUR <span style={{ color: "#0066cc" }}>GALLERY</span>
+              OUR <span style={{ color: "#10b981" }}>GALLERY</span>
             </h2>
           </div>
 
@@ -524,12 +524,12 @@ function Home() {
         <div className="max-w-6xl mx-auto">
           <div className="mb-16 text-center">
             <div className="flex items-center justify-center gap-3 mb-4">
-              <div className="w-8 h-px" style={{ background: "#0066cc" }} />
-              <span className="text-xs font-semibold tracking-[0.2em] uppercase" style={{ color: "#0066cc" }}>Get In Touch</span>
-              <div className="w-8 h-px" style={{ background: "#0066cc" }} />
+              <div className="w-8 h-px" style={{ background: "#10b981" }} />
+              <span className="text-xs font-semibold tracking-[0.2em] uppercase" style={{ color: "#10b981" }}>Get In Touch</span>
+              <div className="w-8 h-px" style={{ background: "#10b981" }} />
             </div>
             <h2 className="font-bold uppercase" style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)", color: "#1e293b" }}>
-              CONTACT <span style={{ color: "#0066cc" }}>INFORMATION</span>
+              CONTACT <span style={{ color: "#10b981" }}>INFORMATION</span>
             </h2>
           </div>
 
@@ -565,8 +565,8 @@ function Home() {
                   transition: "all 0.3s ease",
                 }}
                 onMouseEnter={e => {
-                  e.currentTarget.style.borderColor = "#0066cc";
-                  e.currentTarget.style.boxShadow = "0 4px 12px rgba(0,102,204,0.1)";
+                  e.currentTarget.style.borderColor = "#10b981";
+                  e.currentTarget.style.boxShadow = "0 4px 12px rgba(16,185,129,0.1)";
                   e.currentTarget.style.transform = "translateY(-2px)";
                 }}
                 onMouseLeave={e => {
@@ -601,16 +601,16 @@ function Home() {
 
         {/* Subtle corner accent */}
         <div className="absolute top-0 right-0 w-64 h-64 opacity-3"
-          style={{ background: "#0066cc", clipPath: "polygon(100% 0, 0 0, 100% 100%)" }} />
+          style={{ background: "#10b981", clipPath: "polygon(100% 0, 0 0, 100% 100%)" }} />
 
         <div className="relative max-w-4xl mx-auto text-center">
           <div className="flex items-center justify-center gap-3 mb-6">
-            <div className="w-8 h-px" style={{ background: "#0066cc" }} />
-            <span className="text-xs font-semibold tracking-[0.2em] uppercase" style={{ color: "#0066cc" }}>Limited Slots Available</span>
-            <div className="w-8 h-px" style={{ background: "#0066cc" }} />
+            <div className="w-8 h-px" style={{ background: "#10b981" }} />
+            <span className="text-xs font-semibold tracking-[0.2em] uppercase" style={{ color: "#10b981" }}>Limited Slots Available</span>
+            <div className="w-8 h-px" style={{ background: "#10b981" }} />
           </div>
           <h2 className="font-bold uppercase mb-4" style={{ fontSize: "clamp(2.5rem, 8vw, 4.5rem)", color: "#1e293b", lineHeight: 1, letterSpacing: "-0.01em" }}>
-            READY TO<br /><span style={{ color: "#0066cc" }}>PLAY?</span>
+            READY TO<br /><span style={{ color: "#10b981" }}>PLAY?</span>
           </h2>
           <p className="mb-10 max-w-lg mx-auto" style={{ color: "#64748b", fontSize: "1rem", lineHeight: 1.7 }}>
             Join thousands of players booking their favourite turfs every day across Kolkata.
@@ -618,16 +618,16 @@ function Home() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button onClick={() => navigate("/turfs")}
               className="font-semibold uppercase tracking-wider transition-all duration-200"
-              style={{ background: "#0066cc", color: "#fff", padding: "18px 40px", fontSize: "15px", borderRadius: "6px" }}
-              onMouseEnter={e => e.currentTarget.style.background = "#0052a3"}
-              onMouseLeave={e => e.currentTarget.style.background = "#0066cc"}>
+              style={{ background: "#10b981", color: "#fff", padding: "18px 40px", fontSize: "15px", borderRadius: "6px" }}
+              onMouseEnter={e => e.currentTarget.style.background = "#059669"}
+              onMouseLeave={e => e.currentTarget.style.background = "#10b981"}>
               Book Now →
             </button>
             <button onClick={() => navigate("/register")}
               className="font-semibold uppercase tracking-wider transition-all duration-200"
-              style={{ border: "2px solid #0066cc", color: "#0066cc", padding: "18px 40px", fontSize: "15px", background: "transparent", borderRadius: "6px" }}
-              onMouseEnter={e => { e.currentTarget.style.borderColor = "#0066cc"; e.currentTarget.style.background = "#f0f4f8"; }}
-              onMouseLeave={e => { e.currentTarget.style.borderColor = "#0066cc"; e.currentTarget.style.background = "transparent"; }}>
+              style={{ border: "2px solid #10b981", color: "#10b981", padding: "18px 40px", fontSize: "15px", background: "transparent", borderRadius: "6px" }}
+              onMouseEnter={e => { e.currentTarget.style.borderColor = "#10b981"; e.currentTarget.style.background = "#f0f4f8"; }}
+              onMouseLeave={e => { e.currentTarget.style.borderColor = "#10b981"; e.currentTarget.style.background = "transparent"; }}>
               Create Account
             </button>
           </div>
@@ -646,7 +646,7 @@ function Home() {
             <div>
               <div className="flex items-center gap-2 mb-3">
                 <div className="w-7 h-7 flex items-center justify-center font-semibold text-sm"
-                  style={{ background: "#0066cc", color: "#fff", borderRadius: "6px" }}>T</div>
+                  style={{ background: "#10b981", color: "#fff", borderRadius: "6px" }}>T</div>
                 <span className="font-semibold text-white text-xl">TurfArena</span>
               </div>
               <p className="text-xs tracking-widest uppercase" style={{ color: "#94a3b8" }}>
@@ -670,7 +670,7 @@ function Home() {
                   <button key={l.path} onClick={() => navigate(l.path)}
                     className="text-xs transition-colors duration-200 block"
                     style={{ color: "#cbd5e1", background: "none", border: "none", cursor: "pointer", textAlign: "left" }}
-                    onMouseEnter={e => e.currentTarget.style.color = "#0066cc"}
+                    onMouseEnter={e => e.currentTarget.style.color = "#10b981"}
                     onMouseLeave={e => e.currentTarget.style.color = "#cbd5e1"}>
                     {l.label}
                   </button>
@@ -691,7 +691,7 @@ function Home() {
                   <button key={l.label} onClick={() => navigate(l.path)}
                     className="text-xs transition-colors duration-200 block"
                     style={{ color: "#cbd5e1", background: "none", border: "none", cursor: "pointer", textAlign: "left" }}
-                    onMouseEnter={e => e.currentTarget.style.color = "#0066cc"}
+                    onMouseEnter={e => e.currentTarget.style.color = "#10b981"}
                     onMouseLeave={e => e.currentTarget.style.color = "#cbd5e1"}>
                     {l.label}
                   </button>
@@ -712,7 +712,7 @@ function Home() {
                   <button key={l.label} onClick={() => navigate(l.path)}
                     className="text-xs transition-colors duration-200 block"
                     style={{ color: "#cbd5e1", background: "none", border: "none", cursor: "pointer", textAlign: "left" }}
-                    onMouseEnter={e => e.currentTarget.style.color = "#0066cc"}
+                    onMouseEnter={e => e.currentTarget.style.color = "#10b981"}
                     onMouseLeave={e => e.currentTarget.style.color = "#cbd5e1"}>
                     {l.label}
                   </button>
@@ -728,7 +728,7 @@ function Home() {
                 <button key={social}
                   className="text-xs font-semibold transition-colors duration-200"
                   style={{ color: "#64748b", background: "none", border: "none", cursor: "pointer" }}
-                  onMouseEnter={e => e.currentTarget.style.color = "#0066cc"}
+                  onMouseEnter={e => e.currentTarget.style.color = "#10b981"}
                   onMouseLeave={e => e.currentTarget.style.color = "#64748b"}>
                   {social}
                 </button>
