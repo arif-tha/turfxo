@@ -41,7 +41,7 @@ function Login() {
   };
 
   return (
-    <div className="min-h-screen flex bg-premium-bg">
+    <div className="min-h-screen flex" style={{ backgroundColor: "#0a0a0a" }}>
 
       {/* LEFT — IMAGE SIDE */}
       <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden">
@@ -50,13 +50,13 @@ function Login() {
           alt="turf"
           className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0" style={{ background: "linear-gradient(135deg, rgba(248,249,251,0.95) 0%, rgba(243,244,246,0.85) 40%)" }} />
+        <div className="absolute inset-0" style={{ background: "linear-gradient(to right, transparent, #0a0a0a)" }} />
         <div className="absolute inset-0 flex flex-col justify-end p-12">
-          <p className="text-premium-accent text-xs tracking-[0.4em] uppercase mb-3">Train • Play • Repeat</p>
-          <h2 className="text-5xl font-black text-premium-text uppercase leading-tight">
+          <p className="text-yellow-400 text-xs tracking-[0.4em] uppercase mb-3">Train • Play • Repeat</p>
+          <h2 className="text-5xl font-black text-white uppercase leading-tight">
             Welcome<br />Back
           </h2>
-          <p className="text-gray-600 mt-3 text-sm max-w-xs">
+          <p className="text-gray-400 mt-3 text-sm max-w-xs">
             Book your favourite turf and get back on the field where you belong.
           </p>
         </div>
@@ -68,16 +68,16 @@ function Login() {
 
           {/* LOGO */}
           <div className="mb-10">
-            <h1 className="text-3xl font-black text-premium-text uppercase tracking-wider">
-              Turf<span className="text-premium-accent">Arena</span>
+            <h1 className="text-3xl font-black text-white uppercase tracking-wider">
+              Turf<span className="text-yellow-400">Arena</span>
             </h1>
             <p className="text-gray-600 text-sm mt-1">Sign in to your account</p>
           </div>
 
           {/* ERROR MESSAGE */}
           {message && (
-            <div className="mb-6 px-4 py-3 rounded-lg bg-red-50 border border-red-200">
-              <p className="text-red-600 text-sm">{message}</p>
+            <div className="mb-6 px-4 py-3 rounded-lg bg-red-500/10 border border-red-500/20">
+              <p className="text-red-400 text-sm">{message}</p>
             </div>
           )}
 
@@ -86,7 +86,7 @@ function Login() {
 
             {/* EMAIL */}
             <div>
-              <label className="text-premium-text text-xs uppercase tracking-widest block mb-2 font-semibold">
+              <label className="text-gray-400 text-xs uppercase tracking-widest block mb-2">
                 Email Address
               </label>
               <input
@@ -95,18 +95,19 @@ function Login() {
                 value={form.email}
                 onChange={(e) => setForm({ ...form, email: e.target.value })}
                 onKeyDown={handleKeyPress}
-                className="w-full px-4 py-4 rounded-lg text-premium-text placeholder-gray-400 outline-none transition-all duration-200 border bg-white"
+                className="w-full px-4 py-4 rounded-lg text-white placeholder-gray-600 outline-none transition-all duration-200 border"
                 style={{
-                  borderColor: "#e5e7eb",
+                  backgroundColor: "#141414",
+                  borderColor: "#2a2a2a",
                 }}
-                onFocus={(e) => e.target.style.borderColor = "#22C55E"}
-                onBlur={(e) => e.target.style.borderColor = "#e5e7eb"}
+                onFocus={(e) => e.target.style.borderColor = "#facc15"}
+                onBlur={(e) => e.target.style.borderColor = "#2a2a2a"}
               />
             </div>
 
             {/* PASSWORD */}
             <div>
-              <label className="text-premium-text text-xs uppercase tracking-widest block mb-2 font-semibold">
+              <label className="text-gray-400 text-xs uppercase tracking-widest block mb-2">
                 Password
               </label>
               <div className="relative">
@@ -116,17 +117,18 @@ function Login() {
                   value={form.password}
                   onChange={(e) => setForm({ ...form, password: e.target.value })}
                   onKeyDown={handleKeyPress}
-                  className="w-full px-4 py-4 rounded-lg text-premium-text placeholder-gray-400 outline-none transition-all duration-200 border pr-12 bg-white"
+                  className="w-full px-4 py-4 rounded-lg text-white placeholder-gray-600 outline-none transition-all duration-200 border pr-12"
                   style={{
-                    borderColor: "#e5e7eb",
+                    backgroundColor: "#141414",
+                    borderColor: "#2a2a2a",
                   }}
-                  onFocus={(e) => e.target.style.borderColor = "#22C55E"}
-                  onBlur={(e) => e.target.style.borderColor = "#e5e7eb"}
+                  onFocus={(e) => e.target.style.borderColor = "#facc15"}
+                  onBlur={(e) => e.target.style.borderColor = "#2a2a2a"}
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-600 hover:text-premium-text transition text-sm"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-300 transition text-sm"
                 >
                   {showPassword ? "Hide" : "Show"}
                 </button>
@@ -137,11 +139,12 @@ function Login() {
             <button
               onClick={handleSubmit}
               disabled={loading}
-              className="w-full premium-btn-primary mt-2"
+              className="w-full py-4 font-black text-black uppercase tracking-widest transition-all duration-200 rounded-lg mt-2 disabled:opacity-50 hover:opacity-90"
+              style={{ backgroundColor: "#facc15" }}
             >
               {loading ? (
                 <span className="flex items-center justify-center gap-2">
-                  <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  <span className="w-4 h-4 border-2 border-black border-t-transparent rounded-full animate-spin" />
                   Signing In...
                 </span>
               ) : (
@@ -153,17 +156,17 @@ function Login() {
 
           {/* DIVIDER */}
           <div className="flex items-center gap-4 my-8">
-            <div className="flex-1 h-px bg-premium-border" />
-            <span className="text-gray-500 text-xs uppercase tracking-widest">or</span>
-            <div className="flex-1 h-px bg-premium-border" />
+            <div className="flex-1 h-px" style={{ backgroundColor: "#1a1a1a" }} />
+            <span className="text-gray-600 text-xs uppercase tracking-widest">or</span>
+            <div className="flex-1 h-px" style={{ backgroundColor: "#1a1a1a" }} />
           </div>
 
           {/* REGISTER LINK */}
-          <p className="text-center text-gray-700 text-sm">
+          <p className="text-center text-gray-600 text-sm">
             Don't have an account?{" "}
             <Link
               to="/register"
-              className="text-premium-accent font-bold hover:text-accent-hover transition"
+              className="text-yellow-400 font-bold hover:text-yellow-300 transition"
             >
               Create Account →
             </Link>
@@ -173,7 +176,7 @@ function Login() {
           <p className="text-center mt-4">
             <Link
               to="/"
-              className="text-gray-600 text-xs hover:text-gray-700 transition uppercase tracking-widest"
+              className="text-gray-700 text-xs hover:text-gray-500 transition uppercase tracking-widest"
             >
               ← Back to Home
             </Link>
