@@ -227,12 +227,12 @@ function Slots() {
 
   if (error)
     return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
+      <div className="min-h-screen bg-premium-bg flex items-center justify-center">
         <div className="text-center">
           <p className="text-5xl mb-4">⚠️</p>
-          <p className="text-red-500 font-bold text-lg mb-4">{error}</p>
+          <p className="text-red-600 font-bold text-lg mb-4">{error}</p>
           <button onClick={() => navigate("/turfs")}
-            className="bg-green-700 text-white px-6 py-2 rounded-lg font-bold hover:bg-green-800 transition">
+            className="premium-btn-primary">
             Back to Turfs
           </button>
         </div>
@@ -240,19 +240,19 @@ function Slots() {
     );
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-premium-bg">
 
       {/* ── MODAL ── */}
       {step !== STEP_NONE && (
         <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 px-4">
-          <div className="bg-white rounded-2xl w-full max-w-sm shadow-2xl overflow-hidden">
+          <div className="bg-white rounded-2xl w-full max-w-sm shadow-2xl overflow-hidden border border-premium-border">
 
             {/* STEP 1 — CONFIRM */}
             {step === STEP_CONFIRM && (
               <>
-                <div className="bg-green-700 px-6 py-4">
+                <div className="bg-premium-accent px-6 py-4">
                   <h3 className="text-white font-black text-lg">Booking Summary</h3>
-                  <p className="text-green-200 text-xs mt-0.5">{selectedSlots.length} slots selected</p>
+                  <p className="text-accent-light text-xs mt-0.5">{selectedSlots.length} slots selected</p>
                 </div>
                 <div className="px-6 py-5 space-y-3">
                   {[
@@ -264,24 +264,24 @@ function Slots() {
                     ["Rate", `₹${turf?.pricePerHour}/hr`],
                   ].map(([label, value]) => (
                     <div key={label} className="flex justify-between text-sm">
-                      <span className="text-gray-500">{label}</span>
-                      <span className="font-semibold text-gray-900">{value}</span>
+                      <span className="text-gray-600">{label}</span>
+                      <span className="font-semibold text-premium-text">{value}</span>
                     </div>
                   ))}
-                  <div className="border-t border-dashed border-gray-200 pt-3">
+                  <div className="border-t border-dashed border-premium-border pt-3">
                     <div className="flex justify-between items-center">
-                      <span className="text-gray-900 font-black text-base">Total</span>
-                      <span className="text-green-700 font-black text-xl">₹{totalAmount}</span>
+                      <span className="text-premium-text font-black text-base">Total</span>
+                      <span className="text-premium-accent font-black text-xl">₹{totalAmount}</span>
                     </div>
                   </div>
                 </div>
                 <div className="px-6 pb-6 flex gap-3">
                   <button onClick={closeModal}
-                    className="flex-1 py-2.5 border border-gray-200 rounded-xl text-gray-500 text-sm hover:bg-gray-50 transition font-semibold">
+                    className="flex-1 py-2.5 border border-premium-border rounded-xl text-gray-600 text-sm hover:bg-premium-secondary transition font-semibold">
                     Cancel
                   </button>
                   <button onClick={handleConfirm}
-                    className="flex-1 py-2.5 bg-green-700 text-white rounded-xl text-sm font-black hover:bg-green-800 transition">
+                    className="flex-1 py-2.5 bg-premium-accent text-white rounded-xl text-sm font-black hover:bg-accent-hover transition">
                     Confirm →
                   </button>
                 </div>
@@ -291,12 +291,12 @@ function Slots() {
             {/* STEP 2 — DETAILS */}
             {step === STEP_DETAILS && (
               <>
-                <div className="bg-green-700 px-6 py-4">
+                <div className="bg-premium-accent px-6 py-4">
                   <h3 className="text-white font-black text-lg">Player Details</h3>
-                  <p className="text-green-200 text-xs mt-0.5">Fill details to complete booking</p>
+                  <p className="text-accent-light text-xs mt-0.5">Fill details to complete booking</p>
                 </div>
                 <div className="px-6 py-5 space-y-4">
-                  <div className="bg-green-50 rounded-xl px-4 py-3 text-xs text-green-800 font-semibold flex justify-between">
+                  <div className="bg-accent-light rounded-xl px-4 py-3 text-xs text-emerald-900 font-semibold flex justify-between">
                     <span>📅 {selectedDate} &nbsp;🕐 {selectedSlots[0]?.startTime} — {selectedSlots[selectedSlots.length - 1]?.endTime}</span>
                     <span>₹{totalAmount}</span>
                   </div>
@@ -307,40 +307,40 @@ function Slots() {
                     { label: "Phone Number", key: "phone", type: "tel", placeholder: "10-digit mobile number", maxLength: 10 },
                   ].map(({ label, key, type, placeholder, maxLength }) => (
                     <div key={key}>
-                      <label className="text-gray-500 text-xs uppercase tracking-wider block mb-1">
-                        {label} <span className="text-red-400">*</span>
-                      </label>
-                      <input type={type} placeholder={placeholder} maxLength={maxLength}
-                        value={userDetails[key]}
-                        onChange={(e) => setUserDetails({
-                          ...userDetails,
-                          [key]: key === "phone" ? e.target.value.replace(/\D/, "") : e.target.value
-                        })}
-                        className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-gray-800 focus:outline-none focus:border-green-500 transition"
+                    <label className="text-gray-700 text-xs uppercase tracking-wider block mb-1">
+                      {label} <span className="text-red-500">*</span>
+                    </label>
+                    <input type={type} placeholder={placeholder} maxLength={maxLength}
+                      value={userDetails[key]}
+                      onChange={(e) => setUserDetails({
+                        ...userDetails,
+                        [key]: key === "phone" ? e.target.value.replace(/\D/, "") : e.target.value
+                      })}
+                      className="w-full border border-premium-border rounded-xl px-4 py-2.5 text-sm text-premium-text bg-white focus:outline-none focus:border-premium-accent transition"
                       />
                     </div>
                   ))}
                   <div>
-                    <label className="text-gray-500 text-xs uppercase tracking-wider block mb-1">Number of Players</label>
+                    <label className="text-gray-700 text-xs uppercase tracking-wider block mb-1">Number of Players</label>
                     <select value={userDetails.players}
                       onChange={(e) => setUserDetails({ ...userDetails, players: e.target.value })}
-                      className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-gray-800 focus:outline-none focus:border-green-500 transition">
+                      className="w-full border border-premium-border rounded-xl px-4 py-2.5 text-sm text-premium-text bg-white focus:outline-none focus:border-premium-accent transition">
                       {[1,2,3,4,5,6,7,8,9,10,11,12].map(n => (
                         <option key={n} value={n}>{n} Player{n > 1 ? "s" : ""}</option>
                       ))}
                     </select>
                   </div>
-                  <div className="bg-blue-50 rounded-xl px-4 py-2.5">
+                  <div className="bg-blue-50 rounded-xl px-4 py-2.5 border border-blue-200">
                     <span className="text-blue-700 text-xs font-semibold">💳 UPI · Card · Netbanking · Wallet accepted</span>
                   </div>
                 </div>
                 <div className="px-6 pb-6 flex gap-3">
                   <button onClick={() => setStep(STEP_CONFIRM)}
-                    className="flex-1 py-2.5 border border-gray-200 rounded-xl text-gray-500 text-sm hover:bg-gray-50 transition font-semibold">
+                    className="flex-1 py-2.5 border border-premium-border rounded-xl text-gray-600 text-sm hover:bg-premium-secondary transition font-semibold">
                     ← Back
                   </button>
                   <button onClick={handlePayNow} disabled={paymentLoading}
-                    className="flex-1 py-2.5 bg-green-700 text-white rounded-xl text-sm font-black hover:bg-green-800 transition disabled:opacity-60">
+                    className="flex-1 py-2.5 bg-premium-accent text-white rounded-xl text-sm font-black hover:bg-accent-hover transition disabled:opacity-60">
                     {paymentLoading ? "Processing..." : `Pay ₹${totalAmount}`}
                   </button>
                 </div>
@@ -362,14 +362,14 @@ function Slots() {
           </div>
         </div>
 
-        <div className="max-w-5xl mx-auto px-6 py-6 border-b border-gray-100">
-          <h1 className="text-3xl font-black text-gray-900 mb-3">{turf?.name || "Turf Arena"}</h1>
-          <div className="flex flex-col sm:flex-row sm:items-center gap-3 text-sm text-gray-500">
+        <div className="max-w-5xl mx-auto px-6 py-6 border-b border-premium-border">
+          <h1 className="text-3xl font-black text-premium-text mb-3">{turf?.name || "Turf Arena"}</h1>
+          <div className="flex flex-col sm:flex-row sm:items-center gap-3 text-sm text-gray-600">
             <span>📍 {turf?.location?.address} {turf?.location?.city}</span>
             <span className="hidden sm:block text-gray-300">|</span>
             <span>🕐 {turf?.openTime || "06:00"} — {turf?.closeTime || "03:00"}</span>
             <span className="hidden sm:block text-gray-300">|</span>
-            <span className="text-green-700 font-semibold">💰 ₹{turf?.pricePerHour}/hr</span>
+            <span className="text-premium-accent font-semibold">💰 ₹{turf?.pricePerHour}/hr</span>
           </div>
         </div>
 
@@ -377,40 +377,40 @@ function Slots() {
 
           {/* DATE PICKER */}
           <div className="mb-8">
-            <h2 className="text-xl font-black text-gray-900 mb-3">Select Date</h2>
+            <h2 className="text-xl font-black text-primary-text mb-3">Select Date</h2>
             <input type="date" value={selectedDate} min={todayStr}
               onChange={(e) => setSelectedDate(e.target.value)}
-              className="border-2 border-green-200 rounded-xl px-4 py-2.5 text-gray-700 font-semibold focus:outline-none focus:border-green-600 transition"
+              className="border-2 border-accent-light rounded-xl px-4 py-2.5 text-primary-text font-semibold focus:outline-none focus:border-premium-accent transition bg-white"
             />
           </div>
 
-          <h2 className="text-2xl font-black text-gray-900 mb-3">
+          <h2 className="text-2xl font-black text-primary-text mb-3">
             Available Slots — {selectedDate}
           </h2>
 
           {/* HINT */}
-          <div className="mb-4 flex items-start gap-2 text-xs text-gray-400">
+          <div className="mb-4 flex items-start gap-2 text-xs text-gray-500">
             <span>ℹ️</span>
             <span>Minimum 2 consecutive slots select karo. Last slot ko dubara click karo deselect karne ke liye.</span>
           </div>
 
           {/* SELECTION ERROR */}
           {selectionError && (
-            <div className="mb-4 px-4 py-2 bg-red-50 border border-red-200 rounded-xl text-red-500 text-sm font-semibold">
+            <div className="mb-4 px-4 py-2 bg-red-50 border border-red-200 rounded-xl text-red-600 text-sm font-semibold">
               ⚠️ {selectionError}
             </div>
           )}
 
           {loading ? (
             <div className="flex flex-col items-center py-16 gap-4">
-              <div className="w-10 h-10 border-4 border-green-700 border-t-transparent rounded-full animate-spin" />
-              <p className="text-gray-400 text-sm">Loading slots...</p>
+              <div className="w-10 h-10 border-4 border-premium-accent border-t-transparent rounded-full animate-spin" />
+              <p className="text-gray-500 text-sm">Loading slots...</p>
             </div>
           ) : slots.length === 0 ? (
-            <div className="text-center py-16 bg-gray-50 rounded-2xl">
+            <div className="text-center py-16 bg-premium-secondary rounded-2xl border border-premium-border">
               <p className="text-5xl mb-4">📅</p>
-              <p className="text-gray-500 font-semibold">No slots available</p>
-              <p className="text-gray-400 text-sm mt-1">Try another date</p>
+              <p className="text-gray-700 font-semibold">No slots available</p>
+              <p className="text-gray-600 text-sm mt-1">Try another date</p>
             </div>
           ) : (
             <>
@@ -423,29 +423,29 @@ function Slots() {
                       onClick={() => handleSlotClick(slot)}
                       className={`py-3 px-4 rounded-xl text-sm font-semibold transition-all duration-200 border-2 ${
                         slot.isPast
-                          ? "bg-gray-50 border-gray-200 text-gray-300 cursor-not-allowed"
+                          ? "bg-gray-100 border-premium-border text-gray-400 cursor-not-allowed"
                           : slot.isBooked
-                          ? "bg-red-50 border-red-200 text-red-400 cursor-not-allowed line-through"
+                          ? "bg-red-50 border-red-200 text-red-500 cursor-not-allowed line-through"
                           : isSelected
-                          ? "bg-green-700 border-green-700 text-white shadow-lg scale-105"
-                          : "bg-green-50 border-green-200 text-green-800 hover:bg-green-100 hover:border-green-400 cursor-pointer"
+                          ? "bg-premium-accent border-premium-accent text-white shadow-lg scale-105"
+                          : "bg-accent-light border-accent-light text-emerald-900 hover:bg-accent-hover hover:border-accent-hover hover:text-white cursor-pointer"
                       }`}>
                       {slot.startTime} — {slot.endTime}
-                      {isSelected && <span className="block text-xs mt-0.5 text-green-200">✓ Selected</span>}
-                      {slot.isBooked && <span className="block text-xs mt-0.5 text-red-400">Booked</span>}
-                      {slot.isPast && <span className="block text-xs mt-0.5 text-gray-300">Expired</span>}
+                      {isSelected && <span className="block text-xs mt-0.5 text-accent-light">✓ Selected</span>}
+                      {slot.isBooked && <span className="block text-xs mt-0.5 text-red-500">Booked</span>}
+                      {slot.isPast && <span className="block text-xs mt-0.5 text-gray-400">Expired</span>}
                     </button>
                   );
                 })}
               </div>
 
               {/* LEGEND */}
-              <div className="flex flex-wrap items-center gap-6 mt-8 pt-6 border-t border-gray-100">
+              <div className="flex flex-wrap items-center gap-6 mt-8 pt-6 border-t border-primary-border">
                 {[
-                  { color: "bg-green-50 border-green-200", label: "Available" },
-                  { color: "bg-green-700 border-green-700", label: "Selected" },
+                  { color: "bg-accent-light border-accent-light", label: "Available" },
+                  { color: "bg-premium-accent border-premium-accent", label: "Selected" },
                   { color: "bg-red-50 border-red-200", label: "Booked" },
-                  { color: "bg-gray-50 border-gray-200", label: "Expired" },
+                  { color: "bg-gray-100 border-primary-border", label: "Expired" },
                 ].map(({ color, label }) => (
                   <div key={label} className="flex items-center gap-2">
                     <div className={`w-4 h-4 rounded border-2 ${color}`} />
