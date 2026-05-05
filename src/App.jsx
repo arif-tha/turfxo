@@ -54,12 +54,12 @@ function Layout() {
             }
           />
 
-          {/* ✅ Yeh naya add karo */}
+          {/* ✅ My Bookings Page */}
           <Route
             path="/my-bookings"
             element={
               <PrivateRoute>
-                <Profile />
+                <MyBookings />
               </PrivateRoute>
             }
           />

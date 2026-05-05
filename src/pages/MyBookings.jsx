@@ -77,7 +77,7 @@ function MyBookings() {
     .reduce((sum, b) => sum + (b.totalPrice || 0), 0);
 
   return (
-    <div className="min-h-screen pt-20 pb-10" style={{ backgroundColor: "#0a0a0a" }}>
+    <div className="min-h-screen pt-20 pb-10" style={{ backgroundColor: "#ffffff" }}>
 
       {/* HEADER */}
       <div className="border-b px-6 py-8" style={{ borderColor: "#1a1a1a" }}>
@@ -213,7 +213,7 @@ function MyBookings() {
                   {/* RIGHT */}
                   <div className="flex items-center gap-3 flex-shrink-0 ml-7 sm:ml-0">
                     {/* Amount */}
-                    <span className="text-yellow-400 font-black text-base">₹{b.totalPrice}</span>
+                    <span className="text-emerald-600 font-black text-base">₹{b.totalPrice}</span>
 
                     {/* Payment badge */}
                     <span className="text-xs font-black px-2.5 py-1 rounded-full uppercase"

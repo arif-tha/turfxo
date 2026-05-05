@@ -110,12 +110,12 @@ function Home() {
   ];
 
   return (
-    <div className="w-full min-h-screen overflow-x-hidden bg-slate-950"
+    <div className="w-full min-h-screen overflow-x-hidden bg-white"
       style={{ fontFamily: "'Poppins', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif" }}>
 
       {/* SCROLL PROGRESS INDICATOR */}
       <motion.div
-        className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-emerald-400 via-emerald-500 to-teal-500 origin-left z-50"
+        className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-emerald-500 via-emerald-600 to-teal-600 origin-left z-50"
         initial={{ scaleX: 0 }}
         animate={{ scaleX: scrollY / (document.documentElement.scrollHeight - window.innerHeight) }}
         transition={{ type: "spring", stiffness: 1000, damping: 100 }}
@@ -152,10 +152,10 @@ function Home() {
 
         {/* Enhanced Gradient Overlays */}
         <div className="absolute inset-0" style={{
-          background: "linear-gradient(135deg, rgba(15,23,42,0.95) 0%, rgba(30,41,59,0.80) 40%, rgba(15,23,42,0.4) 100%)"
+          background: "linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(245,254,250,0.90) 40%, rgba(255,255,255,0.5) 100%)"
         }} />
         <div className="absolute inset-0" style={{
-          background: "linear-gradient(to top, rgba(2,8,23,1) 0%, transparent 50%)"
+          background: "linear-gradient(to top, rgba(255,255,255,1) 0%, transparent 50%)"
         }} />
 
         {/* Animated Accent Elements */}
@@ -187,11 +187,11 @@ function Home() {
           >
             <motion.div
               className="w-8 h-px"
-              style={{ background: "#10b981" }}
+              style={{ background: "#059669" }}
               animate={{ scaleX: [0, 1] }}
               transition={{ delay: 0.5, duration: 0.8 }}
             />
-            <span className="text-xs font-bold tracking-[0.3em] uppercase text-emerald-400 drop-shadow-lg">
+            <span className="text-xs font-bold tracking-[0.3em] uppercase text-emerald-600 drop-shadow-lg">
               {slides[currentSlide].tag}
             </span>
           </motion.div>
@@ -206,9 +206,9 @@ function Home() {
               className="font-black uppercase leading-none mb-2"
               style={{
                 fontSize: "clamp(2.5rem, 8vw, 6rem)",
-                color: "rgba(255,255,255,0.98)",
+                color: "rgba(17,24,39,0.98)",
                 letterSpacing: "-0.02em",
-                textShadow: "0 10px 30px rgba(0,0,0,0.5)"
+                textShadow: "0 2px 10px rgba(255,255,255,0.3)"
               }}
             >
               {slides[currentSlide].title}
@@ -217,7 +217,7 @@ function Home() {
               className="font-black uppercase leading-none mb-8"
               style={{
                 fontSize: "clamp(2.5rem, 8vw, 6rem)",
-                background: "linear-gradient(135deg, #10b981, #34d399)",
+                background: "linear-gradient(135deg, #059669, #10b981)",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 letterSpacing: "-0.02em",
@@ -229,7 +229,7 @@ function Home() {
 
           {/* Subtitle with animation */}
           <motion.p
-            className="text-white/70 mb-12 max-w-md text-lg font-medium"
+            className="text-gray-700 mb-12 max-w-md text-lg font-medium"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6, duration: 0.8 }}
@@ -247,8 +247,8 @@ function Home() {
           >
             <motion.button
               onClick={() => navigate("/turfs")}
-              className="group flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-emerald-500 to-emerald-600 text-white font-bold uppercase tracking-wider rounded-lg overflow-hidden relative"
-              whileHover={{ scale: 1.08, boxShadow: "0 0 30px rgba(16,185,129,0.6)" }}
+              className="group flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-emerald-600 to-emerald-700 text-white font-bold uppercase tracking-wider rounded-lg overflow-hidden relative"
+              whileHover={{ scale: 1.08, boxShadow: "0 0 30px rgba(5,150,105,0.6)" }}
               whileTap={{ scale: 0.95 }}
               style={{
                 textShadow: "0 2px 10px rgba(0,0,0,0.3)"
@@ -267,8 +267,8 @@ function Home() {
 
             <motion.button
               onClick={() => navigate("/register")}
-              className="px-8 py-4 border-2 border-white/40 text-white font-bold uppercase tracking-wider rounded-lg backdrop-blur-sm hover:border-emerald-400 hover:text-emerald-300 transition-all duration-300"
-              whileHover={{ scale: 1.05, backgroundColor: "rgba(255,255,255,0.1)" }}
+              className="px-8 py-4 border-2 border-emerald-600 text-emerald-600 font-bold uppercase tracking-wider rounded-lg backdrop-blur-sm hover:bg-emerald-600 hover:text-white transition-all duration-300"
+              whileHover={{ scale: 1.05, backgroundColor: "rgba(5,150,105,0.1)" }}
               whileTap={{ scale: 0.95 }}
             >
               Join Free
@@ -288,7 +288,7 @@ function Home() {
               key={i}
               onClick={() => setCurrentSlide(i)}
               className={`transition-all duration-300 rounded-full ${
-                i === currentSlide ? "bg-emerald-500" : "bg-white/30"
+                i === currentSlide ? "bg-emerald-600" : "bg-gray-300"
               }`}
               style={{
                 width: i === currentSlide ? "3px" : "2px",
@@ -315,7 +315,7 @@ function Home() {
               style={{
                 width: i === currentSlide ? "24px" : "8px",
                 height: "3px",
-                background: i === currentSlide ? "#10b981" : "rgba(255,255,255,0.4)",
+                background: i === currentSlide ? "#059669" : "rgba(0,0,0,0.3)",
               }}
               whileHover={{ scale: 1.2 }}
             />
@@ -325,8 +325,8 @@ function Home() {
         {/* Slider Arrows with hover glow */}
         <motion.button
           onClick={() => setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length)}
-          className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 flex items-center justify-center text-white text-xl rounded-lg backdrop-blur-md border border-white/20 hover:border-emerald-400 hover:bg-emerald-500/30 transition-all duration-300"
-          whileHover={{ scale: 1.1, boxShadow: "0 0 20px rgba(16,185,129,0.5)" }}
+          className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 flex items-center justify-center text-gray-900 text-xl rounded-lg backdrop-blur-md border border-gray-300 hover:border-emerald-600 hover:bg-emerald-100 transition-all duration-300"
+          whileHover={{ scale: 1.1, boxShadow: "0 0 20px rgba(5,150,105,0.5)" }}
           whileTap={{ scale: 0.95 }}
         >
           ‹
@@ -334,8 +334,8 @@ function Home() {
 
         <motion.button
           onClick={() => setCurrentSlide((prev) => (prev + 1) % slides.length)}
-          className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 flex items-center justify-center text-white text-xl rounded-lg backdrop-blur-md border border-white/20 hover:border-emerald-400 hover:bg-emerald-500/30 transition-all duration-300"
-          whileHover={{ scale: 1.1, boxShadow: "0 0 20px rgba(16,185,129,0.5)" }}
+          className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 flex items-center justify-center text-gray-900 text-xl rounded-lg backdrop-blur-md border border-gray-300 hover:border-emerald-600 hover:bg-emerald-100 transition-all duration-300"
+          whileHover={{ scale: 1.1, boxShadow: "0 0 20px rgba(5,150,105,0.5)" }}
           whileTap={{ scale: 0.95 }}
         >
           ›
@@ -344,7 +344,7 @@ function Home() {
 
       {/* STATS BAR - ANIMATED */}
       <motion.div
-        className="relative py-16 px-6 bg-gradient-to-b from-slate-900 to-slate-950 border-b border-emerald-500/20"
+        className="relative py-16 px-6 bg-gradient-to-b from-white to-emerald-50 border-b border-emerald-200"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
@@ -366,14 +366,14 @@ function Home() {
                 whileHover={{ scale: 1.05 }}
               >
                 <motion.div
-                  className="font-black text-emerald-400"
+                  className="font-black text-emerald-600"
                   style={{ fontSize: "clamp(2rem, 4vw, 2.8rem)" }}
                   animate={{ y: [0, -5, 0] }}
                   transition={{ delay: i * 0.1, duration: 2, repeat: Infinity }}
                 >
                   {s.number}
                 </motion.div>
-                <div className="text-slate-300 font-semibold text-sm mt-3 uppercase tracking-widest">{s.label}</div>
+                <div className="text-gray-700 font-semibold text-sm mt-3 uppercase tracking-widest">{s.label}</div>
               </motion.div>
             ))}
           </motion.div>
@@ -381,7 +381,7 @@ function Home() {
       </motion.div>
 
       {/* HOW IT WORKS - ENHANCED */}
-      <div className="bg-slate-900 py-24 px-6 relative overflow-hidden">
+      <div className="bg-white py-24 px-6 relative overflow-hidden">
         {/* Background gradient */}
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-0 left-0 w-96 h-96 bg-emerald-500 rounded-full blur-3xl" />
@@ -398,20 +398,20 @@ function Home() {
                 viewport={{ once: true }}
               >
                 <motion.div
-                  className="w-12 h-px bg-gradient-to-r from-emerald-500 to-emerald-400"
+                  className="w-12 h-px bg-gradient-to-r from-emerald-600 to-emerald-500"
                   animate={{ scaleX: [0, 1] }}
                   transition={{ duration: 1 }}
                 />
-                <span className="text-xs font-bold tracking-[0.3em] uppercase text-emerald-400">Simple Process</span>
+                <span className="text-xs font-bold tracking-[0.3em] uppercase text-emerald-600">Simple Process</span>
                 <motion.div
-                  className="w-12 h-px bg-gradient-to-l from-emerald-500 to-emerald-400"
+                  className="w-12 h-px bg-gradient-to-l from-emerald-600 to-emerald-500"
                   animate={{ scaleX: [0, 1] }}
                   transition={{ duration: 1 }}
                 />
               </motion.div>
-              <h2 className="font-black uppercase leading-tight" style={{ fontSize: "clamp(2.5rem, 6vw, 4rem)", color: "#f1f5f9" }}>
+              <h2 className="font-black uppercase leading-tight" style={{ fontSize: "clamp(2.5rem, 6vw, 4rem)", color: "#111827" }}>
                 HOW IT <br />
-                <span className="bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">WORKS</span>
+                <span className="bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">WORKS</span>
               </h2>
             </div>
           </ScrollReveal>
@@ -433,15 +433,15 @@ function Home() {
                 <div
                   className={`relative p-8 rounded-2xl transition-all duration-300 ${
                     s.featured
-                      ? "bg-gradient-to-br from-emerald-500 to-emerald-600 shadow-2xl"
-                      : "bg-slate-800/50 backdrop-blur-md border border-emerald-500/20 hover:border-emerald-400/60 hover:shadow-lg hover:shadow-emerald-500/20"
+                      ? "bg-gradient-to-br from-emerald-600 to-emerald-700 shadow-2xl text-white"
+                      : "bg-emerald-50/50 backdrop-blur-md border border-emerald-200 hover:border-emerald-400 hover:shadow-lg hover:shadow-emerald-200"
                   }`}
                 >
                   {/* Glow effect for featured */}
                   {s.featured && (
                     <motion.div
                       className="absolute inset-0 rounded-2xl bg-gradient-to-br from-emerald-400/0 to-emerald-600/0 opacity-0 group-hover:opacity-100"
-                      animate={{ boxShadow: ["0 0 20px rgba(16,185,129,0)", "0 0 40px rgba(16,185,129,0.5)", "0 0 20px rgba(16,185,129,0)"] }}
+                      animate={{ boxShadow: ["0 0 20px rgba(5,150,105,0)", "0 0 40px rgba(5,150,105,0.5)", "0 0 20px rgba(5,150,105,0)"] }}
                       transition={{ duration: 3, repeat: Infinity }}
                     />
                   )}
@@ -459,10 +459,10 @@ function Home() {
                   </motion.div>
 
                   <div className="text-4xl mb-6 animate-bounce" style={{ animationDelay: `${i * 0.1}s` }}>{s.emoji}</div>
-                  <h3 className={`text-xl font-bold uppercase mb-4 ${s.featured ? "text-white" : "text-slate-100"}`}>
+                  <h3 className={`text-xl font-bold uppercase mb-4 ${s.featured ? "text-white" : "text-emerald-900"}`}>
                     {s.title}
                   </h3>
-                  <p className={`text-sm leading-relaxed mb-8 ${s.featured ? "text-white/85" : "text-slate-300"}`}>
+                  <p className={`text-sm leading-relaxed mb-8 ${s.featured ? "text-white/90" : "text-emerald-700"}`}>
                     {s.desc}
                   </p>
 
@@ -481,7 +481,7 @@ function Home() {
       </div>
 
       {/* FACILITIES - GLASSMORPHISM */}
-      <div className="bg-slate-950 py-24 px-6">
+      <div className="bg-emerald-50 py-24 px-6">
         <div className="max-w-6xl mx-auto">
           <ScrollReveal className="mb-20">
             <div className="flex items-center gap-3 mb-6">
@@ -519,8 +519,8 @@ function Home() {
                   >
                     {f.icon}
                   </motion.div>
-                  <h3 className="font-bold text-slate-100 mb-2 text-lg">{f.title}</h3>
-                  <p className="text-sm leading-relaxed text-slate-300">{f.desc}</p>
+                  <h3 className="font-bold text-emerald-900 mb-2 text-lg">{f.title}</h3>
+                  <p className="text-sm leading-relaxed text-emerald-700">{f.desc}</p>
                 </GlassCard>
               </motion.div>
             ))}
@@ -529,19 +529,19 @@ function Home() {
       </div>
 
       {/* TESTIMONIALS - PREMIUM CARDS */}
-      <div className="bg-slate-900 py-24 px-6">
+      <div className="bg-white py-24 px-6">
         <div className="max-w-6xl mx-auto">
           <ScrollReveal className="mb-20">
             <div className="flex items-center gap-3 mb-6">
               <motion.div
-                className="w-12 h-px bg-gradient-to-r from-emerald-500 to-emerald-400"
+                className="w-12 h-px bg-gradient-to-r from-emerald-600 to-emerald-500"
                 animate={{ scaleX: [0, 1] }}
                 transition={{ duration: 1 }}
               />
-              <span className="text-xs font-bold tracking-[0.3em] uppercase text-emerald-400">Player Stories</span>
+              <span className="text-xs font-bold tracking-[0.3em] uppercase text-emerald-600">Player Stories</span>
             </div>
-            <h2 className="font-black uppercase" style={{ fontSize: "clamp(2.5rem, 6vw, 4rem)", color: "#f1f5f9" }}>
-              WHAT PLAYERS <span className="bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">SAY</span>
+            <h2 className="font-black uppercase" style={{ fontSize: "clamp(2.5rem, 6vw, 4rem)", color: "#111827" }}>
+              WHAT PLAYERS <span className="bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">SAY</span>
             </h2>
           </ScrollReveal>
 
@@ -579,18 +579,18 @@ function Home() {
                     ))}
                   </motion.div>
 
-                  <p className="text-sm leading-relaxed mb-6 text-slate-200">"{t.text}"</p>
+                  <p className="text-sm leading-relaxed mb-6 text-emerald-700">"{t.text}"</p>
 
                   <div className="flex items-center gap-3">
                     <motion.div
-                      className="w-10 h-10 flex items-center justify-center font-bold text-sm flex-shrink-0 bg-gradient-to-br from-emerald-400 to-emerald-500 text-slate-900 rounded-full"
+                      className="w-10 h-10 flex items-center justify-center font-bold text-sm flex-shrink-0 bg-gradient-to-br from-emerald-600 to-emerald-700 text-white rounded-full"
                       whileHover={{ scale: 1.1 }}
                     >
                       {t.avatar}
                     </motion.div>
                     <div>
-                      <p className="font-semibold text-slate-100 text-sm">{t.name}</p>
-                      <p className="text-xs text-slate-400">{t.role}</p>
+                      <p className="font-semibold text-emerald-900 text-sm">{t.name}</p>
+                      <p className="text-xs text-emerald-700">{t.role}</p>
                     </div>
                   </div>
                 </GlassCard>
@@ -601,7 +601,7 @@ function Home() {
       </div>
 
       {/* SELECT GAMES - INTERACTIVE */}
-      <div className="bg-slate-950 py-24 px-6 relative overflow-hidden">
+      <div className="bg-emerald-50 py-24 px-6 relative overflow-hidden">
         <div className="absolute inset-0 opacity-5">
           <div className="absolute top-1/2 left-1/2 w-96 h-96 bg-emerald-500 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
         </div>
@@ -654,7 +654,7 @@ function Home() {
                 >
                   {game.icon}
                 </motion.div>
-                <h3 className="font-bold text-slate-100 text-sm uppercase tracking-wider">{game.name}</h3>
+                <h3 className="font-bold text-emerald-900 text-sm uppercase tracking-wider">{game.name}</h3>
               </motion.div>
             ))}
           </motion.div>
@@ -662,7 +662,7 @@ function Home() {
       </div>
 
       {/* GALLERY - IMAGE REVEAL */}
-      <div className="bg-slate-900 py-24 px-6">
+      <div className="bg-white py-24 px-6">
         <div className="max-w-6xl mx-auto">
           <ScrollReveal className="mb-20">
             <div className="flex items-center gap-3 mb-6">
@@ -708,7 +708,7 @@ function Home() {
                   whileHover={{ opacity: 1 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <h3 className="font-bold text-white text-lg drop-shadow-lg">{item.title}</h3>
+                  <h3 className="font-bold text-gray-900 text-lg drop-shadow-lg">{item.title}</h3>
                 </motion.div>
               </motion.div>
             ))}
@@ -717,7 +717,7 @@ function Home() {
       </div>
 
       {/* CONTACT INFORMATION - ANIMATED */}
-      <div className="bg-slate-950 py-24 px-6 relative">
+      <div className="bg-emerald-950 py-24 px-6 relative">
         <div className="absolute inset-0 opacity-5">
           <div className="absolute top-0 right-0 w-96 h-96 bg-emerald-500 rounded-full blur-3xl" />
         </div>
@@ -750,7 +750,7 @@ function Home() {
             viewport={{ once: true, margin: "-100px" }}
           >
             {[
-              { icon: "📍", label: "Address", value: "Kolkata, West Bengal, India", link: "" },
+              { icon: "📍", label: "Address", value: "Kolkata, West Bengal, India", link: "#" },
               { icon: "📞", label: "Phone", value: "+91 98765 43210", link: "tel:+919876543210" },
               { icon: "✉️", label: "Email", value: "info@turfarena.com", link: "mailto:info@turfarena.com" },
             ].map((c, i) => (
@@ -759,21 +759,21 @@ function Home() {
                 variants={itemVariants}
                 whileHover={{ y: -8 }}
                 transition={{ duration: 0.3 }}
-                component="a"
-                href={c.link}
                 className="no-underline"
               >
-                <GlassCard className="p-8 text-center h-full hover:border-emerald-400/60">
-                  <motion.div
-                    className="w-14 h-14 flex items-center justify-center text-3xl mx-auto mb-4 rounded-lg bg-emerald-500/20 border border-emerald-400/30"
-                    animate={{ scale: [1, 1.1, 1] }}
-                    transition={{ delay: i * 0.1, duration: 2, repeat: Infinity }}
-                  >
-                    {c.icon}
-                  </motion.div>
-                  <h3 className="font-bold text-slate-100 mb-2 text-lg">{c.label}</h3>
-                  <p className="text-sm text-slate-300 break-words">{c.value}</p>
-                </GlassCard>
+                <a href={c.link !== "#" ? c.link : undefined} className="text-decoration-none">
+                  <GlassCard className="p-8 text-center h-full hover:border-emerald-400/60">
+                    <motion.div
+                      className="w-14 h-14 flex items-center justify-center text-3xl mx-auto mb-4 rounded-lg bg-emerald-500/20 border border-emerald-400/30"
+                      animate={{ scale: [1, 1.1, 1] }}
+                      transition={{ delay: i * 0.1, duration: 2, repeat: Infinity }}
+                    >
+                      {c.icon}
+                    </motion.div>
+                    <h3 className="font-bold text-gray-100 mb-2 text-lg">{c.label}</h3>
+                    <p className="text-sm text-gray-200 break-words">{c.value}</p>
+                  </GlassCard>
+                </a>
               </motion.div>
             ))}
           </motion.div>
@@ -835,7 +835,7 @@ function Home() {
                 <h2 className="font-black uppercase mb-4" style={{ fontSize: "clamp(2.5rem, 8vw, 4.5rem)", color: "#f1f5f9", lineHeight: 1, letterSpacing: "-0.01em" }}>
                   READY TO<br /><span className="bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">PLAY?</span>
                 </h2>
-                <p className="mb-10 max-w-lg mx-auto text-slate-300 text-lg leading-relaxed">
+                <p className="mb-10 max-w-lg mx-auto text-gray-200 text-lg leading-relaxed">
                   Join thousands of players booking their favourite turfs every day across Kolkata.
                 </p>
               </motion.div>
@@ -895,8 +895,8 @@ function Home() {
                 </motion.div>
                 <span className="font-black text-white text-xl">TurfArena</span>
               </motion.div>
-              <p className="text-xs tracking-widest uppercase text-slate-400">Train · Play · Repeat</p>
-              <p className="text-xs mt-3 text-slate-400 leading-relaxed">
+              <p className="text-xs tracking-widest uppercase text-gray-200">Train · Play · Repeat</p>
+              <p className="text-xs mt-3 text-gray-300 leading-relaxed">
                 Kolkata's premier turf booking platform for all sports lovers.
               </p>
             </motion.div>
@@ -929,14 +929,13 @@ function Home() {
               <h4 className="font-semibold text-white mb-4 text-sm uppercase tracking-widest">Support</h4>
               <div className="space-y-3">
                 {[
-                  { label: "Contact Us", path: "#" },
-                  { label: "FAQ", path: "#" },
-                  { label: "Support", path: "#" },
-                  { label: "Feedback", path: "#" },
+                  { label: "Contact Us", email: "info@turfarena.com" },
+                  { label: "FAQ", email: null },
+                  { label: "Support", email: "support@turfarena.com" },
+                  { label: "Feedback", email: null },
                 ].map((l) => (
                   <motion.button
                     key={l.label}
-                    onClick={() => navigate(l.path)}
                     className="text-xs transition-colors duration-200 block text-slate-400 bg-transparent border-none cursor-pointer text-left"
                     whileHover={{ x: 5, color: "#10b981" }}
                     transition={{ duration: 0.3 }}
@@ -952,14 +951,13 @@ function Home() {
               <h4 className="font-semibold text-white mb-4 text-sm uppercase tracking-widest">Legal</h4>
               <div className="space-y-3">
                 {[
-                  { label: "Privacy Policy", path: "#" },
-                  { label: "Terms of Service", path: "#" },
-                  { label: "Cookie Policy", path: "#" },
-                  { label: "Cancellation Policy", path: "#" },
+                  { label: "Privacy Policy" },
+                  { label: "Terms of Service" },
+                  { label: "Cookie Policy" },
+                  { label: "Cancellation Policy" },
                 ].map((l) => (
                   <motion.button
                     key={l.label}
-                    onClick={() => navigate(l.path)}
                     className="text-xs transition-colors duration-200 block text-slate-400 bg-transparent border-none cursor-pointer text-left"
                     whileHover={{ x: 5, color: "#10b981" }}
                     transition={{ duration: 0.3 }}
@@ -978,12 +976,12 @@ function Home() {
             viewport={{ once: true }}
             transition={{ delay: 0.2, duration: 0.8 }}
           >
-            <p className="text-xs text-slate-500">© 2025 TurfArena. All rights reserved.</p>
+            <p className="text-xs text-gray-400">© 2025 TurfArena. All rights reserved.</p>
             <div className="flex gap-6">
               {["Facebook", "Instagram", "Twitter"].map((social) => (
                 <motion.button
                   key={social}
-                  className="text-xs font-semibold text-slate-400 bg-transparent border-none cursor-pointer"
+                  className="text-xs font-semibold text-gray-300 hover:text-emerald-400 bg-transparent border-none cursor-pointer"
                   whileHover={{
                     scale: 1.2,
                     color: "#10b981",
