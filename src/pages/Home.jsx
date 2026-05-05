@@ -110,12 +110,12 @@ function Home() {
   ];
 
   return (
-    <div className="w-full min-h-screen overflow-x-hidden bg-slate-950"
-      style={{ fontFamily: "'Poppins', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif" }}>
+    <div className="w-full min-h-screen overflow-x-hidden bg-premium-bg"
+      style={{ fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif" }}>
 
       {/* SCROLL PROGRESS INDICATOR */}
       <motion.div
-        className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-emerald-400 via-emerald-500 to-teal-500 origin-left z-50"
+        className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-premium-accent via-accent-hover to-emerald-400 origin-left z-50"
         initial={{ scaleX: 0 }}
         animate={{ scaleX: scrollY / (document.documentElement.scrollHeight - window.innerHeight) }}
         transition={{ type: "spring", stiffness: 1000, damping: 100 }}
@@ -124,7 +124,7 @@ function Home() {
 
       {/* HERO SECTION - PREMIUM REDESIGN */}
       <motion.div
-        className="relative h-screen w-full overflow-hidden"
+        className="relative h-screen w-full overflow-hidden bg-white"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8 }}
@@ -150,21 +150,21 @@ function Home() {
           ))}
         </AnimatePresence>
 
-        {/* Enhanced Gradient Overlays */}
+        {/* Premium Light Gradient Overlays */}
         <div className="absolute inset-0" style={{
-          background: "linear-gradient(135deg, rgba(15,23,42,0.95) 0%, rgba(30,41,59,0.80) 40%, rgba(15,23,42,0.4) 100%)"
+          background: "linear-gradient(135deg, rgba(248,249,251,0.92) 0%, rgba(243,244,246,0.85) 40%, rgba(248,249,251,0.7) 100%)"
         }} />
         <div className="absolute inset-0" style={{
-          background: "linear-gradient(to top, rgba(2,8,23,1) 0%, transparent 50%)"
+          background: "linear-gradient(to top, rgba(248,249,251,1) 0%, transparent 50%)"
         }} />
 
         {/* Animated Accent Elements */}
         <motion.div
-          className="absolute top-0 right-0 w-96 h-96 opacity-20"
+          className="absolute top-0 right-0 w-96 h-96 opacity-15"
           animate={{ rotate: 360 }}
           transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
           style={{
-            background: "radial-gradient(circle, #10b981 0%, transparent 70%)",
+            background: "radial-gradient(circle, #22C55E 0%, transparent 70%)",
             filter: "blur(60px)",
             borderRadius: "50%"
           }}
@@ -187,11 +187,11 @@ function Home() {
           >
             <motion.div
               className="w-8 h-px"
-              style={{ background: "#10b981" }}
+              style={{ background: "#22C55E" }}
               animate={{ scaleX: [0, 1] }}
               transition={{ delay: 0.5, duration: 0.8 }}
             />
-            <span className="text-xs font-bold tracking-[0.3em] uppercase text-emerald-400 drop-shadow-lg">
+            <span className="text-xs font-bold tracking-[0.3em] uppercase text-premium-accent drop-shadow-lg">
               {slides[currentSlide].tag}
             </span>
           </motion.div>
@@ -206,9 +206,9 @@ function Home() {
               className="font-black uppercase leading-none mb-2"
               style={{
                 fontSize: "clamp(2.5rem, 8vw, 6rem)",
-                color: "rgba(255,255,255,0.98)",
+                color: "#111827",
                 letterSpacing: "-0.02em",
-                textShadow: "0 10px 30px rgba(0,0,0,0.5)"
+                textShadow: "0 2px 8px rgba(0,0,0,0.08)"
               }}
             >
               {slides[currentSlide].title}
@@ -217,7 +217,7 @@ function Home() {
               className="font-black uppercase leading-none mb-8"
               style={{
                 fontSize: "clamp(2.5rem, 8vw, 6rem)",
-                background: "linear-gradient(135deg, #10b981, #34d399)",
+                background: "linear-gradient(135deg, #22C55E, #16A34A)",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 letterSpacing: "-0.02em",
@@ -229,7 +229,7 @@ function Home() {
 
           {/* Subtitle with animation */}
           <motion.p
-            className="text-white/70 mb-12 max-w-md text-lg font-medium"
+            className="text-gray-700 mb-12 max-w-md text-lg font-medium"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6, duration: 0.8 }}
@@ -247,12 +247,9 @@ function Home() {
           >
             <motion.button
               onClick={() => navigate("/turfs")}
-              className="group flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-emerald-500 to-emerald-600 text-white font-bold uppercase tracking-wider rounded-lg overflow-hidden relative"
-              whileHover={{ scale: 1.08, boxShadow: "0 0 30px rgba(16,185,129,0.6)" }}
+              className="group flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-premium-accent to-accent-hover text-white font-bold uppercase tracking-wider rounded-lg overflow-hidden relative shadow-lg"
+              whileHover={{ scale: 1.08, boxShadow: "0 0 30px rgba(34,197,94,0.4)" }}
               whileTap={{ scale: 0.95 }}
-              style={{
-                textShadow: "0 2px 10px rgba(0,0,0,0.3)"
-              }}
             >
               <span className="relative z-10">Book Your Game</span>
               <motion.span
@@ -267,8 +264,8 @@ function Home() {
 
             <motion.button
               onClick={() => navigate("/register")}
-              className="px-8 py-4 border-2 border-white/40 text-white font-bold uppercase tracking-wider rounded-lg backdrop-blur-sm hover:border-emerald-400 hover:text-emerald-300 transition-all duration-300"
-              whileHover={{ scale: 1.05, backgroundColor: "rgba(255,255,255,0.1)" }}
+              className="px-8 py-4 border-2 border-premium-text text-premium-text font-bold uppercase tracking-wider rounded-lg bg-white/50 hover:border-premium-accent hover:text-premium-accent hover:bg-accent-light transition-all duration-300"
+              whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
               Join Free
@@ -288,7 +285,7 @@ function Home() {
               key={i}
               onClick={() => setCurrentSlide(i)}
               className={`transition-all duration-300 rounded-full ${
-                i === currentSlide ? "bg-emerald-500" : "bg-white/30"
+                i === currentSlide ? "bg-premium-accent" : "bg-premium-text/20"
               }`}
               style={{
                 width: i === currentSlide ? "3px" : "2px",
@@ -315,7 +312,7 @@ function Home() {
               style={{
                 width: i === currentSlide ? "24px" : "8px",
                 height: "3px",
-                background: i === currentSlide ? "#10b981" : "rgba(255,255,255,0.4)",
+                background: i === currentSlide ? "#22C55E" : "rgba(17,24,39,0.2)",
               }}
               whileHover={{ scale: 1.2 }}
             />
@@ -325,8 +322,8 @@ function Home() {
         {/* Slider Arrows with hover glow */}
         <motion.button
           onClick={() => setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length)}
-          className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 flex items-center justify-center text-white text-xl rounded-lg backdrop-blur-md border border-white/20 hover:border-emerald-400 hover:bg-emerald-500/30 transition-all duration-300"
-          whileHover={{ scale: 1.1, boxShadow: "0 0 20px rgba(16,185,129,0.5)" }}
+          className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 flex items-center justify-center text-premium-text text-xl rounded-lg bg-white/80 border border-premium-border hover:border-premium-accent hover:bg-accent-light transition-all duration-300 shadow-md"
+          whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.95 }}
         >
           ‹
@@ -334,8 +331,8 @@ function Home() {
 
         <motion.button
           onClick={() => setCurrentSlide((prev) => (prev + 1) % slides.length)}
-          className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 flex items-center justify-center text-white text-xl rounded-lg backdrop-blur-md border border-white/20 hover:border-emerald-400 hover:bg-emerald-500/30 transition-all duration-300"
-          whileHover={{ scale: 1.1, boxShadow: "0 0 20px rgba(16,185,129,0.5)" }}
+          className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 flex items-center justify-center text-premium-text text-xl rounded-lg bg-white/80 border border-premium-border hover:border-premium-accent hover:bg-accent-light transition-all duration-300 shadow-md"
+          whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.95 }}
         >
           ›
@@ -344,7 +341,7 @@ function Home() {
 
       {/* STATS BAR - ANIMATED */}
       <motion.div
-        className="relative py-16 px-6 bg-gradient-to-b from-slate-900 to-slate-950 border-b border-emerald-500/20"
+        className="relative py-16 px-6 bg-gradient-to-b from-white to-premium-secondary border-b border-premium-border"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
@@ -366,14 +363,14 @@ function Home() {
                 whileHover={{ scale: 1.05 }}
               >
                 <motion.div
-                  className="font-black text-emerald-400"
+                  className="font-black text-premium-accent"
                   style={{ fontSize: "clamp(2rem, 4vw, 2.8rem)" }}
                   animate={{ y: [0, -5, 0] }}
                   transition={{ delay: i * 0.1, duration: 2, repeat: Infinity }}
                 >
                   {s.number}
                 </motion.div>
-                <div className="text-slate-300 font-semibold text-sm mt-3 uppercase tracking-widest">{s.label}</div>
+                <div className="text-gray-600 font-semibold text-sm mt-3 uppercase tracking-widest">{s.label}</div>
               </motion.div>
             ))}
           </motion.div>
@@ -381,11 +378,11 @@ function Home() {
       </motion.div>
 
       {/* HOW IT WORKS - ENHANCED */}
-      <div className="bg-slate-900 py-24 px-6 relative overflow-hidden">
+      <div className="bg-white py-24 px-6 relative overflow-hidden">
         {/* Background gradient */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-0 left-0 w-96 h-96 bg-emerald-500 rounded-full blur-3xl" />
-          <div className="absolute bottom-0 right-0 w-96 h-96 bg-teal-500 rounded-full blur-3xl" />
+        <div className="absolute inset-0 opacity-5">
+          <div className="absolute top-0 left-0 w-96 h-96 bg-premium-accent rounded-full blur-3xl" />
+          <div className="absolute bottom-0 right-0 w-96 h-96 bg-accent-hover rounded-full blur-3xl" />
         </div>
 
         <div className="max-w-6xl mx-auto relative z-10">
@@ -398,20 +395,20 @@ function Home() {
                 viewport={{ once: true }}
               >
                 <motion.div
-                  className="w-12 h-px bg-gradient-to-r from-emerald-500 to-emerald-400"
+                  className="w-12 h-px bg-gradient-to-r from-premium-accent to-accent-hover"
                   animate={{ scaleX: [0, 1] }}
                   transition={{ duration: 1 }}
                 />
-                <span className="text-xs font-bold tracking-[0.3em] uppercase text-emerald-400">Simple Process</span>
+                <span className="text-xs font-bold tracking-[0.3em] uppercase text-premium-accent">Simple Process</span>
                 <motion.div
-                  className="w-12 h-px bg-gradient-to-l from-emerald-500 to-emerald-400"
+                  className="w-12 h-px bg-gradient-to-l from-premium-accent to-accent-hover"
                   animate={{ scaleX: [0, 1] }}
                   transition={{ duration: 1 }}
                 />
               </motion.div>
-              <h2 className="font-black uppercase leading-tight" style={{ fontSize: "clamp(2.5rem, 6vw, 4rem)", color: "#f1f5f9" }}>
+              <h2 className="font-black uppercase leading-tight text-premium-text" style={{ fontSize: "clamp(2.5rem, 6vw, 4rem)" }}>
                 HOW IT <br />
-                <span className="bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">WORKS</span>
+                <span className="bg-gradient-to-r from-premium-accent to-accent-hover bg-clip-text text-transparent">WORKS</span>
               </h2>
             </div>
           </ScrollReveal>
@@ -433,15 +430,15 @@ function Home() {
                 <div
                   className={`relative p-8 rounded-2xl transition-all duration-300 ${
                     s.featured
-                      ? "bg-gradient-to-br from-emerald-500 to-emerald-600 shadow-2xl"
-                      : "bg-slate-800/50 backdrop-blur-md border border-emerald-500/20 hover:border-emerald-400/60 hover:shadow-lg hover:shadow-emerald-500/20"
+                      ? "bg-gradient-to-br from-premium-accent to-accent-hover shadow-lg"
+                      : "bg-white border border-premium-border hover:border-premium-accent hover:shadow-lg hover:shadow-premium-accent/10"
                   }`}
                 >
                   {/* Glow effect for featured */}
                   {s.featured && (
                     <motion.div
-                      className="absolute inset-0 rounded-2xl bg-gradient-to-br from-emerald-400/0 to-emerald-600/0 opacity-0 group-hover:opacity-100"
-                      animate={{ boxShadow: ["0 0 20px rgba(16,185,129,0)", "0 0 40px rgba(16,185,129,0.5)", "0 0 20px rgba(16,185,129,0)"] }}
+                      className="absolute inset-0 rounded-2xl"
+                      animate={{ boxShadow: ["0 0 20px rgba(34,197,94,0)", "0 0 40px rgba(34,197,94,0.3)", "0 0 20px rgba(34,197,94,0)"] }}
                       transition={{ duration: 3, repeat: Infinity }}
                     />
                   )}
@@ -450,7 +447,7 @@ function Home() {
                     className="font-black mb-6"
                     style={{
                       fontSize: "3.5rem",
-                      color: s.featured ? "rgba(255,255,255,0.2)" : "rgba(16,185,129,0.15)",
+                      color: s.featured ? "rgba(255,255,255,0.2)" : "rgba(34,197,94,0.1)",
                     }}
                     animate={{ rotate: [0, 5, -5, 0] }}
                     transition={{ delay: i * 0.2, duration: 3, repeat: Infinity }}
@@ -459,10 +456,10 @@ function Home() {
                   </motion.div>
 
                   <div className="text-4xl mb-6 animate-bounce" style={{ animationDelay: `${i * 0.1}s` }}>{s.emoji}</div>
-                  <h3 className={`text-xl font-bold uppercase mb-4 ${s.featured ? "text-white" : "text-slate-100"}`}>
+                  <h3 className={`text-xl font-bold uppercase mb-4 ${s.featured ? "text-white" : "text-premium-text"}`}>
                     {s.title}
                   </h3>
-                  <p className={`text-sm leading-relaxed mb-8 ${s.featured ? "text-white/85" : "text-slate-300"}`}>
+                  <p className={`text-sm leading-relaxed mb-8 ${s.featured ? "text-white/90" : "text-gray-600"}`}>
                     {s.desc}
                   </p>
 
@@ -481,19 +478,19 @@ function Home() {
       </div>
 
       {/* FACILITIES - GLASSMORPHISM */}
-      <div className="bg-slate-950 py-24 px-6">
+      <div className="bg-premium-secondary py-24 px-6">
         <div className="max-w-6xl mx-auto">
           <ScrollReveal className="mb-20">
             <div className="flex items-center gap-3 mb-6">
               <motion.div
-                className="w-12 h-px bg-gradient-to-r from-emerald-500 to-emerald-400"
+                className="w-12 h-px bg-gradient-to-r from-premium-accent to-accent-hover"
                 animate={{ scaleX: [0, 1] }}
                 transition={{ duration: 1 }}
               />
-              <span className="text-xs font-bold tracking-[0.3em] uppercase text-emerald-400">World Class</span>
+              <span className="text-xs font-bold tracking-[0.3em] uppercase text-premium-accent">World Class</span>
             </div>
-            <h2 className="font-black uppercase" style={{ fontSize: "clamp(2.5rem, 6vw, 4rem)", color: "#f1f5f9" }}>
-              OUR <span className="bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">FACILITIES</span>
+            <h2 className="font-black uppercase text-premium-text" style={{ fontSize: "clamp(2.5rem, 6vw, 4rem)" }}>
+              OUR <span className="bg-gradient-to-r from-premium-accent to-accent-hover bg-clip-text text-transparent">FACILITIES</span>
             </h2>
           </ScrollReveal>
 
@@ -513,14 +510,14 @@ function Home() {
               >
                 <GlassCard className="p-6 h-full">
                   <motion.div
-                    className="w-14 h-14 flex items-center justify-center text-3xl mb-4 rounded-lg bg-emerald-500/20 border border-emerald-400/30"
+                    className="w-14 h-14 flex items-center justify-center text-3xl mb-4 rounded-lg bg-premium-accent/20 border border-premium-accent/30"
                     whileHover={{ scale: 1.1, rotate: 10 }}
                     transition={{ duration: 0.3 }}
                   >
                     {f.icon}
                   </motion.div>
-                  <h3 className="font-bold text-slate-100 mb-2 text-lg">{f.title}</h3>
-                  <p className="text-sm leading-relaxed text-slate-300">{f.desc}</p>
+                  <h3 className="font-bold text-premium-text mb-2 text-lg">{f.title}</h3>
+                  <p className="text-sm leading-relaxed text-gray-600">{f.desc}</p>
                 </GlassCard>
               </motion.div>
             ))}
@@ -529,19 +526,19 @@ function Home() {
       </div>
 
       {/* TESTIMONIALS - PREMIUM CARDS */}
-      <div className="bg-slate-900 py-24 px-6">
+      <div className="bg-premium-secondary py-24 px-6">
         <div className="max-w-6xl mx-auto">
           <ScrollReveal className="mb-20">
             <div className="flex items-center gap-3 mb-6">
               <motion.div
-                className="w-12 h-px bg-gradient-to-r from-emerald-500 to-emerald-400"
+                className="w-12 h-px bg-gradient-to-r from-premium-accent to-accent-hover"
                 animate={{ scaleX: [0, 1] }}
                 transition={{ duration: 1 }}
               />
-              <span className="text-xs font-bold tracking-[0.3em] uppercase text-emerald-400">Player Stories</span>
+              <span className="text-xs font-bold tracking-[0.3em] uppercase text-premium-accent">Player Stories</span>
             </div>
-            <h2 className="font-black uppercase" style={{ fontSize: "clamp(2.5rem, 6vw, 4rem)", color: "#f1f5f9" }}>
-              WHAT PLAYERS <span className="bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">SAY</span>
+            <h2 className="font-black uppercase text-premium-text" style={{ fontSize: "clamp(2.5rem, 6vw, 4rem)" }}>
+              WHAT PLAYERS <span className="bg-gradient-to-r from-premium-accent to-accent-hover bg-clip-text text-transparent">SAY</span>
             </h2>
           </ScrollReveal>
 
@@ -570,7 +567,7 @@ function Home() {
                     {[...Array(5)].map((_, j) => (
                       <motion.span
                         key={j}
-                        className="text-emerald-400 text-lg"
+                        className="text-premium-accent text-lg"
                         animate={{ scale: [1, 1.2, 1] }}
                         transition={{ delay: i * 0.1 + j * 0.05, duration: 1.5, repeat: Infinity }}
                       >
@@ -579,18 +576,18 @@ function Home() {
                     ))}
                   </motion.div>
 
-                  <p className="text-sm leading-relaxed mb-6 text-slate-200">"{t.text}"</p>
+                  <p className="text-sm leading-relaxed mb-6 text-gray-700">"{t.text}"</p>
 
                   <div className="flex items-center gap-3">
                     <motion.div
-                      className="w-10 h-10 flex items-center justify-center font-bold text-sm flex-shrink-0 bg-gradient-to-br from-emerald-400 to-emerald-500 text-slate-900 rounded-full"
+                      className="w-10 h-10 flex items-center justify-center font-bold text-sm flex-shrink-0 bg-gradient-to-br from-premium-accent to-accent-hover text-white rounded-full"
                       whileHover={{ scale: 1.1 }}
                     >
                       {t.avatar}
                     </motion.div>
                     <div>
-                      <p className="font-semibold text-slate-100 text-sm">{t.name}</p>
-                      <p className="text-xs text-slate-400">{t.role}</p>
+                      <p className="font-semibold text-premium-text text-sm">{t.name}</p>
+                      <p className="text-xs text-gray-500">{t.role}</p>
                     </div>
                   </div>
                 </GlassCard>
@@ -601,28 +598,28 @@ function Home() {
       </div>
 
       {/* SELECT GAMES - INTERACTIVE */}
-      <div className="bg-slate-950 py-24 px-6 relative overflow-hidden">
-        <div className="absolute inset-0 opacity-5">
-          <div className="absolute top-1/2 left-1/2 w-96 h-96 bg-emerald-500 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
+      <div className="bg-white py-24 px-6 relative overflow-hidden">
+        <div className="absolute inset-0 opacity-3">
+          <div className="absolute top-1/2 left-1/2 w-96 h-96 bg-premium-accent rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
         </div>
 
         <div className="max-w-6xl mx-auto relative z-10">
           <ScrollReveal className="mb-20 text-center">
             <div className="flex items-center justify-center gap-3 mb-6">
               <motion.div
-                className="w-12 h-px bg-gradient-to-r from-emerald-500 to-emerald-400"
+                className="w-12 h-px bg-gradient-to-r from-premium-accent to-accent-hover"
                 animate={{ scaleX: [0, 1] }}
                 transition={{ duration: 1 }}
               />
-              <span className="text-xs font-bold tracking-[0.3em] uppercase text-emerald-400">Choose Your Sport</span>
+              <span className="text-xs font-bold tracking-[0.3em] uppercase text-premium-accent">Choose Your Sport</span>
               <motion.div
-                className="w-12 h-px bg-gradient-to-l from-emerald-500 to-emerald-400"
+                className="w-12 h-px bg-gradient-to-l from-premium-accent to-accent-hover"
                 animate={{ scaleX: [0, 1] }}
                 transition={{ duration: 1 }}
               />
             </div>
-            <h2 className="font-black uppercase" style={{ fontSize: "clamp(2.5rem, 6vw, 4rem)", color: "#f1f5f9" }}>
-              SELECT <span className="bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">YOUR GAME</span>
+            <h2 className="font-black uppercase text-premium-text" style={{ fontSize: "clamp(2.5rem, 6vw, 4rem)" }}>
+              SELECT <span className="bg-gradient-to-r from-premium-accent to-accent-hover bg-clip-text text-transparent">YOUR GAME</span>
             </h2>
           </ScrollReveal>
 
@@ -638,12 +635,10 @@ function Home() {
                 key={game.id}
                 variants={itemVariants}
                 onClick={() => navigate("/turfs")}
-                className="group relative p-6 rounded-xl backdrop-blur-md bg-gradient-to-br from-slate-800/50 to-slate-900/50 border border-emerald-500/20 cursor-pointer text-center transition-all duration-300"
+                className="group relative p-6 rounded-xl bg-white border border-premium-border cursor-pointer text-center transition-all duration-300 hover:border-premium-accent hover:shadow-lg"
                 whileHover={{
                   y: -12,
-                  scale: 1.05,
-                  borderColor: "rgba(16,185,129,0.6)",
-                  boxShadow: "0 0 30px rgba(16,185,129,0.3)"
+                  scale: 1.05
                 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -654,7 +649,7 @@ function Home() {
                 >
                   {game.icon}
                 </motion.div>
-                <h3 className="font-bold text-slate-100 text-sm uppercase tracking-wider">{game.name}</h3>
+                <h3 className="font-bold text-premium-text text-sm uppercase tracking-wider">{game.name}</h3>
               </motion.div>
             ))}
           </motion.div>
@@ -662,19 +657,19 @@ function Home() {
       </div>
 
       {/* GALLERY - IMAGE REVEAL */}
-      <div className="bg-slate-900 py-24 px-6">
+      <div className="bg-premium-secondary py-24 px-6">
         <div className="max-w-6xl mx-auto">
           <ScrollReveal className="mb-20">
             <div className="flex items-center gap-3 mb-6">
               <motion.div
-                className="w-12 h-px bg-gradient-to-r from-emerald-500 to-emerald-400"
+                className="w-12 h-px bg-gradient-to-r from-premium-accent to-accent-hover"
                 animate={{ scaleX: [0, 1] }}
                 transition={{ duration: 1 }}
               />
-              <span className="text-xs font-bold tracking-[0.3em] uppercase text-emerald-400">Visual Tour</span>
+              <span className="text-xs font-bold tracking-[0.3em] uppercase text-premium-accent">Visual Tour</span>
             </div>
-            <h2 className="font-black uppercase" style={{ fontSize: "clamp(2.5rem, 6vw, 4rem)", color: "#f1f5f9" }}>
-              OUR <span className="bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">GALLERY</span>
+            <h2 className="font-black uppercase text-premium-text" style={{ fontSize: "clamp(2.5rem, 6vw, 4rem)" }}>
+              OUR <span className="bg-gradient-to-r from-premium-accent to-accent-hover bg-clip-text text-transparent">GALLERY</span>
             </h2>
           </ScrollReveal>
 
@@ -717,28 +712,28 @@ function Home() {
       </div>
 
       {/* CONTACT INFORMATION - ANIMATED */}
-      <div className="bg-slate-950 py-24 px-6 relative">
-        <div className="absolute inset-0 opacity-5">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-emerald-500 rounded-full blur-3xl" />
+      <div className="bg-white py-24 px-6 relative">
+        <div className="absolute inset-0 opacity-3">
+          <div className="absolute top-0 right-0 w-96 h-96 bg-premium-accent rounded-full blur-3xl" />
         </div>
 
         <div className="max-w-6xl mx-auto relative z-10">
           <ScrollReveal className="mb-20 text-center">
             <div className="flex items-center justify-center gap-3 mb-6">
               <motion.div
-                className="w-12 h-px bg-gradient-to-r from-emerald-500 to-emerald-400"
+                className="w-12 h-px bg-gradient-to-r from-premium-accent to-accent-hover"
                 animate={{ scaleX: [0, 1] }}
                 transition={{ duration: 1 }}
               />
-              <span className="text-xs font-bold tracking-[0.3em] uppercase text-emerald-400">Get In Touch</span>
+              <span className="text-xs font-bold tracking-[0.3em] uppercase text-premium-accent">Get In Touch</span>
               <motion.div
-                className="w-12 h-px bg-gradient-to-l from-emerald-500 to-emerald-400"
+                className="w-12 h-px bg-gradient-to-l from-premium-accent to-accent-hover"
                 animate={{ scaleX: [0, 1] }}
                 transition={{ duration: 1 }}
               />
             </div>
-            <h2 className="font-black uppercase" style={{ fontSize: "clamp(2.5rem, 6vw, 4rem)", color: "#f1f5f9" }}>
-              CONTACT <span className="bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">INFORMATION</span>
+            <h2 className="font-black uppercase text-premium-text" style={{ fontSize: "clamp(2.5rem, 6vw, 4rem)" }}>
+              CONTACT <span className="bg-gradient-to-r from-premium-accent to-accent-hover bg-clip-text text-transparent">INFORMATION</span>
             </h2>
           </ScrollReveal>
 
@@ -762,16 +757,16 @@ function Home() {
                 className="no-underline"
               >
                 <a href={c.link !== "#" ? c.link : undefined} className="text-decoration-none">
-                  <GlassCard className="p-8 text-center h-full hover:border-emerald-400/60">
+                  <GlassCard className="p-8 text-center h-full hover:border-premium-accent">
                     <motion.div
-                      className="w-14 h-14 flex items-center justify-center text-3xl mx-auto mb-4 rounded-lg bg-emerald-500/20 border border-emerald-400/30"
+                      className="w-14 h-14 flex items-center justify-center text-3xl mx-auto mb-4 rounded-lg bg-premium-accent/20 border border-premium-accent/30"
                       animate={{ scale: [1, 1.1, 1] }}
                       transition={{ delay: i * 0.1, duration: 2, repeat: Infinity }}
                     >
                       {c.icon}
                     </motion.div>
-                    <h3 className="font-bold text-slate-100 mb-2 text-lg">{c.label}</h3>
-                    <p className="text-sm text-slate-300 break-words">{c.value}</p>
+                    <h3 className="font-bold text-premium-text mb-2 text-lg">{c.label}</h3>
+                    <p className="text-sm text-gray-600 break-words">{c.value}</p>
                   </GlassCard>
                 </a>
               </motion.div>
@@ -781,7 +776,7 @@ function Home() {
       </div>
 
       {/* CTA SECTION - ANIMATED BACKGROUND TEXT */}
-      <div className="relative overflow-hidden bg-gradient-to-b from-slate-950 to-slate-900 py-32 px-6">
+      <div className="relative overflow-hidden bg-gradient-to-b from-white to-premium-secondary py-32 px-6">
         {/* Animated background text */}
         <motion.div
           className="absolute inset-0 flex items-center justify-center select-none pointer-events-none overflow-hidden"
@@ -795,7 +790,7 @@ function Home() {
             style={{
               fontSize: "clamp(6rem, 20vw, 16rem)",
               letterSpacing: "-0.05em",
-              color: "#10b981",
+              color: "#22C55E",
             }}
             animate={{ x: [0, 20, 0] }}
             transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
@@ -814,13 +809,13 @@ function Home() {
                 viewport={{ once: true }}
               >
                 <motion.div
-                  className="w-12 h-px bg-gradient-to-r from-emerald-500 to-emerald-400"
+                  className="w-12 h-px bg-gradient-to-r from-premium-accent to-accent-hover"
                   animate={{ scaleX: [0, 1] }}
                   transition={{ duration: 1 }}
                 />
-                <span className="text-xs font-bold tracking-[0.3em] uppercase text-emerald-400">Limited Slots Available</span>
+                <span className="text-xs font-bold tracking-[0.3em] uppercase text-premium-accent">Limited Slots Available</span>
                 <motion.div
-                  className="w-12 h-px bg-gradient-to-l from-emerald-500 to-emerald-400"
+                  className="w-12 h-px bg-gradient-to-l from-premium-accent to-accent-hover"
                   animate={{ scaleX: [0, 1] }}
                   transition={{ duration: 1 }}
                 />
@@ -832,10 +827,10 @@ function Home() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.8 }}
               >
-                <h2 className="font-black uppercase mb-4" style={{ fontSize: "clamp(2.5rem, 8vw, 4.5rem)", color: "#f1f5f9", lineHeight: 1, letterSpacing: "-0.01em" }}>
-                  READY TO<br /><span className="bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">PLAY?</span>
+                <h2 className="font-black uppercase mb-4 text-premium-text" style={{ fontSize: "clamp(2.5rem, 8vw, 4.5rem)", lineHeight: 1, letterSpacing: "-0.01em" }}>
+                  READY TO<br /><span className="bg-gradient-to-r from-premium-accent to-accent-hover bg-clip-text text-transparent">PLAY?</span>
                 </h2>
-                <p className="mb-10 max-w-lg mx-auto text-slate-300 text-lg leading-relaxed">
+                <p className="mb-10 max-w-lg mx-auto text-gray-600 text-lg leading-relaxed">
                   Join thousands of players booking their favourite turfs every day across Kolkata.
                 </p>
               </motion.div>
@@ -867,9 +862,9 @@ function Home() {
         </div>
       </div>
 
-      {/* FOOTER - DARK THEME WITH ANIMATIONS */}
+      {/* FOOTER - PREMIUM THEME WITH ANIMATIONS */}
       <motion.div
-        className="bg-gradient-to-b from-slate-900 to-slate-950 py-16 px-6 border-t border-emerald-500/20"
+        className="bg-gradient-to-b from-premium-text to-premium-dark py-16 px-6 border-t border-premium-border"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
@@ -877,7 +872,7 @@ function Home() {
       >
         <div className="max-w-6xl mx-auto">
           <motion.div
-            className="grid grid-cols-1 md:grid-cols-4 gap-8 pb-8 border-b border-slate-700/50"
+            className="grid grid-cols-1 md:grid-cols-4 gap-8 pb-8 border-b border-white/10"
             variants={containerVariants}
             initial="hidden"
             whileInView="visible"
@@ -887,7 +882,7 @@ function Home() {
             <motion.div variants={itemVariants}>
               <motion.div className="flex items-center gap-2 mb-3 w-fit" whileHover={{ scale: 1.05 }}>
                 <motion.div
-                  className="w-7 h-7 flex items-center justify-center font-semibold text-sm bg-emerald-500 text-white rounded-md"
+                  className="w-7 h-7 flex items-center justify-center font-semibold text-sm bg-premium-accent text-white rounded-md"
                   animate={{ rotate: [0, 360] }}
                   transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
                 >
@@ -895,8 +890,8 @@ function Home() {
                 </motion.div>
                 <span className="font-black text-white text-xl">TurfArena</span>
               </motion.div>
-              <p className="text-xs tracking-widest uppercase text-slate-400">Train · Play · Repeat</p>
-              <p className="text-xs mt-3 text-slate-400 leading-relaxed">
+              <p className="text-xs tracking-widest uppercase text-gray-300">Train · Play · Repeat</p>
+              <p className="text-xs mt-3 text-gray-300 leading-relaxed">
                 Kolkata's premier turf booking platform for all sports lovers.
               </p>
             </motion.div>
@@ -914,8 +909,8 @@ function Home() {
                   <motion.button
                     key={l.path}
                     onClick={() => navigate(l.path)}
-                    className="text-xs transition-colors duration-200 block text-slate-400 bg-transparent border-none cursor-pointer text-left"
-                    whileHover={{ x: 5, color: "#10b981" }}
+                    className="text-xs transition-colors duration-200 block text-gray-300 bg-transparent border-none cursor-pointer text-left"
+                    whileHover={{ x: 5, color: "#22C55E" }}
                     transition={{ duration: 0.3 }}
                   >
                     {l.label}
@@ -936,8 +931,8 @@ function Home() {
                 ].map((l) => (
                   <motion.button
                     key={l.label}
-                    className="text-xs transition-colors duration-200 block text-slate-400 bg-transparent border-none cursor-pointer text-left"
-                    whileHover={{ x: 5, color: "#10b981" }}
+                    className="text-xs transition-colors duration-200 block text-gray-300 bg-transparent border-none cursor-pointer text-left"
+                    whileHover={{ x: 5, color: "#22C55E" }}
                     transition={{ duration: 0.3 }}
                   >
                     {l.label}
@@ -958,8 +953,8 @@ function Home() {
                 ].map((l) => (
                   <motion.button
                     key={l.label}
-                    className="text-xs transition-colors duration-200 block text-slate-400 bg-transparent border-none cursor-pointer text-left"
-                    whileHover={{ x: 5, color: "#10b981" }}
+                    className="text-xs transition-colors duration-200 block text-gray-300 bg-transparent border-none cursor-pointer text-left"
+                    whileHover={{ x: 5, color: "#22C55E" }}
                     transition={{ duration: 0.3 }}
                   >
                     {l.label}
@@ -976,16 +971,16 @@ function Home() {
             viewport={{ once: true }}
             transition={{ delay: 0.2, duration: 0.8 }}
           >
-            <p className="text-xs text-slate-500">© 2025 TurfArena. All rights reserved.</p>
+            <p className="text-xs text-gray-400">© 2025 TurfArena. All rights reserved.</p>
             <div className="flex gap-6">
               {["Facebook", "Instagram", "Twitter"].map((social) => (
                 <motion.button
                   key={social}
-                  className="text-xs font-semibold text-slate-400 bg-transparent border-none cursor-pointer"
+                  className="text-xs font-semibold text-gray-300 bg-transparent border-none cursor-pointer"
                   whileHover={{
                     scale: 1.2,
-                    color: "#10b981",
-                    textShadow: "0 0 10px rgba(16,185,129,0.5)"
+                    color: "#22C55E",
+                    textShadow: "0 0 10px rgba(34,197,94,0.5)"
                   }}
                   transition={{ duration: 0.3 }}
                 >
