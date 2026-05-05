@@ -56,7 +56,7 @@ function Profile() {
     .reduce((sum, b) => sum + (b.totalPrice || 0), 0);
 
   return (
-    <div className="min-h-screen pt-20" style={{ backgroundColor: "#ffffff" }}>
+    <div className="min-h-screen pt-20" style={{ backgroundColor: "#0a0a0a" }}>
 
       {/* PROFILE HEADER */}
       <div className="border-b px-6 py-10" style={{ borderColor: "#1a1a1a" }}>
@@ -86,7 +86,7 @@ function Profile() {
             {/* STATS ROW */}
             <div className="flex gap-8">
               <div>
-                <p className="text-emerald-600 font-black text-2xl">{bookings.length}</p>
+                <p className="text-yellow-400 font-black text-2xl">{bookings.length}</p>
                 <p className="text-gray-600 text-xs uppercase tracking-wider">Total</p>
               </div>
               <div>
@@ -98,7 +98,7 @@ function Profile() {
                 <p className="text-gray-600 text-xs uppercase tracking-wider">Cancelled</p>
               </div>
               <div>
-                <p className="text-emerald-600 font-black text-2xl">₹{totalSpent.toLocaleString("en-IN")}</p>
+                <p className="text-yellow-400 font-black text-2xl">₹{totalSpent.toLocaleString("en-IN")}</p>
                 <p className="text-gray-600 text-xs uppercase tracking-wider">Spent</p>
               </div>
             </div>

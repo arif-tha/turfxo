@@ -41,7 +41,7 @@ function Login() {
   };
 
   return (
-    <div className="min-h-screen flex" style={{ backgroundColor: "#ffffff" }}>
+    <div className="min-h-screen flex" style={{ backgroundColor: "#0a0a0a" }}>
 
       {/* LEFT — IMAGE SIDE */}
       <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden">
@@ -50,34 +50,34 @@ function Login() {
           alt="turf"
           className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0" style={{ background: "linear-gradient(to right, transparent, rgba(255,255,255,0.9))" }} />
+        <div className="absolute inset-0" style={{ background: "linear-gradient(to right, transparent, #0a0a0a)" }} />
         <div className="absolute inset-0 flex flex-col justify-end p-12">
-          <p className="text-emerald-600 text-xs tracking-[0.4em] uppercase mb-3 font-bold">Train • Play • Repeat</p>
-          <h2 className="text-5xl font-black text-emerald-900 uppercase leading-tight">
+          <p className="text-yellow-400 text-xs tracking-[0.4em] uppercase mb-3">Train • Play • Repeat</p>
+          <h2 className="text-5xl font-black text-white uppercase leading-tight">
             Welcome<br />Back
           </h2>
-          <p className="text-emerald-700 mt-3 text-sm max-w-xs">
+          <p className="text-gray-400 mt-3 text-sm max-w-xs">
             Book your favourite turf and get back on the field where you belong.
           </p>
         </div>
       </div>
 
       {/* RIGHT — FORM SIDE */}
-      <div className="w-full lg:w-1/2 flex items-center justify-center px-8 py-20 bg-gradient-to-b from-white to-emerald-50">
+      <div className="w-full lg:w-1/2 flex items-center justify-center px-8 py-20">
         <div className="w-full max-w-md">
 
           {/* LOGO */}
           <div className="mb-10">
-            <h1 className="text-3xl font-black text-gray-900 uppercase tracking-wider">
-              Turf<span className="text-emerald-600">Arena</span>
+            <h1 className="text-3xl font-black text-white uppercase tracking-wider">
+              Turf<span className="text-yellow-400">Arena</span>
             </h1>
-            <p className="text-emerald-600 text-sm mt-1 font-medium">Sign in to your account</p>
+            <p className="text-gray-600 text-sm mt-1">Sign in to your account</p>
           </div>
 
           {/* ERROR MESSAGE */}
           {message && (
-            <div className="mb-6 px-4 py-3 rounded-lg bg-red-50 border border-red-200">
-              <p className="text-red-700 text-sm font-medium">{message}</p>
+            <div className="mb-6 px-4 py-3 rounded-lg bg-red-500/10 border border-red-500/20">
+              <p className="text-red-400 text-sm">{message}</p>
             </div>
           )}
 
@@ -86,7 +86,7 @@ function Login() {
 
             {/* EMAIL */}
             <div>
-              <label className="text-emerald-900 text-xs uppercase tracking-widest block mb-2 font-semibold">
+              <label className="text-gray-400 text-xs uppercase tracking-widest block mb-2">
                 Email Address
               </label>
               <input
@@ -95,19 +95,19 @@ function Login() {
                 value={form.email}
                 onChange={(e) => setForm({ ...form, email: e.target.value })}
                 onKeyDown={handleKeyPress}
-                className="w-full px-4 py-4 rounded-lg text-gray-900 placeholder-gray-400 outline-none transition-all duration-200 border bg-white"
+                className="w-full px-4 py-4 rounded-lg text-white placeholder-gray-600 outline-none transition-all duration-200 border"
                 style={{
-                  backgroundColor: "#ffffff",
-                  borderColor: "#d1d5db",
+                  backgroundColor: "#141414",
+                  borderColor: "#2a2a2a",
                 }}
-                onFocus={(e) => e.target.style.borderColor = "#059669"}
-                onBlur={(e) => e.target.style.borderColor = "#d1d5db"}
+                onFocus={(e) => e.target.style.borderColor = "#facc15"}
+                onBlur={(e) => e.target.style.borderColor = "#2a2a2a"}
               />
             </div>
 
             {/* PASSWORD */}
             <div>
-              <label className="text-emerald-900 text-xs uppercase tracking-widest block mb-2 font-semibold">
+              <label className="text-gray-400 text-xs uppercase tracking-widest block mb-2">
                 Password
               </label>
               <div className="relative">
@@ -117,18 +117,18 @@ function Login() {
                   value={form.password}
                   onChange={(e) => setForm({ ...form, password: e.target.value })}
                   onKeyDown={handleKeyPress}
-                  className="w-full px-4 py-4 rounded-lg text-gray-900 placeholder-gray-400 outline-none transition-all duration-200 border pr-12 bg-white"
+                  className="w-full px-4 py-4 rounded-lg text-white placeholder-gray-600 outline-none transition-all duration-200 border pr-12"
                   style={{
-                    backgroundColor: "#ffffff",
-                    borderColor: "#d1d5db",
+                    backgroundColor: "#141414",
+                    borderColor: "#2a2a2a",
                   }}
-                  onFocus={(e) => e.target.style.borderColor = "#059669"}
-                  onBlur={(e) => e.target.style.borderColor = "#d1d5db"}
+                  onFocus={(e) => e.target.style.borderColor = "#facc15"}
+                  onBlur={(e) => e.target.style.borderColor = "#2a2a2a"}
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 transition text-sm font-medium"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-300 transition text-sm"
                 >
                   {showPassword ? "Hide" : "Show"}
                 </button>
@@ -139,11 +139,12 @@ function Login() {
             <button
               onClick={handleSubmit}
               disabled={loading}
-              className="w-full py-4 font-black text-white uppercase tracking-widest transition-all duration-200 rounded-lg mt-6 disabled:opacity-50 hover:opacity-90 bg-emerald-600 hover:bg-emerald-700"
+              className="w-full py-4 font-black text-black uppercase tracking-widest transition-all duration-200 rounded-lg mt-2 disabled:opacity-50 hover:opacity-90"
+              style={{ backgroundColor: "#facc15" }}
             >
               {loading ? (
                 <span className="flex items-center justify-center gap-2">
-                  <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  <span className="w-4 h-4 border-2 border-black border-t-transparent rounded-full animate-spin" />
                   Signing In...
                 </span>
               ) : (
@@ -155,9 +156,9 @@ function Login() {
 
           {/* DIVIDER */}
           <div className="flex items-center gap-4 my-8">
-            <div className="flex-1 h-px" style={{ backgroundColor: "#d1d5db" }} />
-            <span className="text-gray-500 text-xs uppercase tracking-widest">or</span>
-            <div className="flex-1 h-px" style={{ backgroundColor: "#d1d5db" }} />
+            <div className="flex-1 h-px" style={{ backgroundColor: "#1a1a1a" }} />
+            <span className="text-gray-600 text-xs uppercase tracking-widest">or</span>
+            <div className="flex-1 h-px" style={{ backgroundColor: "#1a1a1a" }} />
           </div>
 
           {/* REGISTER LINK */}
@@ -165,7 +166,7 @@ function Login() {
             Don't have an account?{" "}
             <Link
               to="/register"
-              className="text-emerald-600 font-bold hover:text-emerald-700 transition"
+              className="text-yellow-400 font-bold hover:text-yellow-300 transition"
             >
               Create Account →
             </Link>
@@ -175,7 +176,7 @@ function Login() {
           <p className="text-center mt-4">
             <Link
               to="/"
-              className="text-gray-600 text-xs hover:text-emerald-600 transition uppercase tracking-widest font-medium"
+              className="text-gray-700 text-xs hover:text-gray-500 transition uppercase tracking-widest"
             >
               ← Back to Home
             </Link>
