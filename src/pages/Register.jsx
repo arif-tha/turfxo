@@ -44,30 +44,30 @@ function Register() {
     <div className="min-h-screen flex" style={{ backgroundColor: "#0a0a0a" }}>
 
       {/* LEFT — FORM SIDE */}
-      <div className="w-full lg:w-1/2 flex items-center justify-center px-8 py-20">
+      <div className="w-full lg:w-1/2 flex items-center justify-center px-4 sm:px-6 md:px-8 py-12 sm:py-16 md:py-20">
         <div className="w-full max-w-md">
 
           {/* LOGO */}
-          <div className="mb-10">
-            <h1 className="text-3xl font-black text-white uppercase tracking-wider">
+          <div className="mb-8 sm:mb-10">
+            <h1 className="text-2xl sm:text-3xl font-black text-white uppercase tracking-wider">
               Turf<span className="text-yellow-400">Arena</span>
             </h1>
-            <p className="text-gray-600 text-sm mt-1">Create your account — it's free</p>
+            <p className="text-gray-600 text-xs sm:text-sm mt-1">Create your account — it's free</p>
           </div>
 
           {/* ERROR MESSAGE */}
           {message && (
-            <div className="mb-6 px-4 py-3 rounded-lg bg-red-500/10 border border-red-500/20">
-              <p className="text-red-400 text-sm">{message}</p>
+            <div className="mb-4 sm:mb-6 px-3 sm:px-4 py-2 sm:py-3 rounded-lg bg-red-500/10 border border-red-500/20">
+              <p className="text-red-400 text-xs sm:text-sm">{message}</p>
             </div>
           )}
 
           {/* FORM */}
-          <div className="space-y-4">
+          <div className="space-y-3 sm:space-y-4">
 
             {/* NAME */}
             <div>
-              <label className="text-gray-400 text-xs uppercase tracking-widest block mb-2">
+              <label className="text-gray-400 text-xs uppercase tracking-widest block mb-1.5 sm:mb-2">
                 Full Name
               </label>
               <input
@@ -76,7 +76,7 @@ function Register() {
                 value={form.name}
                 onChange={(e) => setForm({ ...form, name: e.target.value })}
                 onKeyDown={handleKeyPress}
-                className="w-full px-4 py-4 rounded-lg text-white placeholder-gray-600 outline-none transition-all duration-200 border"
+                className="w-full px-3 sm:px-4 py-2.5 sm:py-4 rounded-lg text-white placeholder-gray-600 outline-none transition-all duration-200 border text-sm sm:text-base"
                 style={{ backgroundColor: "#141414", borderColor: "#2a2a2a" }}
                 onFocus={(e) => e.target.style.borderColor = "#facc15"}
                 onBlur={(e) => e.target.style.borderColor = "#2a2a2a"}
@@ -85,7 +85,7 @@ function Register() {
 
             {/* EMAIL */}
             <div>
-              <label className="text-gray-400 text-xs uppercase tracking-widest block mb-2">
+              <label className="text-gray-400 text-xs uppercase tracking-widest block mb-1.5 sm:mb-2">
                 Email Address
               </label>
               <input
@@ -94,7 +94,7 @@ function Register() {
                 value={form.email}
                 onChange={(e) => setForm({ ...form, email: e.target.value })}
                 onKeyDown={handleKeyPress}
-                className="w-full px-4 py-4 rounded-lg text-white placeholder-gray-600 outline-none transition-all duration-200 border"
+                className="w-full px-3 sm:px-4 py-2.5 sm:py-4 rounded-lg text-white placeholder-gray-600 outline-none transition-all duration-200 border text-sm sm:text-base"
                 style={{ backgroundColor: "#141414", borderColor: "#2a2a2a" }}
                 onFocus={(e) => e.target.style.borderColor = "#facc15"}
                 onBlur={(e) => e.target.style.borderColor = "#2a2a2a"}
@@ -103,7 +103,7 @@ function Register() {
 
             {/* PASSWORD */}
             <div>
-              <label className="text-gray-400 text-xs uppercase tracking-widest block mb-2">
+              <label className="text-gray-400 text-xs uppercase tracking-widest block mb-1.5 sm:mb-2">
                 Password
               </label>
               <div className="relative">
@@ -113,7 +113,7 @@ function Register() {
                   value={form.password}
                   onChange={(e) => setForm({ ...form, password: e.target.value })}
                   onKeyDown={handleKeyPress}
-                  className="w-full px-4 py-4 rounded-lg text-white placeholder-gray-600 outline-none transition-all duration-200 border pr-12"
+                  className="w-full px-3 sm:px-4 py-2.5 sm:py-4 rounded-lg text-white placeholder-gray-600 outline-none transition-all duration-200 border pr-10 sm:pr-12 text-sm sm:text-base"
                   style={{ backgroundColor: "#141414", borderColor: "#2a2a2a" }}
                   onFocus={(e) => e.target.style.borderColor = "#facc15"}
                   onBlur={(e) => e.target.style.borderColor = "#2a2a2a"}
@@ -121,7 +121,7 @@ function Register() {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-300 transition text-sm"
+                  className="absolute right-2.5 sm:right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-300 transition text-xs sm:text-sm"
                 >
                   {showPassword ? "Hide" : "Show"}
                 </button>
@@ -129,7 +129,7 @@ function Register() {
 
               {/* PASSWORD STRENGTH */}
               {form.password.length > 0 && (
-                <div className="mt-2 flex gap-1">
+                <div className="mt-1.5 sm:mt-2 flex gap-1">
                   {[1, 2, 3].map((level) => (
                     <div
                       key={level}

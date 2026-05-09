@@ -54,16 +54,16 @@ const fontStyle = `
   .gold-line::before {
     content: '';
     display: inline-block;
-    width: 40px;
+    width: clamp(24px, 5vw, 40px);
     height: 1px;
     background: linear-gradient(90deg, var(--gold), transparent);
     vertical-align: middle;
-    margin-right: 12px;
+    margin-right: clamp(8px, 2vw, 12px);
   }
 
   .section-label {
     font-family: 'Outfit', sans-serif;
-    font-size: 11px;
+    font-size: clamp(9px, 1.2vw, 12px);
     font-weight: 700;
     letter-spacing: 0.25em;
     text-transform: uppercase;
@@ -95,15 +95,15 @@ const fontStyle = `
 
   .btn-primary {
     font-family: 'Outfit', sans-serif;
-    font-size: 13px;
+    font-size: clamp(11px, 1.2vw, 14px);
     font-weight: 700;
     letter-spacing: 0.15em;
     text-transform: uppercase;
     background: linear-gradient(135deg, var(--forest), var(--forest2));
     color: #fff;
     border: none;
-    padding: 16px 36px;
-    border-radius: 4px;
+    padding: clamp(10px, 2vw, 16px) clamp(20px, 4vw, 36px);
+    border-radius: clamp(3px, 0.5vw, 4px);
     cursor: pointer;
     position: relative;
     overflow: hidden;
@@ -122,15 +122,15 @@ const fontStyle = `
 
   .btn-outline {
     font-family: 'Outfit', sans-serif;
-    font-size: 13px;
+    font-size: clamp(11px, 1.2vw, 14px);
     font-weight: 700;
     letter-spacing: 0.15em;
     text-transform: uppercase;
     background: transparent;
     color: var(--forest);
     border: 1.5px solid var(--forest);
-    padding: 15px 36px;
-    border-radius: 4px;
+    padding: clamp(10px, 2vw, 15px) clamp(20px, 4vw, 36px);
+    border-radius: clamp(3px, 0.5vw, 4px);
     cursor: pointer;
     transition: all 0.3s ease;
   }
@@ -141,15 +141,15 @@ const fontStyle = `
 
   .btn-gold {
     font-family: 'Outfit', sans-serif;
-    font-size: 13px;
+    font-size: clamp(11px, 1.2vw, 14px);
     font-weight: 700;
     letter-spacing: 0.15em;
     text-transform: uppercase;
     background: linear-gradient(135deg, var(--gold), var(--gold-lt));
     color: var(--charcoal);
     border: none;
-    padding: 16px 36px;
-    border-radius: 4px;
+    padding: clamp(10px, 2vw, 16px) clamp(20px, 4vw, 36px);
+    border-radius: clamp(3px, 0.5vw, 4px);
     cursor: pointer;
     transition: box-shadow 0.3s ease;
   }
@@ -352,8 +352,8 @@ function Home() {
 
           {/* Hero content */}
           <motion.div
-            className="absolute inset-0 flex flex-col justify-center px-8 md:px-16 lg:px-28"
-            style={{ paddingTop: "80px" }}
+            className="absolute inset-0 flex flex-col justify-center px-4 sm:px-8 md:px-16 lg:px-28"
+            style={{ paddingTop: "clamp(40px, 8vw, 80px)" }}
             initial={{ opacity: 0 }}
             animate={{ opacity: isHeroLoaded ? 1 : 0 }}
             transition={{ delay: 0.2, duration: 0.8 }}
@@ -365,10 +365,10 @@ function Home() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.4, duration: 0.7 }}
             >
-              <div style={{ width: 32, height: 1, background: "var(--gold)" }} />
+              <div style={{ width: "clamp(20px, 4vw, 32px)", height: "1px", background: "var(--gold)" }} />
               <span style={{
                 fontFamily: "'Outfit', sans-serif",
-                fontSize: 11,
+                fontSize: "clamp(9px, 1vw, 11px)",
                 fontWeight: 700,
                 letterSpacing: "0.3em",
                 textTransform: "uppercase",
@@ -405,12 +405,12 @@ function Home() {
               transition={{ delay: 0.7, duration: 0.8 }}
               style={{
                 fontFamily: "'Outfit', sans-serif",
-                fontSize: "clamp(15px, 1.5vw, 18px)",
+                fontSize: "clamp(12px, 1.5vw, 18px)",
                 fontWeight: 300,
                 color: "rgba(255,255,255,0.70)",
-                maxWidth: 460,
+                maxWidth: "clamp(300px, 90%, 460px)",
                 lineHeight: 1.85,
-                marginBottom: "3rem",
+                marginBottom: "clamp(1.5rem, 4vw, 3rem)",
                 letterSpacing: "0.01em"
               }}
             >
@@ -458,8 +458,8 @@ function Home() {
                 key={i}
                 onClick={() => setCurrentSlide(i)}
                 style={{
-                  width: i === currentSlide ? 3 : 2,
-                  height: i === currentSlide ? 40 : 16,
+                  width: "clamp(2px, 0.3vw, 3px)",
+                  height: i === currentSlide ? "clamp(32px, 6vw, 40px)" : "clamp(12px, 2vw, 16px)",
                   borderRadius: 99,
                   background: i === currentSlide ? "var(--gold)" : "rgba(255,255,255,0.3)",
                   border: "none",
@@ -482,8 +482,8 @@ function Home() {
                 key={i}
                 onClick={() => setCurrentSlide(i)}
                 style={{
-                  width: i === currentSlide ? 24 : 8,
-                  height: 3,
+                  width: "clamp(8px, 2vw, 24px)",
+                  height: "clamp(2px, 0.4vw, 3px)",
                   borderRadius: 99,
                   background: i === currentSlide ? "var(--gold)" : "rgba(255,255,255,0.4)",
                   border: "none",
@@ -496,20 +496,22 @@ function Home() {
 
           {/* Arrows */}
           {[
-            { dir: "left", label: "‹", pos: "left-4", action: (prev) => (prev - 1 + slides.length) % slides.length },
-            { dir: "right", label: "›", pos: "right-4", action: (prev) => (prev + 1) % slides.length },
+            { dir: "left", label: "‹", pos: "left-2 sm:left-4 md:left-6", action: (prev) => (prev - 1 + slides.length) % slides.length },
+            { dir: "right", label: "›", pos: "right-2 sm:right-4 md:right-6", action: (prev) => (prev + 1) % slides.length },
           ].map(({ dir, label, pos, action }) => (
             <motion.button
               key={dir}
               onClick={() => setCurrentSlide(action)}
               className={`absolute ${pos} top-1/2 -translate-y-1/2`}
               style={{
-                width: 48, height: 48, borderRadius: 4,
+                width: "clamp(36px, 8vw, 48px)",
+                height: "clamp(36px, 8vw, 48px)",
+                borderRadius: "clamp(2px, 0.5vw, 4px)",
                 backdropFilter: "blur(12px)",
                 background: "rgba(255,255,255,0.08)",
                 border: "1px solid rgba(201,168,76,0.35)",
                 color: "#fff",
-                fontSize: 22,
+                fontSize: "clamp(16px, 4vw, 22px)",
                 cursor: "pointer",
                 display: "flex", alignItems: "center", justifyContent: "center"
               }}
@@ -531,17 +533,17 @@ function Home() {
         ══════════════════════════════════════════════════════ */}
         <div style={{ background: "var(--cream)", borderBottom: "1px solid var(--border)", position: "relative", zIndex: 10 }}>
           {/* Gold decorative top line */}
-          <div style={{ height: 3, background: "linear-gradient(90deg, var(--forest), var(--gold), var(--forest))" }} />
+          <div style={{ height: "clamp(2px, 0.4vw, 3px)", background: "linear-gradient(90deg, var(--forest), var(--gold), var(--forest))" }} />
 
           <motion.div
-            className="py-16 px-6"
+            className="py-8 sm:py-12 md:py-16 px-4 sm:px-6 md:px-8"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
           >
             <div className="max-w-6xl mx-auto">
               <motion.div
-                className="grid grid-cols-2 md:grid-cols-4 gap-8"
+                className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 md:gap-8"
                 variants={containerVariants}
                 initial="hidden"
                 whileInView="visible"
@@ -570,11 +572,11 @@ function Home() {
                       {s.number}
                     </motion.div>
                     {/* Divider */}
-                    <div style={{ width: 28, height: 1, background: "var(--gold)", margin: "8px auto 10px" }} />
+                    <div style={{ width: "clamp(20px, 4vw, 28px)", height: "1px", background: "var(--gold)", margin: "clamp(6px, 1.5vw, 10px) auto clamp(8px, 2vw, 10px)" }} />
                     {/* Label */}
                     <div style={{
                       fontFamily: "'Outfit', sans-serif",
-                      fontSize: 11,
+                      fontSize: "clamp(8px, 1vw, 11px)",
                       fontWeight: 700,
                       letterSpacing: "0.2em",
                       textTransform: "uppercase",
@@ -640,7 +642,7 @@ function Home() {
                   <div
                     className="premium-card"
                     style={{
-                      padding: "40px 36px",
+                      padding: "clamp(24px, 4vw, 40px) clamp(20px, 3vw, 36px)",
                       height: "100%",
                       position: "relative",
                       overflow: "hidden",
@@ -732,7 +734,7 @@ function Home() {
         {/* ══════════════════════════════════════════════════════
             FACILITIES — LINEN BG, ICON CARDS
         ══════════════════════════════════════════════════════ */}
-        <div style={{ background: "var(--linen)", padding: "120px 24px", position: "relative" }}>
+        <div style={{ background: "var(--linen)", padding: "clamp(60px, 10vw, 120px) clamp(16px, 4vw, 24px)", position: "relative" }}>
           <div className="max-w-6xl mx-auto">
             <ScrollReveal className="mb-20">
               <span className="section-label gold-line">World Class</span>
@@ -757,15 +759,16 @@ function Home() {
                 >
                   <div
                     className="premium-card"
-                    style={{ padding: "36px 32px", height: "100%", background: "#fff" }}
+                    style={{ padding: "clamp(24px, 4vw, 36px) clamp(20px, 3vw, 32px)", height: "100%", background: "#fff" }}
                   >
                     <motion.div
                       style={{
-                        width: 56, height: 56,
+                        width: "clamp(44px, 8vw, 56px)",
+                        height: "clamp(44px, 8vw, 56px)",
                         display: "flex", alignItems: "center", justifyContent: "center",
-                        fontSize: "1.8rem",
-                        marginBottom: 20,
-                        borderRadius: 8,
+                        fontSize: "clamp(1.2rem, 3vw, 1.8rem)",
+                        marginBottom: "clamp(12px, 2vw, 20px)",
+                        borderRadius: "clamp(4px, 1vw, 8px)",
                         background: "rgba(30,77,43,0.07)",
                         border: "1px solid rgba(30,77,43,0.12)"
                       }}
@@ -774,7 +777,7 @@ function Home() {
                       {f.icon}
                     </motion.div>
 
-                    {/* Gold line separator */}
+                    {/* Gold line separat"clamp(20px, 4vw, 28px)", height: "1px", background: "var(--gold)", marginBottom: "clamp(10px, 2vw, 16px)"
                     <div style={{ width: 28, height: 1.5, background: "var(--gold)", marginBottom: 16 }} />
 
                     <h3 style={{
@@ -788,7 +791,7 @@ function Home() {
                     </h3>
                     <p style={{
                       fontFamily: "'Outfit', sans-serif",
-                      fontSize: 14,
+                      fontSize: "clamp(12px, 1.2vw, 14px)",
                       lineHeight: 1.7,
                       color: "var(--muted)"
                     }}>
@@ -806,14 +809,15 @@ function Home() {
         ══════════════════════════════════════════════════════ */}
         <div style={{
           background: "linear-gradient(135deg, var(--forest) 0%, #122D1A 100%)",
-          padding: "120px 24px",
+          padding: "clamp(60px, 10vw, 120px) clamp(16px, 4vw, 24px)",
           position: "relative",
           overflow: "hidden"
         }}>
           {/* Gold radial glow */}
           <div style={{
             position: "absolute", top: 0, right: 0,
-            width: 500, height: 500,
+            width: "clamp(300px, 50vw, 500px)",
+            height: "clamp(300px, 50vw, 500px)",
             background: "radial-gradient(circle, rgba(201,168,76,0.12) 0%, transparent 65%)",
             pointerEvents: "none"
           }} />

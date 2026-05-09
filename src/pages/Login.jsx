@@ -63,30 +63,30 @@ function Login() {
       </div>
 
       {/* RIGHT — FORM SIDE */}
-      <div className="w-full lg:w-1/2 flex items-center justify-center px-8 py-20">
+      <div className="w-full lg:w-1/2 flex items-center justify-center px-4 sm:px-6 md:px-8 py-12 sm:py-16 md:py-20">
         <div className="w-full max-w-md">
 
           {/* LOGO */}
-          <div className="mb-10">
-            <h1 className="text-3xl font-black text-white uppercase tracking-wider">
+          <div className="mb-8 sm:mb-10">
+            <h1 className="text-2xl sm:text-3xl font-black text-white uppercase tracking-wider">
               Turf<span className="text-yellow-400">Arena</span>
             </h1>
-            <p className="text-gray-600 text-sm mt-1">Sign in to your account</p>
+            <p className="text-gray-600 text-xs sm:text-sm mt-1">Sign in to your account</p>
           </div>
 
           {/* ERROR MESSAGE */}
           {message && (
-            <div className="mb-6 px-4 py-3 rounded-lg bg-red-500/10 border border-red-500/20">
-              <p className="text-red-400 text-sm">{message}</p>
+            <div className="mb-4 sm:mb-6 px-3 sm:px-4 py-2 sm:py-3 rounded-lg bg-red-500/10 border border-red-500/20">
+              <p className="text-red-400 text-xs sm:text-sm">{message}</p>
             </div>
           )}
 
           {/* FORM */}
-          <div className="space-y-4">
+          <div className="space-y-3 sm:space-y-4">
 
             {/* EMAIL */}
             <div>
-              <label className="text-gray-400 text-xs uppercase tracking-widest block mb-2">
+              <label className="text-gray-400 text-xs uppercase tracking-widest block mb-1.5 sm:mb-2">
                 Email Address
               </label>
               <input
@@ -95,7 +95,7 @@ function Login() {
                 value={form.email}
                 onChange={(e) => setForm({ ...form, email: e.target.value })}
                 onKeyDown={handleKeyPress}
-                className="w-full px-4 py-4 rounded-lg text-white placeholder-gray-600 outline-none transition-all duration-200 border"
+                className="w-full px-3 sm:px-4 py-2.5 sm:py-4 rounded-lg text-white placeholder-gray-600 outline-none transition-all duration-200 border text-sm sm:text-base"
                 style={{
                   backgroundColor: "#141414",
                   borderColor: "#2a2a2a",
@@ -107,7 +107,7 @@ function Login() {
 
             {/* PASSWORD */}
             <div>
-              <label className="text-gray-400 text-xs uppercase tracking-widest block mb-2">
+              <label className="text-gray-400 text-xs uppercase tracking-widest block mb-1.5 sm:mb-2">
                 Password
               </label>
               <div className="relative">
@@ -117,7 +117,7 @@ function Login() {
                   value={form.password}
                   onChange={(e) => setForm({ ...form, password: e.target.value })}
                   onKeyDown={handleKeyPress}
-                  className="w-full px-4 py-4 rounded-lg text-white placeholder-gray-600 outline-none transition-all duration-200 border pr-12"
+                  className="w-full px-3 sm:px-4 py-2.5 sm:py-4 rounded-lg text-white placeholder-gray-600 outline-none transition-all duration-200 border pr-10 sm:pr-12 text-sm sm:text-base"
                   style={{
                     backgroundColor: "#141414",
                     borderColor: "#2a2a2a",
@@ -128,7 +128,7 @@ function Login() {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-300 transition text-sm"
+                  className="absolute right-2.5 sm:right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-300 transition text-xs sm:text-sm"
                 >
                   {showPassword ? "Hide" : "Show"}
                 </button>
@@ -139,7 +139,7 @@ function Login() {
             <button
               onClick={handleSubmit}
               disabled={loading}
-              className="w-full py-4 font-black text-black uppercase tracking-widest transition-all duration-200 rounded-lg mt-2 disabled:opacity-50 hover:opacity-90"
+              className="w-full py-2.5 sm:py-4 font-black text-black uppercase tracking-widest transition-all duration-200 rounded-lg mt-1 sm:mt-2 disabled:opacity-50 hover:opacity-90 text-xs sm:text-base"
               style={{ backgroundColor: "#facc15" }}
             >
               {loading ? (
@@ -155,14 +155,14 @@ function Login() {
           </div>
 
           {/* DIVIDER */}
-          <div className="flex items-center gap-4 my-8">
+          <div className="flex items-center gap-3 sm:gap-4 my-6 sm:my-8">
             <div className="flex-1 h-px" style={{ backgroundColor: "#1a1a1a" }} />
             <span className="text-gray-600 text-xs uppercase tracking-widest">or</span>
             <div className="flex-1 h-px" style={{ backgroundColor: "#1a1a1a" }} />
           </div>
 
           {/* REGISTER LINK */}
-          <p className="text-center text-gray-600 text-sm">
+          <p className="text-center text-gray-600 text-xs sm:text-sm">
             Don't have an account?{" "}
             <Link
               to="/register"
@@ -173,7 +173,7 @@ function Login() {
           </p>
 
           {/* BACK TO HOME */}
-          <p className="text-center mt-4">
+          <p className="text-center mt-3 sm:mt-4">
             <Link
               to="/"
               className="text-gray-700 text-xs hover:text-gray-500 transition uppercase tracking-widest"

@@ -244,17 +244,17 @@ function Slots() {
 
       {/* ── MODAL ── */}
       {step !== STEP_NONE && (
-        <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 px-4">
-          <div className="bg-white rounded-2xl w-full max-w-sm shadow-2xl overflow-hidden">
+        <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 px-3 sm:px-4">
+          <div className="bg-white rounded-2xl w-full max-w-sm shadow-2xl overflow-hidden max-h-[90vh] overflow-y-auto">
 
             {/* STEP 1 — CONFIRM */}
             {step === STEP_CONFIRM && (
               <>
-                <div className="bg-green-700 px-6 py-4">
-                  <h3 className="text-white font-black text-lg">Booking Summary</h3>
+                <div className="bg-green-700 px-4 sm:px-6 py-3 sm:py-4">
+                  <h3 className="text-white font-black text-base sm:text-lg">Booking Summary</h3>
                   <p className="text-green-200 text-xs mt-0.5">{selectedSlots.length} slots selected</p>
                 </div>
-                <div className="px-6 py-5 space-y-3">
+                <div className="px-4 sm:px-6 py-4 sm:py-5 space-y-2.5 sm:space-y-3">
                   {[
                     ["Turf", turf?.name],
                     ["Date", selectedDate],
@@ -263,25 +263,25 @@ function Slots() {
                     ["Duration", `${totalDuration} hr${totalDuration !== 1 ? "s" : ""}`],
                     ["Rate", `₹${turf?.pricePerHour}/hr`],
                   ].map(([label, value]) => (
-                    <div key={label} className="flex justify-between text-sm">
+                    <div key={label} className="flex justify-between text-xs sm:text-sm">
                       <span className="text-gray-500">{label}</span>
-                      <span className="font-semibold text-gray-900">{value}</span>
+                      <span className="font-semibold text-gray-900 break-words text-right">{value}</span>
                     </div>
                   ))}
-                  <div className="border-t border-dashed border-gray-200 pt-3">
+                  <div className="border-t border-dashed border-gray-200 pt-2.5 sm:pt-3">
                     <div className="flex justify-between items-center">
-                      <span className="text-gray-900 font-black text-base">Total</span>
-                      <span className="text-green-700 font-black text-xl">₹{totalAmount}</span>
+                      <span className="text-gray-900 font-black text-sm sm:text-base">Total</span>
+                      <span className="text-green-700 font-black text-lg sm:text-xl">₹{totalAmount}</span>
                     </div>
                   </div>
                 </div>
-                <div className="px-6 pb-6 flex gap-3">
+                <div className="px-4 sm:px-6 pb-4 sm:pb-6 flex gap-2 sm:gap-3">
                   <button onClick={closeModal}
-                    className="flex-1 py-2.5 border border-gray-200 rounded-xl text-gray-500 text-sm hover:bg-gray-50 transition font-semibold">
+                    className="flex-1 py-2 sm:py-2.5 border border-gray-200 rounded-xl text-gray-500 text-xs sm:text-sm hover:bg-gray-50 transition font-semibold">
                     Cancel
                   </button>
                   <button onClick={handleConfirm}
-                    className="flex-1 py-2.5 bg-green-700 text-white rounded-xl text-sm font-black hover:bg-green-800 transition">
+                    className="flex-1 py-2 sm:py-2.5 bg-green-700 text-white rounded-xl text-xs sm:text-sm font-black hover:bg-green-800 transition">
                     Confirm →
                   </button>
                 </div>
@@ -291,12 +291,12 @@ function Slots() {
             {/* STEP 2 — DETAILS */}
             {step === STEP_DETAILS && (
               <>
-                <div className="bg-green-700 px-6 py-4">
-                  <h3 className="text-white font-black text-lg">Player Details</h3>
+                <div className="bg-green-700 px-4 sm:px-6 py-3 sm:py-4">
+                  <h3 className="text-white font-black text-base sm:text-lg">Player Details</h3>
                   <p className="text-green-200 text-xs mt-0.5">Fill details to complete booking</p>
                 </div>
-                <div className="px-6 py-5 space-y-4">
-                  <div className="bg-green-50 rounded-xl px-4 py-3 text-xs text-green-800 font-semibold flex justify-between">
+                <div className="px-4 sm:px-6 py-4 sm:py-5 space-y-3 sm:space-y-4">
+                  <div className="bg-green-50 rounded-xl px-3 sm:px-4 py-2 sm:py-3 text-xs text-green-800 font-semibold flex justify-between flex-wrap gap-1">
                     <span>📅 {selectedDate} &nbsp;🕐 {selectedSlots[0]?.startTime} — {selectedSlots[selectedSlots.length - 1]?.endTime}</span>
                     <span>₹{totalAmount}</span>
                   </div>
@@ -306,7 +306,7 @@ function Slots() {
                     { label: "Email", key: "email", type: "email", placeholder: "you@example.com" },
                     { label: "Phone Number", key: "phone", type: "tel", placeholder: "10-digit mobile number", maxLength: 10 },
                   ].map(({ label, key, type, placeholder, maxLength }) => (
-                    <div key={key}>
+                    <div>
                       <label className="text-gray-500 text-xs uppercase tracking-wider block mb-1">
                         {label} <span className="text-red-400">*</span>
                       </label>
@@ -316,7 +316,7 @@ function Slots() {
                           ...userDetails,
                           [key]: key === "phone" ? e.target.value.replace(/\D/, "") : e.target.value
                         })}
-                        className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-gray-800 focus:outline-none focus:border-green-500 transition"
+                        className="w-full border border-gray-200 rounded-xl px-3 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm text-gray-800 focus:outline-none focus:border-green-500 transition"
                       />
                     </div>
                   ))}
@@ -324,23 +324,23 @@ function Slots() {
                     <label className="text-gray-500 text-xs uppercase tracking-wider block mb-1">Number of Players</label>
                     <select value={userDetails.players}
                       onChange={(e) => setUserDetails({ ...userDetails, players: e.target.value })}
-                      className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-gray-800 focus:outline-none focus:border-green-500 transition">
+                      className="w-full border border-gray-200 rounded-xl px-3 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm text-gray-800 focus:outline-none focus:border-green-500 transition">
                       {[1,2,3,4,5,6,7,8,9,10,11,12].map(n => (
                         <option key={n} value={n}>{n} Player{n > 1 ? "s" : ""}</option>
                       ))}
                     </select>
                   </div>
-                  <div className="bg-blue-50 rounded-xl px-4 py-2.5">
-                    <span className="text-blue-700 text-xs font-semibold">💳 UPI · Card · Netbanking · Wallet accepted</span>
+                  <div className="bg-blue-50 rounded-xl px-3 sm:px-4 py-2 sm:py-2.5">
+                    <span className="text-blue-700 text-xs sm:text-xs font-semibold">💳 UPI · Card · Netbanking · Wallet accepted</span>
                   </div>
                 </div>
-                <div className="px-6 pb-6 flex gap-3">
+                <div className="px-4 sm:px-6 pb-4 sm:pb-6 flex gap-2 sm:gap-3">
                   <button onClick={() => setStep(STEP_CONFIRM)}
-                    className="flex-1 py-2.5 border border-gray-200 rounded-xl text-gray-500 text-sm hover:bg-gray-50 transition font-semibold">
+                    className="flex-1 py-2 sm:py-2.5 border border-gray-200 rounded-xl text-gray-500 text-xs sm:text-sm hover:bg-gray-50 transition font-semibold">
                     ← Back
                   </button>
                   <button onClick={handlePayNow} disabled={paymentLoading}
-                    className="flex-1 py-2.5 bg-green-700 text-white rounded-xl text-sm font-black hover:bg-green-800 transition disabled:opacity-60">
+                    className="flex-1 py-2 sm:py-2.5 bg-green-700 text-white rounded-xl text-xs sm:text-sm font-black hover:bg-green-800 transition disabled:opacity-60">
                     {paymentLoading ? "Processing..." : `Pay ₹${totalAmount}`}
                   </button>
                 </div>
@@ -352,9 +352,9 @@ function Slots() {
 
       {/* ── MAIN PAGE ── */}
       {/* ✅ pb-28 — bottom mein space sticky bar ke liye */}
-      <div className="pt-20 pb-28">
-        <div className="max-w-5xl mx-auto px-6 pt-6">
-          <div className="rounded-2xl overflow-hidden h-64 md:h-80">
+      <div className="pt-16 sm:pt-20 pb-28 sm:pb-24">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 pt-4 sm:pt-6">
+          <div className="rounded-2xl overflow-hidden h-48 sm:h-64 md:h-80">
             <img
               src={turf?.images?.[0] || "https://images.unsplash.com/photo-1551958219-acbc608c6377?w=1200&q=80"}
               alt="turf" className="w-full h-full object-cover"
@@ -362,10 +362,10 @@ function Slots() {
           </div>
         </div>
 
-        <div className="max-w-5xl mx-auto px-6 py-6 border-b border-gray-100">
-          <h1 className="text-3xl font-black text-gray-900 mb-3">{turf?.name || "Turf Arena"}</h1>
-          <div className="flex flex-col sm:flex-row sm:items-center gap-3 text-sm text-gray-500">
-            <span>📍 {turf?.location?.address} {turf?.location?.city}</span>
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 py-4 sm:py-6 border-b border-gray-100">
+          <h1 className="text-2xl sm:text-3xl font-black text-gray-900 mb-2 sm:mb-3 break-words">{turf?.name || "Turf Arena"}</h1>
+          <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 text-xs sm:text-sm text-gray-500">
+            <span className="break-words">📍 {turf?.location?.address} {turf?.location?.city}</span>
             <span className="hidden sm:block text-gray-300">|</span>
             <span>🕐 {turf?.openTime || "06:00"} — {turf?.closeTime || "03:00"}</span>
             <span className="hidden sm:block text-gray-300">|</span>
@@ -373,30 +373,30 @@ function Slots() {
           </div>
         </div>
 
-        <div className="max-w-5xl mx-auto px-6 py-8">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
 
           {/* DATE PICKER */}
-          <div className="mb-8">
-            <h2 className="text-xl font-black text-gray-900 mb-3">Select Date</h2>
+          <div className="mb-6 sm:mb-8">
+            <h2 className="text-lg sm:text-xl font-black text-gray-900 mb-2 sm:mb-3">Select Date</h2>
             <input type="date" value={selectedDate} min={todayStr}
               onChange={(e) => setSelectedDate(e.target.value)}
-              className="border-2 border-green-200 rounded-xl px-4 py-2.5 text-gray-700 font-semibold focus:outline-none focus:border-green-600 transition"
+              className="border-2 border-green-200 rounded-xl px-3 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm text-gray-700 font-semibold focus:outline-none focus:border-green-600 transition w-full"
             />
           </div>
 
-          <h2 className="text-2xl font-black text-gray-900 mb-3">
+          <h2 className="text-xl sm:text-2xl font-black text-gray-900 mb-2 sm:mb-3">
             Available Slots — {selectedDate}
           </h2>
 
           {/* HINT */}
-          <div className="mb-4 flex items-start gap-2 text-xs text-gray-400">
-            <span>ℹ️</span>
+          <div className="mb-3 sm:mb-4 flex items-start gap-2 text-xs text-gray-400">
+            <span className="flex-shrink-0">ℹ️</span>
             <span>Minimum 2 consecutive slots select karo. Last slot ko dubara click karo deselect karne ke liye.</span>
           </div>
 
           {/* SELECTION ERROR */}
           {selectionError && (
-            <div className="mb-4 px-4 py-2 bg-red-50 border border-red-200 rounded-xl text-red-500 text-sm font-semibold">
+            <div className="mb-3 sm:mb-4 px-3 sm:px-4 py-2 bg-red-50 border border-red-200 rounded-xl text-red-500 text-xs sm:text-sm font-semibold">
               ⚠️ {selectionError}
             </div>
           )}

@@ -59,7 +59,7 @@ function Turfs() {
     <div className="min-h-screen" style={{ backgroundColor: "#0a0a0a" }}>
 
       {/* HERO BANNER */}
-      <div className="relative h-64 overflow-hidden">
+      <div className="relative h-48 sm:h-56 md:h-64 overflow-hidden">
         <img
           src="https://images.unsplash.com/photo-1431324155629-1a6dae1434d5?w=1600&q=80"
           alt="turf"
@@ -67,13 +67,13 @@ function Turfs() {
         />
         <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(10,10,10,1))" }} />
         <div className="absolute inset-0 flex flex-col items-center justify-center text-white text-center px-4">
-          <p className="text-yellow-400 text-xs tracking-[0.4em] uppercase mb-2">Premium Venues</p>
-          <h1 className="text-5xl md:text-6xl font-black uppercase">Our Turfs</h1>
+          <p className="text-yellow-400 text-xs sm:text-sm tracking-[0.4em] uppercase mb-2">Premium Venues</p>
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black uppercase leading-tight">Our Turfs</h1>
         </div>
       </div>
 
       {/* TURFS */}
-      <div className="max-w-5xl mx-auto px-6 pb-20 -mt-4">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pb-16 sm:pb-20 -mt-4">
 
         {turfs.length === 0 && (
           <div className="text-center py-20">
@@ -91,7 +91,7 @@ function Turfs() {
               <div className="flex flex-col md:flex-row gap-0 hover:bg-white/3 transition-all duration-500">
 
                 {/* LEFT — IMAGE */}
-                <div className="relative md:w-96 h-64 md:h-72 overflow-hidden flex-shrink-0">
+                <div className="relative w-full md:w-80 lg:w-96 h-56 sm:h-64 md:h-72 overflow-hidden flex-shrink-0">
                   <img
                     src={turf.images?.[0] || "https://images.unsplash.com/photo-1551958219-acbc608c6377?w=800&q=80"}
                     alt={turf.name}
@@ -105,46 +105,46 @@ function Turfs() {
                   </div>
 
                   {/* PRICE */}
-                  <div className="absolute bottom-4 left-4 bg-yellow-400 text-black font-black px-4 py-1 text-sm uppercase tracking-wider">
+                  <div className="absolute bottom-3 sm:bottom-4 left-3 sm:left-4 bg-yellow-400 text-black font-black px-2 sm:px-3 md:px-4 py-1 text-xs sm:text-sm uppercase tracking-wider">
                     ₹{turf.pricePerHour}/hr
                   </div>
                 </div>
 
                 {/* RIGHT — DETAILS */}
-                <div className="flex-1 p-8 flex flex-col justify-between">
+                <div className="flex-1 p-4 sm:p-6 md:p-8 flex flex-col justify-between">
                   <div>
                     {/* NAME */}
-                    <h2 className="text-3xl md:text-4xl font-black text-white uppercase mb-4 group-hover:text-yellow-400 transition-colors duration-300">
+                    <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-white uppercase mb-3 sm:mb-4 group-hover:text-yellow-400 transition-colors duration-300 break-words">
                       {turf.name}
                     </h2>
 
-                    <div className="w-12 h-0.5 bg-yellow-400 mb-6" />
+                    <div className="w-10 sm:w-12 h-0.5 bg-yellow-400 mb-4 sm:mb-6" />
 
                     {/* INFO */}
-                    <div className="space-y-3 mb-6">
-                      <div className="flex items-center gap-3">
-                        <span className="w-8 h-8 bg-yellow-400/10 rounded flex items-center justify-center text-sm">📍</span>
-                        <span className="text-gray-400 text-sm">
+                    <div className="space-y-2 sm:space-y-3 mb-4 sm:mb-6">
+                      <div className="flex items-center gap-2 sm:gap-3">
+                        <span className="w-7 h-7 sm:w-8 sm:h-8 bg-yellow-400/10 rounded flex items-center justify-center text-xs sm:text-sm flex-shrink-0">📍</span>
+                        <span className="text-gray-400 text-xs sm:text-sm break-words">
                           {turf.location?.address ? `${turf.location.address}, ` : ""}
                           {turf.location?.city || "Kolkata"}
                         </span>
                       </div>
-                      <div className="flex items-center gap-3">
-                        <span className="w-8 h-8 bg-yellow-400/10 rounded flex items-center justify-center text-sm">🕐</span>
-                        <span className="text-gray-400 text-sm">
+                      <div className="flex items-center gap-2 sm:gap-3">
+                        <span className="w-7 h-7 sm:w-8 sm:h-8 bg-yellow-400/10 rounded flex items-center justify-center text-xs sm:text-sm flex-shrink-0">🕐</span>
+                        <span className="text-gray-400 text-xs sm:text-sm">
                           {turf.openTime || "06:00"} — {turf.closeTime || "03:00"}
                         </span>
                       </div>
-                      <div className="flex items-center gap-3">
-                        <span className="w-8 h-8 bg-yellow-400/10 rounded flex items-center justify-center text-sm">🔥</span>
-                        <span className="text-yellow-400 text-sm font-semibold">100+ teams booked recently</span>
+                      <div className="flex items-center gap-2 sm:gap-3">
+                        <span className="w-7 h-7 sm:w-8 sm:h-8 bg-yellow-400/10 rounded flex items-center justify-center text-xs sm:text-sm flex-shrink-0">🔥</span>
+                        <span className="text-yellow-400 text-xs sm:text-sm font-semibold">100+ teams booked recently</span>
                       </div>
                     </div>
 
                     {/* TAGS */}
-                    <div className="flex flex-wrap gap-2 mb-6">
+                    <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-4 sm:mb-6">
                       {["⚽ Football", "💡 Floodlit", "🅿️ Parking", "🚿 Changing Room"].map((tag) => (
-                        <span key={tag} className="text-xs text-gray-500 border border-gray-800 px-3 py-1 uppercase tracking-wider">
+                        <span key={tag} className="text-xs text-gray-500 border border-gray-800 px-2 sm:px-3 py-0.5 sm:py-1 uppercase tracking-wider">
                           {tag}
                         </span>
                       ))}
@@ -152,22 +152,22 @@ function Turfs() {
                   </div>
 
                   {/* BUTTONS */}
-                  <div className="flex items-center gap-4 flex-wrap">
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 flex-wrap">
                     <button
                       onClick={() => navigate(`/slots/${turf._id}`)}
-                      className="bg-yellow-400 text-black font-black px-10 py-4 uppercase tracking-widest text-sm hover:bg-yellow-300 transition-all duration-200 hover:scale-105">
+                      className="bg-yellow-400 text-black font-black px-6 sm:px-8 md:px-10 py-2.5 sm:py-3 md:py-4 uppercase tracking-widest text-xs sm:text-sm hover:bg-yellow-300 transition-all duration-200 hover:scale-105 w-full sm:w-auto">
                       Book Now →
                     </button>
 
                     {/* ✅ View Map button */}
                     <button
                       onClick={() => setExpandedMap(expandedMap === turf._id ? null : turf._id)}
-                      className="flex items-center gap-2 text-sm font-bold uppercase tracking-wider px-5 py-4 border transition-all duration-200"
+                      className="flex items-center justify-center gap-2 text-xs sm:text-sm font-bold uppercase tracking-wider px-4 sm:px-5 py-2.5 sm:py-3 md:py-4 border transition-all duration-200 flex-shrink-0"
                       style={{
                         borderColor: expandedMap === turf._id ? "#facc15" : "#2a2a2a",
                         color: expandedMap === turf._id ? "#facc15" : "#666",
                       }}>
-                      🗺️ {expandedMap === turf._id ? "Hide Map" : "View Map"}
+                      🗺️ <span>{expandedMap === turf._id ? "Hide Map" : "View Map"}</span>
                     </button>
 
                     <span className="text-gray-700 text-xs uppercase tracking-widest">
@@ -183,11 +183,11 @@ function Turfs() {
                   style={{ borderTop: "1px solid #1a1a1a" }}>
 
                   {/* Map header */}
-                  <div className="flex items-center justify-between px-8 py-3"
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 px-4 sm:px-6 md:px-8 py-2.5 sm:py-3"
                     style={{ backgroundColor: "#111" }}>
-                    <div className="flex items-center gap-2">
-                      <span className="text-yellow-400 text-sm">📍</span>
-                      <span className="text-gray-400 text-sm">
+                    <div className="flex items-start sm:items-center gap-2">
+                      <span className="text-yellow-400 text-sm flex-shrink-0">📍</span>
+                      <span className="text-gray-400 text-xs sm:text-sm break-words">
                         {turf.name} — {turf.location?.address}, {turf.location?.city}
                       </span>
                     </div>
@@ -195,7 +195,7 @@ function Turfs() {
                       href={`https://www.google.com/maps/search/${encodeURIComponent(`${turf.name} ${turf.location?.address} ${turf.location?.city}`)}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-xs text-yellow-400 hover:text-yellow-300 font-bold uppercase tracking-wider transition">
+                      className="text-xs text-yellow-400 hover:text-yellow-300 font-bold uppercase tracking-wider transition flex-shrink-0">
                       Open in Google Maps ↗
                     </a>
                   </div>
